@@ -1,0 +1,54 @@
+---
+title: "R and RStudio"
+output: 
+  ioslides_presentation:
+widescreen: true
+---
+
+# **What is R?**
+
+## **R is a language and environment for statistical computing and graphics.** {data-background=Rlogo.png data-background-size=250px data-background-position=right}
+
+### It facilitates
+
+* data manipulation and calculations
+* graphical displays
+* statistical techniques
+
+### Available as free software
+
+* for UNIX platforms, Windows and MacOS
+* for download from (https://cloud.r-project.org/)
+* Current version: R 3.5.2
+
+## **R Console**{data-background=RScreenCapture.png data-background-size=950px data-background-position=center}
+
+# **What is RStudio?**
+
+## **RStudio is an integrated development environment (IDE) for R.**
+
+### It includes 
+
+* a console
+* syntax-highlighting editor that supports direct code execution
+* tools for plotting, history, debugging and workspace management.
+
+## **RStudio**{data-background=RStudioCapture.png data-background-size=900px data-background-position=center}
+
+## RStudio Desktop can be downloaded from
+
+* (https://www.rstudio.com/products/rstudio/download/)
+* You can use R with any editor, including RStudio, to write scripts.  However, RStudio itself is not very useful without R.
+
+### Additional IDE features of RStudio can be located here 
+
+* (https://www.rstudio.com/products/rstudio/features/)
+
+## **RStudio Resources**
+
+### Webinars
+* (https://resources.rstudio.com/webinars)
+
+### Cheat Sheets
+
+* (https://www.rstudio.com/resources/cheatsheets/#ide)

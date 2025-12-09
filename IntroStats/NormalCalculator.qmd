@@ -1,0 +1,144 @@
+---
+title: "Normal Calculator"
+author: "Russell Almond"
+date: "9/10/2019"
+output: html_document
+runtime: shiny
+resource_files:
+- Chi2calculator.Rmd
+- Studenttcalculator.Rmd
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Normal Probabilities.
+
+In this tool, you input a z score, and get a corresponding normal probability.
+
+```{r probabilities, echo=FALSE}
+inputPanel(
+  selectInput("tails", label = "Which tails",
+              choices = c("Upper tail: Pr(z < Z)"="upper",
+                          "Lower tail: Pr(Z < z)"="lower",
+                          "Both tails: Pr(Z <-z or z< Z)"="both",
+                          "Middle: Pr(-z < Z < z)"="middle"),
+              selected = "both"),
+  
+  numericInput("z", label = "Normal quantile (z):", value=2)
+)
+
+renderPlot({
+  q <- input$z
+  mde <- input$tails
+  if (length(mde) != 1L) mde <- "both"
+  p <- switch(mde,
+              upper=1-pnorm(q),
+              lower=pnorm(q),
+              both=2*pnorm(-abs(q)),
+              middle=1-2*pnorm(-abs(q)))
+  xl <- round(max(3,ceiling(abs(q)+.5)),1)
+  curve(dnorm(x),main=paste("Probability of shaded region = ",round(p,3)),
+        sub=paste("z = ",round(q,3)),
+        xlim = c(-xl,xl),yaxt="n",cex=3,cex.lab=2,cex.main=2,ylab="",xlab="z")
+  switch(mde,
+         upper={
+           cord.xu <- c(q,seq(q,xl,0.01),xl)
+           cord.yu <- c(0,dnorm(seq(q,xl,0.01)),0)
+           polygon(cord.xu,cord.yu,col='skyblue')
+           axis(1,q,paste(round(q,3)),cex.axis=2)
+         },
+         lower={
+           cord.xl <- c(-xl,seq(-xl,q,0.01),q)
+           cord.yl <- c(0,dnorm(seq(-xl,q,0.01)),0)
+           polygon(cord.xl,cord.yl,col='skyblue')
+           axis(1,q,paste(round(q,3)),cex.axis=2)
+         },
+         both={
+           q <- abs(q)
+           cord.xu <- c(q,seq(q,xl,0.01),xl)
+           cord.yu <- c(0,dnorm(seq(q,xl,0.01)),0)
+           polygon(cord.xu,cord.yu,col='skyblue')
+           cord.xl <- c(-xl,seq(-xl,-q,0.01),-q)
+           cord.yl <- c(0,dnorm(seq(-xl,-q,0.01)),0)
+           polygon(cord.xl,cord.yl,col='skyblue')
+           axis(1,q,paste(round(q,3)),cex.axis=2)
+           axis(1,-q,paste(-round(q,3)),cex.axis=2)
+         },
+         middle={
+           q <- abs(q)
+           cord.xmid <- c(-q,seq(-q,q,0.01),q)
+           cord.ymid <- c(0,dnorm(seq(-q,q,0.01)),0)
+           polygon(cord.xmid,cord.ymid,col='skyblue')
+           axis(1,q,paste(round(q,3)),cex.axis=2)
+           axis(1,-q,paste(-round(q,3)),cex.axis=2)
+         })
+  
+})
+```
+
+## Normal Quantiles.
+
+In this tool, you input a probability, and get a corresponding *z* score.
+
+```{r quantiles, echo=FALSE}
+inputPanel(
+  selectInput("tails1", label = "Which tails",
+              choices = c("Upper tail: Pr(z < Z)"="upper",
+                          "Lower tail: Pr(Z < z)"="lower",
+                          "Both tails: Pr(Z <-z or z< Z)"="both",
+                          "Middle: Pr(-z < Z < z)"="middle"),
+              selected = "both"),
+  
+  numericInput("p", label = "Probability of shaded region:", value=0.05, min=0, max=1)
+)
+
+renderPlot({
+  pp <- input$p
+  mde <- input$tails1
+  if (length(mde) != 1L) mde <- "both"
+  q <- switch(mde,
+              upper=qnorm(1-pp),
+              lower=qnorm(pp),
+              both=qnorm(1-pp/2),
+              middle=qnorm(.5+pp/2))
+  xl <- round(max(3,ceiling(abs(q)+.5)),1)
+  curve(dnorm(x),main=paste("Probability of shaded region = ",round(pp,3)),
+        sub=paste("z = ",round(q,3)),
+        xlim = c(-xl,xl),yaxt="n",cex=3,cex.lab=2,cex.main=2,ylab="",xlab="z")
+  switch(mde,
+         upper={
+           cord.xu <- c(q,seq(q,xl,0.01),xl)
+           cord.yu <- c(0,dnorm(seq(q,xl,0.01)),0)
+           polygon(cord.xu,cord.yu,col='skyblue')
+           axis(1,q,paste(round(q,3)),cex.axis=2)
+         },
+         lower={
+           cord.xl <- c(-xl,seq(-xl,q,0.01),q)
+           cord.yl <- c(0,dnorm(seq(-xl,q,0.01)),0)
+           polygon(cord.xl,cord.yl,col='skyblue')
+           axis(1,q,paste(round(q,3)),cex.axis=2)
+         },
+         both={
+           q <- abs(q)
+           cord.xu <- c(q,seq(q,xl,0.01),xl)
+           cord.yu <- c(0,dnorm(seq(q,xl,0.01)),0)
+           polygon(cord.xu,cord.yu,col='skyblue')
+           cord.xl <- c(-xl,seq(-xl,-q,0.01),-q)
+           cord.yl <- c(0,dnorm(seq(-xl,-q,0.01)),0)
+           polygon(cord.xl,cord.yl,col='skyblue')
+           axis(1,q,paste(round(q,3)),cex.axis=2)
+           axis(1,-q,paste(-round(q,3)),cex.axis=2)
+         },
+         middle={
+           q <- abs(q)
+           cord.xmid <- c(-q,seq(-q,q,0.01),q)
+           cord.ymid <- c(0,dnorm(seq(-q,q,0.01)),0)
+           polygon(cord.xmid,cord.ymid,col='skyblue')
+           axis(1,q,paste(round(q,3)),cex.axis=2)
+           axis(1,-q,paste(-round(q,3)),cex.axis=2)
+         })
+  
+})
+

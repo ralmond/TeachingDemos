@@ -1,0 +1,155 @@
+---
+title: "Two Parameter IRT Models"
+author: "Russell Almond"
+date: "10/5/2021"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(CPTtools)
+library(arm)
+```
+
+## Two parameter model
+
+
+
+The latent variable for Subject $i$ is $\theta_i$
+
+This model has the following parameters for Item $j$:
+
+Difficulty
+: $b_j$ (negative difficulty is the _intercept_)
+
+Discrimination
+: $a_j$ (a sort-of slope parameter).
+
+The discrimination is usually positive, the exception being "Reverse
+keyed" items in the cogintivie scale.
+
+The effective ability for Subject $i$ to answer Item $j$ is monotonic
+function of $a_j(\theta_i-b_j)$.  
+
+
+### Two parameter Normal Ogive
+
+The original function used to map the effect ability onto a
+probability scale was the cumulative distribution function for the
+standard normal distribution, or _normal ogive_.  Here $b_j$ is the
+mean and $a_j$ is the reciprical of the variance.  The two parameter
+normal ogive (2NO) model is
+given below.
+
+$$ p(X|\theta_i,a_j, b_j) = \Phi \left ( a_j(\theta_i - b_j) \right ) \ ,
+\qquad \theta_i \sim N(0,1) .$$
+
+### Two Parameter Logistic
+
+The inverse logistic function is a bit more convenient to work with
+than the normal ogive.  Fortunately, the two curves are similarly
+shaped.  They are almost identical if a factor of 1.7 is added,
+$\Phi(x) \approx \text{logit}^{-1} (1.7x)$.
+
+```{r ogive}
+#| height: 200
+curve(pnorm(x),xlim=c(-3.25,3.25),main="Normal ogive (solid) versus inverse logit (dashed)")
+curve(invlogit(1.7*x),add=TRUE,lty="dashed",col=3)
+
+```
+So the two parameter logistic (2PL) form is:
+
+$$ p(X|\theta_i,a_j, b_j) = \text{logit}^{-1} \left ( D a_j(\theta_i -
+b_j) \right ) \ ,
+\qquad \theta_i \sim N(0,1), $$
+
+where $D=1.7$.  
+
+
+### Alternate parameterizations
+
+Some stat packages uses the 1.7 correction in the 2PL model, and some
+do not ($D=1$).
+
+Also a more regression-like parameterization is used where
+$\alpha_j\theta_i + \beta_j$ is the point on the ability scale, and
+$\alpha_j=a_j$ and $\beta_j=-a_jb_j$.  In particular, the R package
+`mirt` uses this parameterization.
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 1000
+library(shiny)
+library(arm)
+ui <- fluidPage(
+inputPanel(
+  sliderInput("difficulty2", label = "Difficulty",
+              min=-3.0, max=3.0, value=0, step=.1),
+  sliderInput("discrimination2", label = "Discrimination:",
+              min = 0.05, max = 2, value = 1, step = 0.05),
+  sliderInput("master2", label = "Mastery Point",
+              min=-3.0, max=3.0, value=0, step=.1),
+  selectInput("fun",label="Function:",
+              choices=c("Logistic","Normal Olgive"),
+              selected="Logistic")
+),
+  mainPanel(plotOutput("ICC"),
+            plotOutput("Info")))
+server <- function (input,output) {
+  output$ICC <- renderPlot({
+	if (input$fun=="Logistic") {
+		fun <- function (theta) {arm::invlogit(1.7*theta)}
+	} else {
+		fun <- pnorm
+	}
+   curve(fun(x),xlim=c(-3.25,3.25),lty="dotted",
+   ylab="Probability of Success", xlab="Ability",
+   main=paste("IRT Curve; difficulty = ",
+              input$difficulty2,
+              ", discrimination =", input$discrimination2),
+   ylim=c(0,1))
+   curve(fun(input$discrimination2*(x-input$difficulty2)),add=TRUE)
+   abline(v=input$master2) 
+   })
+   info <- function (p,a=1,D=1.7) {D^2*a^2*p*(1-p)}
+   output$Info <- renderPlot({
+	if (input$fun=="Logistic") {
+		fun <- function (theta) {invlogit(1.7*theta)}
+	} else {
+		fun <- pnorm
+	}
+   curve(info(fun(x)),xlim=c(-3.25,3.25),lty="dotted",
+	main="Item Information")
+   curve(info(fun(input$discrimination2*(x-input$difficulty2)),
+              input$discrimination2),add=TRUE)
+   abline(v=input$master2) 
+   })
+}
+shinyApp(ui=ui,server=server)
+```
+## Item information function
+
+The item information function is 
+
+$$I(\theta) = a_j^2 D^2 p(\theta)q(\theta)\ , $$
+
+where $p(\theta)=P(X=1|\theta,b_j)$ and $q(\theta)=1-p(\theta)$ and
+$D$ is 1.7 or 1, and $a_j$ is the discrimination parameter.
+
+## Model Identification
+
+As with the Rasch model it is not possible to both estimate the mean
+and standard deviation of the population and all of the item
+difficulties and discriminations.  Typically, the model is identified
+by setting the mean and standard deviation of the calibration
+population to zero and one.  (Although it is possible to instead use a
+reference set of items, it is not commonly done).
+
+
+
+## Common Uses
+
+Generally the 2PL model is used for dichotomously scored items, except
+multiple choice items.  With multiple choice, the possibility of
+guessing the correct answer makes the [3PL](3PL.qmd) model more attractive.

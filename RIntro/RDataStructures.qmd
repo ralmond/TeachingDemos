@@ -1,0 +1,117 @@
+---
+title: "Basic R Data Structures"
+output: html_notebook
+---
+
+## A brief history of S, Splus and R
+
+* **S1 (qpe)** -- original version internal to Bell Labs
+    + Fortran interface
+    + Copy on modify (preserve original data).
+    + Data stored on disk.
+
+* **S2** (Becker, Chambers & Wilks, 1988; _Blue Book_).  
+    + vector
+    + matrix, array
+    + function
+    + plot
+
+* **S3** (Chambers & Hastie, 1992; _White Book_)
+    + list
+    + data.frame
+    + formula & lm
+    + class() -- Informal (S3) classes
+    + UseMethod -- Informal Generic Functions
+
+* **Splus** is commercial version of **S**
+
+* **R** open source version of **S**
+    + Input from XLISP-STAT
+    + Workspace, not disk storage.
+
+* **S4** (Chambers, 1998; _Green Book_)
+   + Formal Classes & Generic Function
+   + Really first implemented in *R*
+   
+* **R6** (Chambers, 2016)
+   + Reference classes (like c++, java, &c)
+   
+# The Vector
+
+## Storage modes
+
+## The `c()` function
+
+## Vectorized operations
+
+## Summary operators
+
+## Numerical Indexes
+
+### Assignment & Indexes
+
+## Negative indexes
+
+## Logical Indexes
+
+## The `if` statement
+
+### isTRUE()
+
+### all and any
+
+## The `ifelse` function
+
+
+## Named vectors
+
+## Character indexes
+
+## Vector exercises
+
+# Matrixes and Arrays
+
+## Column major order
+
+## indexes
+
+## row and column sums, apply function
+
+## sweep operator
+
+## arrays
+
+## aperm
+
+# functions
+
+## writing functions
+
+## functions as arguments
+
+## anonymous functions
+
+## Local and global variables
+
+## Variable Scope
+
+## Search Lists
+
+## Function exercises
+
+
+# lists
+
+## The two extraction operators
+
+## Named lists (dictionaries)
+
+## The `$` extractor
+
+## The `for` loop
+
+```{r}
+state.x77
+
+```
+

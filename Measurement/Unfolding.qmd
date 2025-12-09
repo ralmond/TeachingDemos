@@ -1,0 +1,222 @@
+---
+title: "IRT Models"
+author: "Russell Almond"
+date: "10/5/2021"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
+library(shinyjs)
+library(CPTtools)
+library(arm)
+```
+
+
+## 1 Parameter Logistic
+
+
+$$ p(X|\theta_i,b_j) = \text{logit}^{-1} \left ( 1.7 a(\theta_i - b_j) \right ) \qquad \theta_i \sim N(0,1) $$
+Rasch Model
+
+$$ p(X|\theta_i,\delta_j) = \text{logit}^{-1} \left ( \theta_i - \delta_j \right ) \qquad \theta_i \sim N(0,\sigma^2) $$
+
+```{r 1PL, echo=FALSE}
+
+inputPanel(
+  sliderInput("difficulty1", label = "Difficulty",
+              min=-3.0, max=3.0, value=0, step=.1),
+  sliderInput("master1", label = "Mastery Point",
+              min=-3.0, max=3.0, value=0, step=.1)  
+)
+
+renderPlot({
+ curve(invlogit(1.7*(
+   x-input$difficulty1)),xlim=c(-3.25,3.25),
+   ylab="Probability of Success", xlab="Ability",
+   main=paste("IRT Curve; difficulty = ",
+              input$difficulty1,
+              ",discrimination =", input$discrimination),
+   ylim=c(0,1))
+  abline(v=input$master1)
+              
+})
+
+
+```
+
+## Two Parameter Logistic
+
+
+$$ p(X|\theta_i,a_j, b_j) = \text{logit}^{-1} \left ( 1.7 a_j(\theta_i - b_j) \right ) \qquad \theta_i \sim N(0,1) $$
+```{r 2PL, echo=FALSE}
+
+inputPanel(
+  sliderInput("difficulty2", label = "Difficulty",
+              min=-3.0, max=3.0, value=0, step=.1),
+  
+  sliderInput("discrimination2", label = "Discrimination:",
+              min = 0.05, max = 2, value = 1, step = 0.05),
+sliderInput("master2", label = "Mastery Point",
+              min=-3.0, max=3.0, value=0, step=.1)  
+)
+
+renderPlot({
+ curve(invlogit(1.7*input$discrimination2*(
+   x-input$difficulty2)),xlim=c(-3.25,3.25),
+   ylab="Probability of Success", xlab="Ability",
+   main=paste("IRT Curve; difficulty = ",
+              input$difficulty2,
+              ", discrimination =", input$discrimination2),
+   ylim=c(0,1))
+   abline(v=input$master2)            
+})
+
+
+```
+
+## Two parameter Normal Ogive
+
+$$ p(X|\theta_i,a_j, b_j) = \Phi \left ( a_j(\theta_i - b_j) \right ) \qquad \theta_i \sim N(0,1) $$
+
+```{r 2NO, echo=FALSE}
+
+inputPanel(
+  sliderInput("difficulty2n", label = "Difficulty",
+              min=-3.0, max=3.0, value=0, step=.1),
+  
+  sliderInput("discrimination2n", label = "Discrimination:",
+              min = 0.05, max = 2, value = 1, step = 0.05),
+sliderInput("master2n", label = "Mastery Point",
+              min=-3.0, max=3.0, value=0, step=.1)  
+)
+
+renderPlot({
+ curve(pnorm(input$discrimination2n*(
+   x-input$difficulty2n)),xlim=c(-3.25,3.25),
+   ylab="Probability of Success", xlab="Ability",
+   main=paste("IRT Curve; difficulty = ",
+              input$difficulty2n,
+              ",discrimination =", input$discrimination2n),
+   ylim=c(0,1))
+   abline(v=input$master2n)            
+})
+
+
+```
+
+## Three parameter Logistic
+
+$$ p(X|\theta_i,a_j, b_j, c_j) = c_j + (1-c_j)\text{logit}^{-1} \left ( 1.7 a_j(\theta_i - b_j) \right ) \qquad \theta_i \sim N(0,1) $$
+
+```{r 3PL, echo=FALSE}
+
+inputPanel(
+  sliderInput("difficulty3", label = "Difficulty",
+              min=-3.0, max=3.0, value=0, step=.1),
+  
+  sliderInput("discrimination3", label = "Discrimination:",
+              min = 0.05, max = 2, value = 1, step = 0.05),
+  sliderInput("guessing3",label="Guessing", min=0, max=.5, value=.25, step=.01),
+sliderInput("master3", label = "Mastery Point",
+              min=-3.0, max=3.0, value=0, step=.1)  
+)
+
+renderPlot({
+  c <- as.numeric(input$guessing3)
+ curve(c+(1-c)*invlogit(1.7*input$discrimination3*(
+   x-input$difficulty3)),xlim=c(-3.25,3.25),
+   ylab="Probability of Success", xlab="Ability",
+   main=paste("IRT Curve; difficulty = ",
+              input$difficulty3,
+              ", discrimination =", input$discrimination3,
+              ", guessing=", input$guessing3),
+   ylim=c(0,1))
+ abline(v=input$master3)
+              
+})
+
+
+```
+
+## 4PL
+
+
+$$ p(X|\theta_i,a_j, b_j, c_j, d_j) = c_j + (1-c_j-d_j)\text{logit}^{-1} \left ( 1.7 a_j(\theta_i - b_j) \right ) \qquad \theta_i \sim N(0,1) $$
+```{r 4PL, echo=FALSE}
+
+inputPanel(
+  sliderInput("difficulty4", label = "Difficulty",
+              min=-3.0, max=3.0, value=0, step=.1),
+  
+  sliderInput("discrimination4", label = "Discrimination:",
+              min = 0.05, max = 2, value = 1, step = 0.05),
+  sliderInput("guessing4",label="Guessing", min=0, max=.5, value=.25, step=.01),
+  sliderInput("slipping4",label="Slipping", min=0, max=.5, value=.05, step=.01),
+sliderInput("master4", label = "Mastery Point",
+              min=-3.0, max=3.0, value=0, step=.1)  
+)
+
+renderPlot({
+  c <- as.numeric(input$guessing4)
+  d <- as.numeric(input$slipping4)
+ curve(c+(1-c-d)*invlogit(1.7*input$discrimination4*(
+   x-input$difficulty4)),xlim=c(-3.25,3.25),
+   ylab="Probability of Success", xlab="Ability",
+   main=paste("IRT Curve; difficulty = ",
+              input$difficulty4,
+              ", discrimination =", input$discrimination4,
+              ", guessing=",input$guessing4,", slipping=",input$slipping4),
+   ylim=c(0,1))
+ abline(v=input$master4)
+              
+})
+
+
+```
+
+
+## Graded Response Model
+
+```{r GR, echo=FALSE}
+
+inputPanel(
+   selectInput("k",label="Number of Categories",
+               choice=2:5, selected=3),
+   sliderInput("discriminationGR", label = "Discrimination:",
+              min = 0.05, max = 2, value = 1, step = 0.05),
+  sliderInput("difficultyGR1", label = "Difficulty  X \u2264 0",
+              min=-3.0, max=3.0, value=0, step=.1),
+  sliderInput("difficultyGR2", label = "Difficulty X \u2264 1",
+              min=-3.0, max=3.0, value=0, step=.1),
+  sliderInput("difficultyGR3", label = "Difficulty X \u2264 2",
+              min=-3.0, max=3.0, value=0, step=.1),
+  sliderInput("difficultyGR4", label = "Difficulty X \u2264 3",
+              min=-3.0, max=3.0, value=0, step=.1)
+)
+
+renderPlot({
+  c <- as.numeric(input$guessing4)
+  d <- as.numeric(input$slipping4)
+ curve(c+(1-c-d)*invlogit(1.7*input$discrimination4*(
+   x-input$difficulty4)),xlim=c(-3.25,3.25),
+   ylab="Probability of Success", xlab="Ability",
+   main=paste("IRT Curve; difficulty = ",
+              input$difficulty4,
+              ", discrimination =", input$discrimination4,
+              ", guessing=",input$guessing4,", slipping=",input$slipping4),
+   ylim=c(0,1))
+ abline(v=input$master4)
+              
+})
+
+
+```
+
+
+## Generalized Partial Credit Model
+
+## Unfolding Model
+

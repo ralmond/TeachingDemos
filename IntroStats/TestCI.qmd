@@ -1,0 +1,21 @@
+---
+title: "Confidence Intervals and Tests"
+author: "Russell Almond"
+date: "3/26/2020"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Finding the population mean.
+
+Suppose we are trying to find out the mean of a certain population, $\mu$.  For example, suppose we are interested in the game _eRebuild_ (https://mileresearch.coe.fsu.edu/erebuild) which aims to teach middle school students mathematics.  Here $\mu$ would be how much a math a middle school student learns by playing the game.  That is our target of inference.
+
+We will make three simplifying assumptions:
+
+* We can measure "math"
+
+## Confidence Intervals

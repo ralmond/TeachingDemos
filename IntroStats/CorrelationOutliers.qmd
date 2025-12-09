@@ -1,0 +1,107 @@
+---
+title: "Correlation Coefficient"
+author: "Russell Almond"
+date: "January 30, 2019"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This demonstration will use some random data.  Lets start by generating the random data.  So give a [random seed][seed] and pick a sample size for your sample. 
+
+```{r seed, echo=FALSE}
+inputPanel(
+  selectInput("N", label = "Sample Size:",
+              choices = c(10, 25, 50, 100, 250, 500), selected = 25),
+  
+  numericInput("seed", label = "Random number Seed (integer)",
+              min = 0, max = .Machine$integer.max, 
+              value = floor(runif(1)*.Machine$integer.max), 
+              step = 157)
+)
+
+renderText({
+  N <<- as.numeric(input$N)
+  set.seed(input$seed)
+  X <<- c(0,rnorm(N-1))
+  Y <<- c(0,rnorm(N-1))
+  pch <<- c(19,rep(1,N-1))
+  pcol <<- c("red",rep("gray",N-1))
+  paste("Sample Size =",N,"Random Seed = ",input$seed,"\n")
+})
+```
+
+# Correlation Coefficient
+
+The correlation coefficient is a measure of how closely (linearly) associated two variables are.  It ranges from 1 (perfect positive relationship), to -1 (perfect negative relationship).  At correlation zero there is no *linear* relationship between the variables.  [It is possible for there to be a nonlinear, i.e., curved, relationship between the two variables and still have a zero correlation.]
+
+The equation for the correlation coefficient is:
+$$ \rho_{XY} = \frac{{\rm Cov}(X,Y)}{\sqrt{{\rm Var}(X){\rm Var}(Y)}} $$
+The sample form is
+$$ r_{XY} = \frac{\left(\sum_{i=1}^N (X_i-\bar X)(Y_i -\bar Y) \right)/(N-1)}{s_X s_Y}$$
+The covariance (on the top of the previous formula is very much like the formula for the variance, except it uses the sum of the cross products instead of the sum of squares.
+
+But what does an outlier do?
+
+## The effect of outliers.
+
+The data set below has $N$ data points.  The sliders are hooked up to the first one (which is plotted in red).  The rest are generated from a normal distribution with mean 0 and standard deviation 1.  They are uncorrelated, but there often will be a small correlation because of sampling variability.
+
+```{r scatterplot, echo=FALSE}
+inputPanel(
+  sliderInput("x1", label = "X-coordinate of point 1:",
+              min = -5, max = 5, value = 0, step = 0.05),
+  sliderInput("y1", label = "Y-coordinate of point 1:",
+              min = -5, max = 5, value = 0, step = 0.05)
+  
+)
+
+renderPlot({
+  X[1] <- input$x1
+  Y[1] <- input$y1
+  plot(X,Y,xlim=c(-5,5),ylim=c(-5,5),pch=pch,col=pcol,
+       main=paste("Correlation = ",round(cor(X,Y),3)),
+       sub=paste("Correlation without point 1 = ",round(cor(X[-1],Y[-1]),3)))
+  abline(a=0,b=cor(X,Y),col="blue")
+},width=288,height=288)
+```
+
+### Outliers in Y
+
+Set the $X$ value for the red point to zero.  Now move the $Y$ value up and down.  How sensitive is the correlation to changes in the $Y$ value with $X=\bar X$?
+
+### Leverage Points:  Outliers in X
+
+Now set $X$ to a high value (away from the mean at 0).  Again move $Y$ up and down, what happens to the line?  Set $X$ to a low value and try again.
+
+Values which are outliers in the $X$ variable (or in the case of multiple regression, one or more of the $X$ variables) are known as *leverage points* or *influential points*.
+
+### Sample Size
+
+Now try changing the sample size in the dialogues at the top of the page.  Note that you will need to tweak one of the sliders for the graph to redraw at the new sample size.  Is the correlation more or less sensitive at low sample sizes?  At high sample sizes?
+
+At the low sample size, set the first data point somewhere close to $(0,0)$.  It should have little effect on the correlation.  Now change the seed (and tweak the point).  What happens to the correlation with a new sample?  Try that again!  Now try it with higher sample sizes.
+
+### What to do about outliers
+
+There are four reasons that there might be an outlier in a data set:
+
+1. Something went wrong in the data entry.  Somebody left our a decimal point, or hit an extra key on the keyboard.  Or maybe a number got put in the wrong column, so the subject's shoe size was entered in place of the subject's IQ.
+
+2. Something went wrong in the data collection.  I had a friend who used to hook research subjects up to the Vitalog monitoring pack.  It included a probe for body temperature.  Sometimes the probe would read 72 degrees F (room temperature) instead of 98 degrees F (body temperature).  They called this "probe slippage."
+
+3. There is a person in the sample who really doesn't belong there.  For example, the teacher took the test along with the students, and somehow the teacher's answers were mixed in with th student answers.
+
+4. There is a member of population that is just a little bit different.  Maybe they belong to a rare subpopulation.
+
+If the experimenters took good records, problems of Type 1 can be corrected (also, problems of Type 3 clearly identified).  If not, it may still be possible to identify that the value is clearly out of range and needs to be eliminated (for example, an SAT score of 0, when the minimum SAT score is 200).  The same thing is true for errors of Type 2.  When the value is clearly out of range that is the best solution, although you need to be careful that the missingness is not related to what is being studied (for example, patients dropping out of a drug trial because of the side effects).
+
+In the absence of good records Type 3 and Type 4 outliers are hard to distinguish.  Often what we want to do is to take the data point out and run the analysis again.  Then we can compare the two correlation coefficients.  If the difference is small, no problem.  If the difference is big, we can report that we have an influential point and let the reader come to his or her own conclusion.
+
+
+
+[seed]: https://pluto.coe.fsu.edu/rdemos/IntroStats/RandomNumbers.Rmd "A random seed is used to generate a fixed series of random numbers each time."
+

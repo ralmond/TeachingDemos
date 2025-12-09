@@ -1,0 +1,128 @@
+---
+title: "Correlation Coefficient"
+author: "Russell Almond"
+date: "January 30, 2019"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This demonstration will use some random data.  Lets start by generating the random data.  So give a [random seed][seed] and pick a sample size for your sample. 
+
+```{r seed, echo=FALSE}
+inputPanel(
+  selectInput("N", label = "Sample Size:",
+              choices = c(25, 50, 100, 250, 500, 1000), selected = 100),
+  
+  numericInput("seed", label = "Random number Seed (integer)",
+              min = 0, max = .Machine$integer.max, 
+              value = floor(runif(1)*.Machine$integer.max), 
+              step = 157)
+)
+
+renderText({
+  N <<- as.numeric(input$N)
+  set.seed(input$seed)
+  X <<- rnorm(N)
+  Err <<- rnorm(N)
+  paste("Sample Size =",N,"Random Seed = ",input$seed,"\n")
+})
+```
+
+# Correlation Coefficient
+
+The correlation coefficient is a measure of how closely (linearly) associated two variables are.  It ranges from 1 (perfect positive relationship), to -1 (perfect negative relationship).  At correlation zero there is no *linear* relationship between the variables.  [It is possible for there to be a nonlinear, i.e., curved, relationship between the two variables and still have a zero correlation.]
+
+The equation for the corrlation coefficient is:
+$$ \rho_{XY} = \frac{{\rm Cov}(X,Y)}{\sqrt{{\rm Var}(X){\rm Var}(Y)}} $$
+The sample form is
+$$ r_{XY} = \frac{\left(\sum_{i=1}^N (X_i-\bar X)(Y_i -\bar Y) \right)/(N-1)}{s_X s_Y}$$
+The covariance (on the top of the previous formula is very much like the formula for the variance, except it uses the sum of the cross products instead of the sum of squares.
+
+Unless you are a mathematician, those formulae are not very exciting.  So instead take a look at the plot below.  I've generated the data (using the sample size and seed you specified above) to generate data with a correlation that you specify.  Adjust the correlation and watch what happens to the plot.
+```{r scatterplot, echo=FALSE}
+inputPanel(
+  sliderInput("rho", label = "Correlation Coefficient:",
+              min = -1, max = 1, value = 0, step = 0.05)
+)
+
+renderPlot({
+  rho <<- input$rho
+  Y <<-  rho*X + sqrt(1-rho*rho)*Err
+  plot(X,Y,main=paste("Correlation =",rho))
+  abline(a=0,b=rho,col="red")
+},width=288,height=288)
+```
+
+## Regression.
+
+Galton's discovery was that if you want to predict $Y$ from $X$, then you want to *regress* that prediction towards the mean. If $X$ and $Y$ were perfectly correlated, then the $z$-score for a variable on the $X$ scale would be the same for the variable on the $Y$ scale, so all we need to do is change units.  The ratio $\sigma_Y/\sigma_X$ changes units from $X$ to $Y$.  We also want the mean of $X$ to map to the mean of $Y$.  The equation for this change-of-units line, the *SD-line*, is:
+$$ \widetilde y = \frac{\sigma_Y}{\sigma_X} x + \left ( \mu_Y - \frac{\sigma_Y}{\sigma_X} \mu_X\right ) .$$
+The first term is the change of units, the second term makes sure the line goes through the mean of $X$ and the mean of $Y$.
+
+The ideal discount is the correlation coefficient $\rho_{XY}$.  This gives the  the following final regression line:
+$$\widehat y = \rho_{XY}\frac{\sigma_Y}{\sigma_X} x + \left ( \mu_Y - \rho_{XY}\frac{\sigma_Y}{\sigma_X} \mu_X\right ) .$$
+Because second term has $\rho_{XY}$ in it as well, this will make the predicted value closer to the mean of $Y$, $\mu_Y$.
+
+![detour](sign_turn_left.png) The notations $\widetilde{y}$ and $\widehat{y}$ indicate predicted values for $y$.  The *y hat* ($\widehat y$) notation is reserved for what is called *maximum likelihood* predictions.  In the case of a regression with normally distributed errors, the maximum likelihood predictor is also the least squares estimator.  Usually, the estimators use the sample values, thus in the regression equation:
+$$ \widehat{b_1} = r_{XY}\frac{s_X}{s_Y}\;;\qquad \widehat{b_0}=\bar Y -r_{XY}\frac{s_X}{s_Y} \bar X\; .$$
+
+## Lets Try it.
+
+In the graph below, you can set the mean and standard deviation of both X and Y as well as the correlation coefficient. The SD line is a dashed blue, and the regression line is a solid red. Play around for a bit.
+```{r regression, echo=FALSE}
+inputPanel(
+  sliderInput("mx", label = "Mean of X:",
+              min=0, max=100, value=50, step=1),
+  
+  sliderInput("sx", label = "Standard Deviation of X:",
+              min = 0.2, max = 25, value = 10, step = 0.1),
+  sliderInput("my", label = "Mean of Y:",
+              min=0, max=100, value=50, step=1),
+  
+  sliderInput("sy", label = "Standard Deviation of Y:",
+              min = 0.2, max = 25, value = 10, step = 0.1),
+  sliderInput("rxy", label = "Correlation between X and Y:",
+              min = -1, max = 1, value = 0, step = 0.05)
+)
+
+renderPlot({
+  rxy <<- input$rxy
+  mx <<- input$mx
+  my <<- input$my
+  sx <<- input$sx
+  sy <<- input$sy
+  beta1 <- sy/sx
+  beta0 <- my - beta1*mx
+  b1 <- rxy*beta1
+  b0 <- my - b1*mx
+  XX <- mx + sx*X
+  YY <- sy*(rxy*X + sqrt(1-rxy*rxy)*Err) + my
+  plot(XX,YY,main=paste("Regression Line (solid) y =",round(b1,2),"x + ",round(b0,2)), sub=paste("SD Line (dashed) y =",round(beta1,2),"x + ",round(beta0,2)))
+  abline(a=b0,b=b1,col="red")
+  abline(a=beta0,b=beta1,col="blue",lty=2)
+},width=288,height=288)
+```
+Notice how changing the means and standard deviations doesn't change much except the numbers in the equations and the labels on the axis.  This is because R is automatically adjusting the scale of the graphs to fit the data.  In this view, the SD line, the one that is a change of scale, is a perfect 45 degress, no matter what.
+
+Actually, if you set the correlation coefficient to be the same in the two plots, they should look the same.  The two plots show the same data, its just in the lower plot, the data are transformed to fit the statistis.  Correlation is a property that is independent from Mean and SD.
+
+
+## For the more mathematically inclined.
+
+This is how I generated the data with the given correlations.
+
+For the first plot, I first generated two vectors of standard normal numbers, ${\bf X}$ and ${\bf e}$, that is with mean 0 and standard deviation 1.  Then I defined ${\bf Y}$ with the following equation:
+$$ Y_i = \rho_{XY}X_i + \sqrt{(1-\rho_{XY}^2)}\ e_i$$
+As $\rho_{XY}^2 + (1-\rho_{XY}^2) =1$, ${\bf Y}$ also has mean 0 and standard deviation 1.
+
+For the second plot, I used the following expressions:
+$$ XX_i = \mu_X + \sigma_X X_i\;; \qquad YY_i = \mu_X + \sigma_Y Y_i\;.$$
+The transformation is exactly the same.
+
+
+[seed]: https://pluto.coe.fsu.edu/rdemos/IntroStats/RandomNumbers.Rmd "A random seed is used to generate a fixed series of random numbers each time."
+

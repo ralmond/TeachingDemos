@@ -1,0 +1,508 @@
+---
+title: "MusicTutorExample"
+author: "Russell Almond"
+date: "10/20/2021"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
+library(tidyverse)
+library(plotly)
+library(DT)
+```
+
+## Parameter Definitions
+
+### Initial Skill Distribution
+
+```{r pm, echo=FALSE}
+## Mean and variance of the population.
+## popA %*% t(popA) is the variance
+inputPanel(
+  sliderInput("Mech", label = "Mechanics Mean",
+              min=0, max=10, step=.05, value = 1.5),
+  sliderInput("Flue",label = "Fluency Mean",
+              min=0, max=10, step=.05, value = 1.5),
+  sliderInput("s.mech", label= "Mechanics SD",
+              min=0, max = 2, step=.05, value=.75),
+  sliderInput("s.flue", label= "Fluency SD",
+              min=0, max = 2, step=.05, value=.75),
+  sliderInput("r.mf", label= "Mechanics--Fluency Correlation",
+              min=-1, max = 1, step=.05, value=.9)
+)
+
+popA <- reactive({diag(c(input$s.mech,input$s.flue))%*%chol(matrix(c(1,input$r.mf,input$r.mf,1),2,2))})
+popMean <- reactive({ c(Mechanics=input$Mech,Fluency=input$Flue)})
+
+
+```
+
+```{r initialFunction}
+## Generates the requested number of students
+## returns a matrix with rows corresponding to students
+## (particles) and columns corresponding to proficiencies.  
+randomStudent <- function(nstudents=1,pMean=popMean(),pA=popA()) {
+  nvar <- length(pMean)
+  z <- matrix(rnorm(nstudents*nvar),nstudents,nvar)
+  result <- sweep(z%*%pA,2,pMean,"+")
+  #result <- as.vector(popA%*%rnorm(length(popMean))) + popMean
+  result <- ifelse((result < 0),0,result)
+  result <- ifelse((result > 6),6,result)
+  colnames(result)<-names(pMean)
+  result
+}
+```
+
+### Action Success Model
+
+```{r q0, echo=FALSE}
+## Constant noise term in noisy-or model
+#q0 <- c(Mechanics=.8,Fluency=.9)
+inputPanel(
+  sliderInput("q0.Mech", label = "Mechanics Noise",
+              min=0, max=1, step=.05, value = .8),
+  sliderInput("q0.Flue",label = "Fluency Noise",
+              min=0, max=1, step=.05, value = .9)
+)
+q0 <- reactive(c(Mechanics=input$q0.Mech,
+                 Fluency=input$q0.Flue))
+```
+
+```{r highlow, echo=FALSE}
+## Upper and lower bounds for delta in noisy-or model
+#threshlow <- c(Mechanics=-1,Fluency=-2)
+inputPanel(
+  sliderInput("low.Mech", label = "Mechanics Delta Lower Bound",
+              min=-6, max=0, step=.25, value = -1),
+  sliderInput("low.Flue",label = "Fluency Delta Lower Bound",
+              min=-6, max=0, step=.05, value = -2),
+#threshhigh <- c(Mechanics=2,Fluency=1) 
+  sliderInput("high.Mech", label = "Mechanics Delta Upper Bound",
+              min=0, max=6, step=.25, value = 2),
+  sliderInput("high.Flue",label = "Fluency Delta Upper Bound",
+              min=0, max=6, step=.05, value = 1),
+
+)
+
+## Upper and lower bounds for delta in noisy-or model
+threshlow <- reactive(c(Mechanics=input$low.Mech,
+                        Fluency=input$low.Flue))
+threshhigh <- reactive(c(Mechanics=input$high.Mech,
+                         Fluency=input$high.Mech))
+```
+
+```{r q1, echo=FALSE}
+## skill bypass parameters in noisy-or model
+#q1 <- c(Mechanics=.8,Fluency=.7)
+inputPanel(
+  sliderInput("q1.Mech", label = "Mechanics Bypass",
+              min=0, max=1, step=.05, value = .8),
+  sliderInput("q1.Flue",label = "Fluency Noise",
+              min=0, max=1, step=.05, value = .7)
+)
+q1 <- reactive(c(Mechanics=input$q1.Mech,
+                 Fluency=input$q1.Flue))
+## NOTE:  These values are overridden for Simulation 2 (used
+## in the paper).   
+```
+
+```{r action success}
+# Calculates success probability of action based on current
+# proficiency level.
+# Assumes action is a vectors of the form (Mechanics,Fluency)
+# Assumes proficiency is a matrix with columns (Mechanics,
+# Fluency) returns a vector of probabilities of success for
+# the lesson. 
+actionSuccessP <- function (proficiency, action, 
+                            qq0=q0(), qq1=q1(), 
+                            tlow=threshlow(),
+                            thigh=threshhigh()) {
+  if (!is.matrix(proficiency)) {
+    proficiency <- matrix(proficiency,1)
+  }
+##   delta <- threshlow <= action-proficiency &
+##             action - proficiency <= threshhigh
+  diff <- sweep(proficiency,2,action)
+  delta <- sweep(diff,2,tlow,">=") & sweep(diff,2,thigh,"<=")
+    ##   q0 * prod(q1^(1-delta))
+  ## Need to transpose matrix to get rows varying fastest
+  print(qq1^(1-t(delta)))
+  qq1 <- apply(qq1^(1-t(delta)),2,prod)
+  outer(qq1,qq0,"*")
+}
+```
+
+## Growth Model
+
+
+```{r Growth Model,echo=FALSE}
+inputPanel(
+  sliderInput("eta.mech", label = "Learning Rate Mechanics",
+              min=0, max=1, step=.01, value = .2),
+  sliderInput("eta.flue",label = "Learning Rate Fluency",
+              min=0, max=1, step=.01, value = .2),
+  sliderInput("gamma.mech", label= "ZPD weight Mechanics",
+              min=0, max = .5, step=.01, value=.1),
+  sliderInput("gamma.flue", label= "ZPD weight Fluency",
+              min=0, max = .5, step=.01, value=.15),
+  sliderInput("forget.mech", label= "Forget Rate Mechanics",
+              min=-.5, max = .5, step=.005, value=.02),
+  sliderInput("forget.flue", label= "Forget Rate Fluency",
+              min=-.5, max = .5, step=.005, value=.01)
+)
+## Constant term in learning rate
+eta <- reactive(c(Mechanics=input$eta.mech,
+                  Fluency=input$eta.flue))
+## Zone of Proximal Development term in learning rate
+gamma <- reactive(c(Mechanics=input$gamma.mech,
+                    Fluency=input$gamma.flue))
+
+## Constant parameters of the learning process
+
+forgetRate <- reactive(c(Mechanics=input$forget.mech,
+                         Fluency=input$forget.flue))
+```
+
+```
+R(t) = (rTimediff*success + rTimeconst)*t
+```
+
+```{r rates, echo=FALSE}
+## R(t) = (rTimediff*success + rTimeconst)*t
+#rTimediff <- reactive(.9)
+#rTimeconst <- reactive(.1)
+inputPanel(
+  sliderInput("rtd", label = "Time difference in learning rate",
+              min=0, max=1, step=.01, value = .9),
+  sliderInput("rtc",label = "Time constant learning rate",
+              min=0, max=1, step=.01, value = .1)
+)
+rTimediff <- reactive(input$rtd)
+rTimeconst <- reactive(input$rtc)
+```
+
+## Variance of learning processes is sigma^2*t
+```{r sigma, echo=FALSE}
+inputPanel(
+  sliderInput("sig.Mech", label = "Learning Variance Mechanics",
+              min=0, max=.25, step=.005, value = .02),
+  sliderInput("sig.Flue",label = "Fluency Noise",
+              min=0, max=.25, step=.005, value = .02)
+)
+sigma <- reactive(c(Mechanics=input$sig.Mech,
+                    Fluency=input$sig.Flue))
+```
+
+
+```{r growth functions}
+
+## Calculates the increase rate based on current position
+## and selected action. 
+## Assumes proficiency is a matrix and action is a vector
+learnRate <- function(proficiency,action,
+                      Eta=eta(), Gamma=gamma()) {
+  if (!is.matrix(proficiency)) {
+    proficiency <- matrix(proficiency,1)
+  }
+#  eta - gamma*(proficiency-action)^2
+  lam <- sweep(proficiency,2,action)^2
+  sweep(-sweep(lam,2,Gamma,"*"),2,Eta,"+")
+}
+
+
+## This function calculates what happens between two lessons
+## The the Action arguments are assumed to vectors of the
+## form (Mechanics, Fluency).  The time argument should be a
+## scalar.  Success argument is optionally observed. 
+## The proficiency and success arguments should be matrixes
+## whose rows correspond to particles and have the
+## (Mechanics, Fluency) pattern.  
+lessonEffect <- function (proficiency, action, time=1,
+               success = runif(length(proficiency)) < 
+                   actionSuccessP(proficiency,action),
+               rtdiff=rTimediff(), rtconst=rTimeconst(),
+               sig=sigma(), fRate=forgetRate()
+               ){
+  print("Do Lesson")
+  if (!is.matrix(proficiency)) {
+    proficiency <- matrix(proficiency,1)
+  }
+  if (!is.matrix(success)) {
+    success <- matrix(success, nrow(success),
+                      ncol(success), byrow=TRUE)
+  }
+  print(success)
+  rehearsal <- (rtdiff*success+rtconst)*time
+  print(rehearsal)
+  lambda <- learnRate(proficiency,action)
+  print(lambda)
+  sigmat <- sig*sqrt(time)
+  proficiency1 <- proficiency + lambda*rehearsal - fRate*time 
+  proficiency1 <- proficiency1 +
+    matrix(rnorm(length(proficiency))*sigmat,
+           nrow(proficiency),ncol(proficiency), byrow=TRUE)
+  proficiency1 <- ifelse (proficiency1 < 0, 0, proficiency1)
+  proficiency1 <- ifelse (proficiency1 > 6, 0, proficiency1)
+  list(success=success,proficiency=proficiency1)
+}
+
+lessonEffectPreq <- function (proficiency,action,time=1,
+               success = runif(length(proficiency)) <
+                     actionSuccessP(proficiency,action),
+               ...
+               ){
+  result <- lessonEffect(proficiency,action,time,
+                         success,...)
+  prof <- result$proficiency
+  # Prof 1 is pre-req for Prof 2
+  result$proficiency[,2] <- ifelse(prof[,1]>prof[,2],
+                                   prof[,2],prof[,1])
+  result
+}
+
+
+```
+
+
+### Evidence Model
+
+```{r em}
+## Regression coefficients for multivariate regression.
+evalA <- reactive(matrix(c(.7,.3,.3,.7),2,2))
+## Noise std for multivariate regression.
+evalSig <- reactive(c(.65,.65))
+```
+
+```{r em functions}
+## This function takes the proficiency expressed as a vector
+## (Mechanics, Fluency) and generates a random lesson value.
+evalLesson <- function(proficiency, eA=evalA(), eSig=evalSig()) {
+  result <- proficiency %*% eA
+            + rnorm(length(eSig))*eSig
+  result <- round(2*result)/2
+  result <- ifelse((result < 0),0,result)
+  result <- ifelse((result > 6),6,result)
+}
+```
+
+
+## Policies
+
+## Estimation Functions
+
+```{r estfun}
+
+## Estimate current position by a running average of last
+## three observables.  Note that action and success history
+## are passed so we can use particle filter type estimators.  
+## obs, est, act, and success are assumed to be matrixes
+## with rows representing time points and columns
+## representing variables.  Values for not yet reached time
+## points are assumed to be NA. 
+runlen <- reactive(3)
+raveEstimator <- function(obs,est,act,suc,runlen=runlen()) {
+  nobs <- sum(!is.na(obs[,1]))
+  if (nobs == 1) return(obs[1,])
+  if (nobs < runlen) {
+    obs1 <- obs[!is.na(obs[,1]),]
+  } else {
+    obs1 <- obs[(nobs-runlen+1):nobs,]
+  }
+  result <- apply(obs1,2,mean)
+  result <- ifelse((result < 0),0,result)
+  result <- ifelse((result > 6),6,result)
+  result
+}
+
+# This filter has two parameters
+filterAlpha <- reactive(.8)
+meanInnovation <- reactive (0)
+
+expFilter <- function (obs,est,act,suc,
+                       alpha = filterAlpha(),
+                       xi = meanInnovation()) {
+  nobs <- sum(!is.na(obs[,1]))
+  if (nobs == 1) return(obs[1,])
+  result <- alpha*obs[nobs,] + (1-alpha)*(est[nobs-1,]+xi)
+  result <- ifelse((result < 0),0,result)
+  result <- ifelse((result > 6),6,result)
+  result
+}
+  
+## Generates an action from a proficiency estimate
+## Simple policy which tries to match precisely with
+## estimate  
+floorPolicy <- function(estimate) {
+  floor(2*estimate)/2
+}
+
+
+###############################################
+## Revised Functions, taking pre-requisite effect into
+## account.  
+
+
+randomStudentPreq <- function(nstudents=1) {
+  nvar <- length(popMean)
+  z <- matrix(rnorm(nstudents*nvar),nstudents,nvar)
+  result <- sweep(z%*%popA,2,popMean,"+")
+  #result <- as.vector(popA%*%rnorm(length(popMean))) + popMean
+  result <- ifelse((result < 0),0,result)
+  result <- ifelse((result > 6),6,result)
+  # Prof 1 is pre-req for Prof 2
+  result[,2] <- ifelse(result[,1]>result[,2],
+                       result[,2],result[,1])
+  colnames(result)<-names(popMean)
+  result
+}
+
+
+## Variation on our naive estimator which takes the pre-req
+## condition into account
+raveEstimatorPreq <- function(obs,est,act,suc) {
+  result <- raveEstimator(obs,est,act,suc)
+  # Prof 1 is pre-req for Prof 2
+  result[2] <- ifelse(result[1]>result[2],
+                      result[2],result[1])
+  result
+}
+
+## Variation on our naive estimator which takes the pre-req
+## condition into account
+expFilterPreq <- function(obs,est,act,suc,alpha=filterAlpha(),
+                          xi=meanInnovation()) {
+  result <- expFilter(obs,est,act,suc,alpha,xi)
+  # Prof 1 is pre-req for Prof 2
+  result[2] <- ifelse(result[1]>result[2],
+                      result[2],result[1])
+  result
+}
+```
+
+## Simulation
+
+# The Simulation
+
+## Simulation Parameters
+
+
+```{r sim param, echo=FALSE}
+inputPanel(
+  selectInput("N", label = "Number of Cycles:",
+              choices = (1:10)*5, selected = 10),
+  
+  numericInput("seed", label = "Random number Seed (integer)",
+              min = 0, max = .Machine$integer.max, 
+              value = floor(runif(1)*.Machine$integer.max), 
+              step = 157)
+)
+```
+
+
+
+```{r simulation}
+## ncycles -- number of cycles to simulate
+## estimator -- function used to estimate current student
+## level from observables.
+## policy -- function used to estimate next action from
+## estimate
+## evaluation -- function used to generate observables from
+## current proficiencies
+## advance -- function used to generate proficiencies at
+## next time step from current time step.  Note:  assume
+## that this returns a list of two values, success of action
+## and new proficiencies  
+## initial -- function to generate random initial starting
+## value for student.
+## cycletime --- time between measurements (could be scaler
+## or vector of length ncycles)
+simulation <- function(ncycles,estimator,policy,
+                       evaluation = evalLesson,
+                       advance = lessonEffect,
+                       initial = randomStudent,
+                       cycletime=1) {
+  proficiency <- do.call(initial,list())
+  nvar <- length(proficiency)
+  tnames <- paste("Time",0:ncycles)
+  print(tnames)
+  vnames <- colnames(proficiency)
+
+  
+  # We will fill these in as we go.
+  truth <- matrix(NA,ncycles+1,nvar,
+                  dimnames=list(tnames,vnames))
+  obs <- truth
+  est <- truth
+  act <- truth
+  suc <- truth
+  print(ncycles)
+  if (length(cycletime) == 1) {
+    cycletime <- rep(cycletime,ncycles)
+  }
+  ## Last cycle is stub only
+  cycletime <- c(cycletime,0)
+
+  # Now we start the simulation
+  for (icycle in 1:ncycles) {
+    print(icycle)
+    truth[icycle,] <- proficiency
+    print("Observed")
+    observed <- do.call(evaluation,list(proficiency))
+    obs[icycle,] <- observed
+    print("Estimate")
+    estimate <- do.call(estimator,list(obs,est,act,suc))
+    est[icycle,] <- estimate
+    print("Action")
+    action <- do.call(policy,list(estimate))
+    act[icycle,] <- action
+    print("Result")
+    result <- do.call(advance,
+                      list(proficiency, action,
+                           time=cycletime[icycle])) 
+    str(result)
+    suc[icycle,] <- result$success
+    
+    proficiency <- result$proficiency
+
+  }
+  print("Last Obs")
+  truth[ncycles+1,]<-proficiency
+  observed <- do.call(evaluation,list(proficiency))
+  obs[ncycles+1,] <- observed
+  sim <- data.frame(cycle=0:ncycles,truth,obs,est,act,suc,cycletime)
+  nsim <- c("cycle",paste("true",vnames,sep="."))
+  nsim <- c(nsim,paste("obs",vnames,sep="."))
+  nsim <- c(nsim,paste("est",vnames,sep="."))
+  nsim <- c(nsim,paste("act",vnames,sep="."))
+  nsim <- c(nsim,paste("suc",vnames,sep="."))
+  nsim <- c(nsim,"cycletime")
+  names(sim) <- nsim
+  sim
+}
+
+
+simdat <- reactive({input$seed;simulation(as.numeric(input$N),
+                                          expFilter,floorPolicy)})
+DT::renderDataTable(simdat())
+```
+
+
+```{r plot}
+cols <- c("true"="red","estimate"="purple","observed"="blue")
+value_type <- factor(c("true","estimate","observed"))
+shapes <- c("true"="asterisk", "estimate"="cross","observed"="triangle")
+
+renderPlotly({
+   plot <- ggplot(simdat(),aes(x=true.Mechanics,y=true.Fluency,frame=cycle)) +
+     geom_point(aes(x=true.Mechanics,y=true.Fluency, shape=value_type[1], colour = value_type[1], size=5)) +
+     geom_point(aes(x=obs.Mechanics,y=obs.Fluency, shape=value_type[3], colour = value_type[3], size=5)) +
+   geom_point(aes(x=est.Mechanics,y=est.Fluency, shape=value_type[2], colour = value_type[2], size=5)) +
+     scale_shape_manual(values=shapes) +
+     scale_color_manual(values=cols)
+   ggplotly(plot)
+})
+  
+```

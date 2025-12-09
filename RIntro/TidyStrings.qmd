@@ -1,0 +1,55 @@
+---
+title: "String Hacks"
+output: html_notebook
+---
+
+Tidyverse contains the stringr package.
+
+```{r}
+library(tidyverse)
+```
+
+## Making file names.
+
+```{r}
+str_c("data",1:3,".csv")
+str_c("dir","subdir","file.ext",sep="/")
+file.path("dir","subdir","file.ext")
+```
+
+## Regular expressions.
+```{r}
+x <- c("apple", "banana", "pear")
+str_view(x, "an")
+str_view(x, "an") -> foo
+foo
+```
+## Match strings exactly 3 characters long.
+
+```{r}
+exp <- c("a","aa","aaa","aaaa","aaaaa")
+str_view(exp,"^...$")
+
+```
+
+## Challenge problem
+
+The answer to a stat question is $t = -.876$.  Suppose that the answer is to be counted correct:
+* No matter how many digits the person has.
+* No matter whether or not the person put a leading zero.
+* No matter whether or not the person included the minus sign.
+* Does not count rounding errors.
+
+Write a regular expression that matches a character string (consisting of numbers) which "scores" this example.
+
+```{r}
+posex <- c("-.876","-.88", "-.9","-0.9","-0.876",
+             ".876",".88", ".9","0.9","0.876",
+             ".87",".8","- 0.9")
+negex <- c("-.54",".33",".888","-1.876")
+str_detect(posex,".876?")
+str_detect(negex,".876?")
+
+
+```
+

@@ -1,0 +1,85 @@
+---
+title: "Central Limit Theorem"
+author: "Russell Almond"
+date: "September 8, 2020"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Pick a distribution:
+* Uniform -- platykurtic
+* Binomial -- symmetric and mesokurtic
+* Exponential -- highly skewed
+* Gamma (shape = 3) -- skewed
+* T (df =3) -- high kurtosis
+
+Slide the sample size up and down, notice how the empirical distribution function and histogram coverge to the normal distribution function and density.
+
+```{r DistConv, echo=FALSE}
+nmax <- 1000
+mmax <- 100
+rdist <- list(Uniform=runif,
+              Binomial= function(n) rbinom(n,1,.5),
+              Exponential = rexp, 
+              Gamma = function(n) rgamma(n,3),
+              "T" = function(n) rt(n,3))
+
+inputPanel(
+  selectInput("dist",label="Distribution Type",
+              choices=c("Uniform","Binomial","Exponential","Gamma","T"),
+              selected="Unifor"),
+   sliderInput("NN", label = "Number of Samples:",
+              min = 25, max=nmax, value=nmax, step=5),
+  sliderInput("MM",label="Size of each sample:", min=1, max=mmax,value=1,step=1)
+
+)
+
+XX <- reactive(matrix(do.call(rdist[[input$dist]],list(nmax*mmax)),nmax,mmax))
+
+renderPlot({
+  layout(matrix(1:4,2,2))
+  X1 <- XX()[1:input$NN,1]
+  Xmean <- rowMeans(XX()[1:input$NN,1:input$MM,drop=FALSE])
+
+  hist(X1,main="Average of sample of size 1",probability=TRUE)
+  curve(dnorm(x,mean(X1),sd(X1)),add=TRUE,lty=2,col="red")
+
+  qqnorm(X1,main="Average of sample of size 1")
+  qqline(X1)
+
+  hist(Xmean,
+       main=paste("Average of sample of Size",input$MM),probability=TRUE)
+  curve(dnorm(x,mean(Xmean),sd(Xmean)),add=TRUE,lty=2,col="red")
+
+  qqnorm(Xmean,main=paste("Average of sample of Size",input$MM))
+  qqline(Xmean)
+  
+  
+  
+})
+```
+
+The left column shows the original distribution.  (I call that the _black hat_ in my CLT demo.)
+
+The right column shows the distribution of means of size $M$ (adjusted with the second slider).  (This is the _white hat_ distribuiton, and $M$ is the number of cards averaged to get the white hat value.)  
+
+The top row shows histograms with a normal curve on top.
+
+The bottom row shows a QQ-plot.  This shows how much the sample is different from a normal distribution.  A normal distribution should be right on top of the diagonal line.  
+
+* A U-shaped curve indicates skewness (and an upside down U is negatively skewed).  Try the exponential distribution.
+
+* An S-shaped curve indicates high kurtosis (a backwards S, low kurtosis)  Try the Student-t and Uniform distributions.
+
+As $M$ (the number of cards averages to get to the white hat) gets bigger, the distribution should get closer and closer to the normal distribution.
+
+## Take home
+
+* Even if the underlying data aren't normal, the distribuiton of the means of various groups should be close to normal.
+
+* Close depends on the sample size.
+
+* A bigger sample is needed if the data are highly skewed (expontential and gamma) or leptokurtic (exponential and Student t).

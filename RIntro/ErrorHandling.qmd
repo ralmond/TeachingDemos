@@ -1,0 +1,66 @@
+---
+title: "Error Handling in R"
+output: html_notebook
+---
+
+Let's start by making an error.
+
+```{r}
+plot(c00rs)
+```
+
+```{r}
+plotit <- function (x)
+  plot(x)
+
+plotit(c00rs)
+```
+```{r}
+scaleme <- function (x, sf) {
+  x/sqrt(sf)
+}
+scaleme(1:10,-3)
+```
+```{r}
+scaleme <- function (x, sf) {
+  if (!is.numeric(sf) || sf <= 0) 
+    stop("Expected sf to be a positive number, got ", sf)
+  x/sqrt(sf)
+}
+scaleme(1:10,-3)
+```
+```{r}
+scaleme <- function (x, sf) {
+  if (!is.numeric(sf) || sf <= 0) 
+    warning("Expected sf to be a positive number, got ", sf,"\n")
+  x/sqrt(sf)
+}
+scaleme(1:10,-3)
+```
+
+Setting 
+- options(warn=0) -- Print warnings at end of function.
+- options(warn=1) -- Print warnings as they happen
+- options(warn=2) -- Stop on warnings
+
+```{r}
+options(warn=1)
+scaleme(1:10,-3)
+
+```
+
+```{r}
+options(warn=2)
+scaleme(1:10,-3)
+
+```
+```{r}
+scaleme <- function (x, sf) {
+  if (!is.numeric(sf) || sf <= 0) {
+    warning("Expected sf to be a positive number, got ", sf,"\n")
+    recover()
+  }
+  x/sqrt(sf)
+}
+scaleme(1:10,-3)
+```

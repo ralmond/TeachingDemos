@@ -1,0 +1,429 @@
+---
+title: "Arrays, Matrixes and Data Frames"
+output: html_notebook
+author:  Russell Almond
+---
+# R Objects containing data
+
+* Vector -- ordered collection of objects of the same storage `mode` (`[` extract)
+  + Named Vector -- adds a `names` attribute (Can use names in subscripts)
+  + Matrix, Array -- adds a `dim` and `dimnames` attribute
+* List -- ordered collection of objects of any type or mode (`[[` extract)
+  + Named List -- add `names` attribute (Can use `$` to extract elements)
+  + S3 Class -- adds a `class` attribute
+  + data.frame -- a list of columns in a spreadsheet.  Uses (`[` extract).
+* S4 Class -- formal class mechanism.  Uses `@` instead of `$`.
+
+### Storage modes.
+
+The mode funciton in R refers to storage modes, not the mode of a distribution.
+
+
+```{r}
+
+mode(123)
+mode(123L)
+mode(TRUE)
+mode("True")
+mode(3.14)
+mode(t)
+
+?mode
+
+```
+
+The `as.XXX` and `is.XXX` functions can be used to convert between different types.
+
+```{r}
+is.integer(3)
+is.integer(3L)
+as.integer(3)
+is.integer(as.integer(3))
+as.integer("three")
+as.character(3)
+as.logical(3)
+```
+
+
+
+## Implicit Looping in Vectors
+
+All R objects are vectors:  scalars in R are vectors of length 1.
+```{r}
+cat("The output will start with '[1]' to show that this is a vector.\n")
+3.14159  
+```
+
+R implicitly loops over all the elements of a vector.  Such implicit loops are faster than explicit `for` loops.
+```{r}
+1:11
+mean(1:11)
+y <- (1:11 - mean(1:11))/sd(1:11)
+mean (y)
+sd(y)
+
+```
+
+### Making vectors
+
+The `:` operator produces sequences (of integers) between first and second argument.
+
+```{r}
+1:3
+3:1
+-1:1
+-3:-1
+```
+The `c()` function can be used to glue vectors together.  (`c` stands for combine)
+```{r}
+c(1:3, 10:12)
+c("Haenzel", "Greatel", "Tedd","Alice")
+```
+
+### Random vectors
+
+R has a number of built in random number generators to generate random numbers.  The most commonly used are `runif`, `rnorm` and `sample`.  There are also many others, with names that look like `rXXX` (try substituting chisq, t, beta, gamma, &c for XXX).
+
+```{r}
+
+runif(5)
+rnorm(10)
+sample.int(5,5,replace=TRUE)
+
+```
+
+### Exercises
+
+1. Generate 100 random numbers with mean 50 and standard deviation 25.
+
+```{r}
+
+```
+
+1a.  Use the result of the previous question to generate a random sample of size 101 with one outlier of 200.
+
+```{r}
+
+```
+
+2. Generate random integers between 0 and 100
+
+```{r}
+
+```
+3. The variable `state.area` contains the areas of the 50 US states (in alphabetical area).  Create a random sample of size 10 of the state areas.
+
+```{r}
+
+```
+
+
+
+## Three ways of subscripting an array
+
+The `[]` operator is used to subscript vectors.  There are three different things you can put inside of the brackets:  numbers, logical expressions and names (character values).
+
+### Numeric Indexes
+
+Numbers are the most straightforward way to do indexing.  R starts the
+indexes at 1 and it goes up to the length of the vector.  The function
+``length()` is useful in writing indexes.  Giving multiple indexes
+with return a sub-vector (remember, there are not scalars in R, just
+vectors of length 1). 
+
+```{r}
+
+int10 <- 1:10
+int10[3]
+int10[c(5:7,9)]
+state.area[c(1,length(state.area))]
+```
+Another useful trick is to use negative indexes.  These leave the numbered varaibles out.
+
+```{r}
+int10[-2]
+int10[-(3:8)]
+```
+Indexing expressions can also be used on the LHS of assignment operators, to allow to assignment to just certain values.
+```{r}
+int10[3] <- -3
+int10
+```
+
+### Logical Indexes
+
+The second option for indexing is to use a logical vector the same length as the vector you are indexing.  
+
+```{r}
+int10<0
+int10[int10<0]
+int10[int10<0] <- abs (int10[int10<0])
+int10
+```
+Be careful with NAs.
+```{r}
+int55 <- -5:5
+sqrt(int55) < 1.2
+int55[sqrt(int55) < 1.2]
+```
+The real power of logical indexes comes when we have two vectors of the same length.  For example, `state.abb` gives the two letter postal codes of the states.  Suppose we wanted to see all of the states that are bigger than average:
+
+```{r}
+state.abb[state.area>median(state.area)]
+```
+
+### Asside:  `ifelse` and `if`
+
+The built in langauge primitive `if` is **not** vectorized.  It is expecting a single value.  The code below will not do what you think it will.
+```{r}
+if (int55 < 0) {
+  cat("Negative.\n")
+} else { 
+  cat("Non-negative.\n")
+}
+```
+The functions `any()`, `all()` and `isTRUE()` are often useful here.
+```{r}
+if (all(int55 >0)) {
+  cat("Positive.\n")
+} else { 
+  cat("Not all positive.\n")
+}
+```
+The function `ifelse()` can be used to loop over if-else expressions.  There are two differences.  First the condition is a logical vector.  Second, both the if-true and if-false argument are always evaluated, so they better not generate an error!
+
+```{r}
+ifelse(int55<0, "-","+")
+```
+
+### Names and character indexes
+
+It would be really convenient if we could access the state data by name.  Florida is the `r which(state.abb=="FL")` state alphabetically, but I can't remember that.
+
+What we can do is add names to a vector.  Then we can select by name.
+
+```{r}
+names(state.area) <- state.abb
+head(state.area)
+head(names(state.area))
+state.area["FL"]
+state.area[c("NY","CA")]
+```
+     
+Sometimes we need to make up names.  The `paste()` command is handy for that.  It is vectorized, so you can put a bunch of numbers in.
+```{r}
+paste("Student",1:5,sep="_")
+```
+
+### Exercises
+
+4.  Write an expression that removes the outlier from the data you generated for 1b.
+
+```{r}
+
+```
+
+5.  Suppose the data you generated for problem 1 was suppose to have a minimum score of 0 and a maximum score of 100.  Fix, the data set so that all of the values are between 0 and 100.
+
+```{r}
+
+```
+
+6. Fix my positive/negative test, so that it has a 0 as well
+```{r}
+
+```
+7. Find all of the states that are bigger than Florida.
+```{r}
+
+```
+8. Generate a bunch of random integers between -10 and 10.  Then turn all negative integers into NA.
+```{r}
+
+```
+
+# Maxtries and Arrays
+
+## Matrixes and Arrays are vectors with a `dim` attribute
+
+* A matrix is an object with rows and columns.  
+
+* An array can have any number of dimensions.
+
+* But they all the entries need to be the same type (mode).  
+
+* There is a `dim()` attribute which shows the dimensions of the matrix.
+
+```{r}
+dim(state.x77)
+head(state.x77)
+```
+
+
+### getting and setting dims
+
+The `dim()` function is used to access the number of rows and columns. `dim()[1]` gets the number of rows and `dim()[2]` the number of columns.
+
+For maxtrixes, the functions `nrow()` and `ncol()` are easier to use.
+
+Setting `dim()` will reset a vector into a matrix or array.
+```{r}
+nrow(state.x77)
+ncol(state.x77)
+int12 <- 1:12
+dim(int12) <- c(3,4)
+int12
+```
+### `matrix()` and `array()` functions
+
+* Setting the `dim()` attribute directly is not recommended (makes for hard to read code).
+
+* Instead use `matrix()` or `array()`
+
+* R stores matrixes in row major order (like FORTRAN, not like c).  
+    + Use `byrow=TRUE` to reverse this in `matrix` or `array`
+    
+```{r}
+matrix(1:12,3,4)
+matrix(1:12,3,4,byrow=TRUE)
+array(1:24,c(2,3,4))
+```
+
+
+## numeric and logical indexes
+
+For matrixes and arrays, the `[]` operator does something a little bit different.  In particular, `x[i,j]` picks out row $i$ and column $j$.  Either the row or column selector could be
+
+* A number or vector of numbers (pick those rows or columns)
+* A negative number of vector of negative numbers (excluded those rows or columns)
+* A logical vector of size `nrow(x)` or `ncol(x)` (select the rows/columns corresponding to true).
+* A character vector (select rows or columns by name, see below).
+* Left blank, in which case all rows/columns are selected.
+
+If a single row or column is selected, then it turns into a vector.
+
+```{r}
+state.x77[1:5,1:5]
+state.x77[1:5,]
+state.x77[9,]
+dim(state.x77[9,])
+head(state.x77[,3])
+state.x77[9,,drop=FALSE]
+dim(state.x77[9,,drop=FALSE])
+```
+
+## `dimnames` and character indexes
+
+To use character indexes with matrixes, we need to set the `rownames()` and `colnames()` of the matrix.  
+We can also use the `dimnames()` (although this will produce a list).
+
+```{r}
+rownames(state.x77)
+colnames(state.x77)
+dimnames(state.x77)
+rownames(state.x77) <- state.abb
+head(state.x77)
+```
+## Row and column sums and averages
+
+Remember that a matrix is just a vector with a `dim` attribute.  Consequently, `mean` and other summary functions don't do what we want:
+
+```{r}
+mean(state.x77)
+sd(state.x77)
+var(state.x77)
+cor(state.x77)
+```
+
+Taking row and column sums are such a frequent operation, that there is a shortcut for them:  `rowSums()`, `colSums()`, `rowMeans()`, `colMeans()`
+
+```{r}
+colMeans(state.x77)
+```
+
+## Apply and Sweep
+
+The `apply()` operator can turn any summary function into a row or column function.  
+```{r}
+help(apply)
+```
+The MARGIN argument to apply should be 1 for rows, 2 for columns and so forth for generaly arrays.  
+
+```{r}
+int12
+apply(int12,1,max)
+apply(int12,2,max)
+```
+
+The `sweep` operator "subtracts" a vector from all of the rows or columns of the matrix.
+
+"Subtracts" is in quotes because actually any operator can be used here.  Subtracts "-" and divides "/" are the most common.
+```{r} 
+help(sweep)
+row.min <- apply(int12,1,min)
+sweep(int12,1,row.min,"/")
+col.min <- apply(int12,2,min)
+sweep(int12,2,col.min,"-")
+```
+
+## Exercises:
+
+9. Find the population for all states whose area is bigger than Florida's.
+
+```{r}
+
+```
+
+10. Calculate the population density (population per area) for each state
+
+```{r}
+
+```
+
+11. Turn the state.x77 data into z-scores by subtracting the column means and dividing by the column standard deviations.
+
+```{r}
+
+```
+12. Scale the state.x77 data from 0 (minimum in the column) to 1 (maximum in the column).
+```{r}
+
+```
+
+# Lists
+
+## Single `[` and double `[[` extraction
+
+## Named Lists and `$` extraction
+
+## `lapply` and `sapply` for looping through lists
+
+## Classes as list with special behavior
+
+### Generic functions and methods
+
+### 'factor' and 'ordered' classes
+
+#### S4 classes vs S3 classes
+
+# Data frame
+
+A data frame is a list that behaves like a matrix.
+
+Different columns can have different classes.
+
+Data frame coerces character values to factors.
+
+## data.frame() and read.table()
+
+## Matrix-like behaior -- Using `[` subscripts
+
+
+### apply, rownames, colnames and colsum and rowsum
+
+## List-like behavior -- Using `[[` and `$` subscripts
+
+## names, lapply and sapply
+
+## as.matrix and as.data.frame
+

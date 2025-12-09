@@ -1,0 +1,97 @@
+---
+title: "Effect Size Calculator"
+author: "Russell Almond"
+date: "2019-01-26"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+If the units of a test are well known, the size of an effect is pretty easy to understand.  For example, if a study found that on average, people on this diet lost about 5 lbs (2.5 kg) in a week, most people would know what that means.
+
+In many other cases, the size of the statistic depends on the measure used to determine it.  For example, if a researcher finds that students on average gain 5 points on a math test after playing a mathematical game, is that a big gain or a small gain?  Unlike the weight loss experiment, we don't have the experience with that test to judge.
+
+There are a number of measures that can be used to put the size of the effect into perspective.  Jacob Cohen proposed dividing the difference by the population standard deviation:
+$$ d = \frac{\mu_1 - \mu_0}{\sigma} .$$
+This has the advantage of putting things on a readily apparent scale.  So, suppose in the example of the math game above, the effect size was $d=.1$.  If the game was just a short thing that took an hour, that would be a pretty big deal.  On the other hand, if the students needed to play all year to get that effect, it might not be so good.
+
+
+## Simple Case -- One Group
+
+When we are looking at a single group, the definition of the effect size is fairly simple.  The single variable usually is a difference score; e.g., *posttest - pretest*.  The standard deviation of interest is the standard deviation of the population of difference scores (estimated by the sample).
+
+```{r effect size, echo=FALSE}
+inputPanel(
+  numericInput("mn", label = "Mean Difference:",value=0,width=130),
+  
+  numericInput("sd", label = "Standard Deviation of Difference:",value=1,
+              min = 0, width=130)
+)
+
+h3(renderText({
+ paste("Effect size = ",round(input$mn/input$sd,2))
+}))
+```
+
+## Complex Case -- Two Groups
+
+Conceptually, the two group case is just as simple.  The numerator is the difference between the group means.  The denominator is the standard deviation of the population.  There is a problem:  we don't have one population, we have two:  Group 1 and Group 2.  What to do?
+
+The answer is to take an average.  Actually, we take the average of the variances, and then take the square root.  There is one further complication, the two groups might have different sizes.  In this case, we take a weighted average, weighting by the degrees of freedom (sample size -1).  Here is the formula:
+$$ \sigma^2_{pooled} = \frac{(N_1 -1)\sigma^2_1 +(N_2 -1)\sigma^2_2}{N_1+N_2-1} ,$$
+take the square root of that to get the standard deviation.
+
+Although one could calculate that by hand, the calculator below will do the job for you, and then calculate the effect size at the same time.  Note that the pooled SD should always be in between the SDs of group 1 and group 2.  For a rough and ready estimate, you could just take the number halfway between the two.
+
+
+```{r effectSize2a, echo=FALSE}
+inputPanel(
+  fluidRow(column(6,"Statistics for Group 1 (experimental/focal)",
+                    numericInput("mn1", label = "Mean:",value=0,width=230),
+                    numericInput("sd1", label = "SD:",value=1,min = 0, width=230),
+                    numericInput("N1",label="N:",value=5,min=0,step=1,width=230)),
+           column(6,"Statistics for Group 2 (control/reference)",
+                    numericInput("mn2", label = "Mean:",value=0,width=230),
+                    numericInput("sd2", label = "SD:",value=1,min = 0, width=230),
+                    numericInput("N2",label="N:",value=5,min=0,step=1,width=230))
+  )
+                    
+)
+```
+
+```{r effectSize2b, echo=FALSE}
+h3(renderText({
+  mdiff <- input$mn1-input$mn2
+  spooled <- sqrt(((input$N1-1)*input$sd1^2+(input$N2-1)*input$sd2^2)/
+    (input$N1+input$N2-2))
+ paste("Mean difference = ", round(mdiff,2), ", Pooled SD = ", round(spooled,3),
+      ", Effect size = ",round(mdiff/spooled,2))
+}))
+```
+
+If you want to do these calculations away from the internet, you can download this Excel spreadsheet which has the formula baked in:
+https://pluto.coe.fsu.edu/effectSize_d.xls
+
+### How big is big?  Cohen's guide to effect sizes.
+
+Really, the answer is entirely discipline specific.  In Physics, it is quite common to be able to exert large forces and to measure very accurately, and hence be able to get very large effect sizes.  In the social sciences and education, it often hard to control all of the variables that might affect the outcome, so the typical effect sizes are quite small.
+
+Jacob Cohen presented a guideline for use in power analyses.  This was really just for when you had no idea of what the size of the effect would be.  He suggested:
+
+| Effect | *d* |
+|--------|----|
+| Small  | .2 |
+| Medium | .5 |
+| Large  | .8 |
+
+
+However, these are really not designed for interpreting effects.  There instead, you should compare to what other similar interventions are achieving.
+
+Dylan Wiliams suggests that for educational applications, you might try dividing by the effect size of a year's growth for that grade level.  This changes rapidly with 1st graders growing nearly 2 SDs while a years worth of growth for a high school student is closer to .5 SDs.  In high school, an effect size of .25 would be half a years growth, which is considerable.
+
+(Of course to measure small effects, you also need a very sensitive instrument, which in education means a longer test; the cost of testing is often prohibitive.)
+
+

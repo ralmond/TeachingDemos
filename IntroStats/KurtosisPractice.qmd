@@ -1,0 +1,161 @@
+---
+title: "Kurtosis Practice"
+author: "Russell Almond"
+date: "February 23, 2019"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(lattice)
+```
+
+```{r parameters, echo=FALSE}
+distlist <-list(
+platykurtic = list("Uniform"=runif,
+  "Mixture of normals (different means)"=
+    function (n)
+      ifelse(runif(n)<.5,rnorm(n,-1),
+               rnorm(n,1)),
+  "beta(1.5,1.5" =  function (n)
+    rbeta(n,1.5,1.5)),
+leptokurtic = list("t(df=5)"=function(n) rt(n,5),
+                "Mixture of normals (different sds)"=
+                  function (n)
+       ifelse(runif(n)<.25,rnorm(n,0,3),
+               rnorm(n,0,1)),
+       "Exponential" = rexp),
+mesokurtic = list("normal"=rnorm, 
+                  "Wiebul(2,2)"= function (n)
+                    rweibull(n,2,2),
+                  "Binomial(.45,10)"=function(n)
+                    rbinom(n,10,.45)))
+
+longnames <- c("Platykurtic (flat)"="platykurtic",
+               "Leptokurtic (heavy tails)"="leptokurtic",
+               "Mesokurtic (normal)"="mesokurtic")
+## Initial draw, so that we have some starting values.
+key <- 
+{
+  ## Randomly permute the types.  
+  key <- sample(names(distlist),length(distlist))
+  ## Label from A -- C (or whatever)  
+  names(key) <- sapply(1L:length(key),
+       function (i)
+         intToUtf8(utf8ToInt("Z")-length(key)+i))
+  key
+}
+kdist <- 
+{
+    # draw random distribution for each plot
+    sapply(key, function (r)  
+        sample(names(distlist[[r]]),1L))
+}
+
+```
+
+## Kurtosis Determination Exercise.
+
+In this exercise, the computer will generate 3 datasets:  X, Y and Z.  These will be randomly assigned to high (leptokurtic), medium (mesokurtic) and low (platykurtic) distributions. A normal curve is drawn over the top for reference.
+
+You can redraw from the same distributions by changing the sample size.
+```{r stacked hist, echo=FALSE}
+inputPanel(
+  selectInput("nn", label = "Sample Size:",
+              choices = c(50, 100, 500, 1000), selected = 100))
+#  actionButton("go","Redraw"))
+
+# key <- eventReactive(input$go,
+# {
+#   ## Randomly permute the types.  
+#   key <- sample(names(distlist),length(distlist))
+#   ## Label from A -- C (or whatever)  
+#   names(key) <- sapply(1L:length(key),
+#        function (i)
+#          intToUtf8(utf8ToInt("A")-1L+i))
+#   key
+# })
+# kdist <- eventReactive(input$go,
+# {
+#     # draw random distribution for each plot
+#     sapply(key, function (r)  
+#         sample(names(distlist[[r]]),1L))
+# })
+
+
+
+renderPlot({
+    ## Draw random data 
+    nn <- input$nn
+    if (length(nn) != 1L) nn <- 100
+    kdat <- lapply(names(key), function (k) {
+    x <-do.call(distlist[[key[k]]][[kdist[k]]],
+                list(input$nn))
+      scale(x,(min(x)+max(x))/2,(max(x)-min(x)))*100+50
+  })
+  names(kdat) <- names(key)
+  kdat <- as.data.frame(rev(kdat))
+  
+  histogram(reformulate(termlabels = names(kdat)), 
+                        data = kdat,
+          xlab = "X", type = "density",
+          panel = function(x, ...) {
+              panel.histogram(x, ...)
+              panel.mathdensity(dmath = dnorm, col = "black",
+                                args = list(mean=mean(x),sd=sd(x)))
+          }, layout=c(1,3),
+          scales=list(y=list(draw=FALSE)))
+})
+
+```
+### Which is which?
+
+Identify the kurtosis of each distribution.
+```{r questions, echo=FALSE}
+
+do.call(inputPanel,
+         lapply(names(key), function (k)
+                selectInput(k, label=k,
+                  choices=c(Unknown="unknown", 
+                           longnames),
+                  selected="unknown")))
+
+h4("Answers:\n")
+renderTable({
+  answer <- sapply(names(key),
+   function (k) {
+      if (length(input[[k]]) != 1L || input[[k]]=="unknown") {
+        "Make your selection.\n"
+      } else {
+        paste(ifelse(input[[k]]==key[k],
+                     "Correct:", "Incorrect:"),
+              "Distribution was",kdist[k],
+               "(",
+        names(longnames)[grep(key[k],longnames)],
+               ")\n")
+    }})
+  names(answer) <- names(key)
+  as.data.frame(answer)
+}, colnames=FALSE,rownames=TRUE)
+
+```
+
+To try again with different distributions, reload the page.  If you are having trouble, try increasing the sample size:  sometimes a small sample won't display the characteristics of the distribution strongly.
+
+Here are the other exercises in this series:
+
+* Skewness Practice:
+   + [Histograms](SkewnessPractice.Rmd)
+   + [Boxplots](SkewnessBoxplot.Rmd)
+   + [Q-Q Plots](SkewnessQQ.Rmd)
+
+* Kurtosis Practice:
+   + [Histograms](KurtosisPractice.Rmd)
+   + [Boxplots](KurtosisBoxplots.Rmd)
+   + [Q-Q Plots](KurtosisQQ.Rmd)
+
+
+
+
+

@@ -1,0 +1,729 @@
+---
+title: "Working With R Data"
+author: "Russell Almond"
+date: "9/4/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Objectives
+
+At the end of this lesson you should be able to
+
+* Make vectors in R
+* Access parts of the vector using the `[]` operator.
+  + Numeric Indexes
+  + Negative Indexes
+  + Logical Indexes
+  + Character Indexes
+* Check types of object using `is` and `mode` functions.
+* Convert types of object using `as` functions.
+* Access names elements of lists using `$`.
+* Access elements, row and columns of matrixes using `[,]`
+* Convert between data frames and matrixes
+* Read and write data frames using `read.csv` and `write.csv`.
+
+This lesson covers the traditional R way of doing things.  The next
+lesson will show tidyverse alternatives.
+
+# R Objects containing data
+
+## Basic R Container objects
+
+* Vector -- ordered collection of objects of the same storage `mode` (`[` extract)
+  + Named Vector -- adds a `names` attribute (Can use names in subscripts)
+  + Matrix, Array -- adds a `dim` and `dimnames` attribute
+* List -- ordered collection of objects of any type or mode (`[[` extract)
+  + Named List -- add `names` attribute (Can use `$` to extract elements)
+  + S3 Class -- adds a `class` attribute
+  + data.frame -- a list of columns in a spreadsheet.  Uses (`[` or
+    `$` to extract).
+  + tibble -- The tidyverse extension of a data frame.
+* S4 Class -- formal class mechanism.  Uses `@` instead of `$`.
+
+## Storage modes.
+
+The mode function in R refers to storage modes, not the mode of a distribution.
+
+
+```{r}
+
+mode(123)
+mode(123L)
+mode(TRUE)
+mode("True")
+mode(3.14)
+mode(t)
+
+?mode
+
+```
+
+* The `is.XXX` functions can be used to check the type (mode or class)
+  of an object.
+
+* The `as.XXX` functions can be used to convert between different types.
+
+```{r}
+is.integer(3)
+is.integer(3L)
+as.integer(3)
+is.integer(as.integer(3))
+as.integer("three")
+as.character(3)
+as.logical(3)
+```
+The most commonly seen modes are:
+
+* Numeric
+  + Real or double (the default)
+  + Integer (Putting an `L` after a number tells R that this should be
+    an integer.)
+  + Logical (`TRUE`/`T` or `FALSE`/`F`)
+* Character -- Each element of a character vector is a string.
+* Any -- A vector of anything is a list; thus, almost all R objects
+  are in fact vectors.
+  
+## Factors
+  
+* The `factor` and `ordered` classes also behave a lot like storage
+modes.  
+
+* Atucally,  they are R classes where the data values are integers
+and there is a special property which gives the names of the levels.
+
+* The built-in data value `state.region` is a factor.  
+
+*( The function `head()` lists the first 6 data points instead of all of them.)
+
+```{r factors}
+head(state.region)
+levels(state.region)
+head(as.integer(state.region))
+head(as.character(state.region))
+unclass(state.region)
+```
+
+* The values of a factor variable are just labels, 
+
+  + Numeric labels
+
+     - `as.integer()`
+
+  + String labels
+
+     - `as.character()`
+
+
+* The function `as.factor()` will force a numeric or character vector
+  into a factor. 
+
+  + R will just pick and arbitrary order (usually alphabetical) for
+  labels.
+
+  + Alphabetical ordering doesn't always work with `as.ordered().`
+    
+    - `High`,`Low`,`Medium`
+
+    + Use the function `ordered()` with more control over the
+levels.  
+
+```{r ordered}
+help(ordered)
+ofact <- ordered(c("H","M","H","L","M","H"),levels=c("L","M","H"))
+ofact
+
+```
+
+# Vectors
+
+All R objects are vectors:  scalars in R are vectors of length 1.
+```{r}
+cat("The output will start with '[1]' to show that this is a vector.\n")
+3.14159  
+```
+
+## Making vectors
+
+The `:` operator produces sequences (of integers) between first and second argument.  (The function `seq()` allows step sizes of other than one.)
+
+```{r}
+1:3
+3:1
+-1:1
+-3:-1
+```
+The `c()` function can be used to glue vectors together.  (`c` stands for combine)
+```{r}
+c(1:3, 10:12)
+c("Hansel", "Gretel", "Tedd","Alice")
+```
+
+### Implicit Looping
+
+R implicitly loops over all the elements of a vector.  Such implicit loops are faster than explicit `for` loops.
+```{r}
+1:11
+(1:11)/2
+mean(1:11)
+z <- ((1:11) - mean(1:11))/sd(1:11)
+z
+mean (z)
+sd(z)
+```
+
+
+### Random vectors
+
+* R has a number of built in random number generators to generate
+  random numbers.  
+  
+* The most commonly used are `runif`, `rnorm` and `sample`.  
+  
+  + Sample has a `replace` option to do sampling with or without
+    replacement. 
+    
+* There are also many others, with names that look like
+  `rXXX` (try substituting chisq, t, beta, gamma, &c for XXX). 
+
+```{r}
+
+runif(5)
+rnorm(10)
+sample.int(5,5,replace=TRUE)
+
+```
+
+### Exercises
+
+1. Generate 100 random numbers with mean 50 and standard deviation 25.
+
+```{r}
+
+```
+
+1a.  Use the result of the previous question to generate a random sample of size 101 with one outlier of 200.
+
+```{r}
+
+```
+
+2. Generate random integers between 0 and 100
+
+```{r}
+
+```
+3. The variable `state.area` contains the areas of the 50 US states (in alphabetical area).  Create a random sample of size 10 of the state areas.
+
+```{r}
+
+```
+
+## Three ways of subscripting a vector
+
+* The `[]` operator is used to subscript vectors.  
+
+* There are three different things you can put inside of the brackets:  
+
+  + numbers, 
+
+    - negative numbers (exclude values)
+  
+  + logical expressions 
+  
+  + names (character values). 
+
+
+### Numeric Indexes
+
+* Numbers are the most straightforward way to do indexing.  
+
+* R starts the indexes at 1 and it goes up to the length of the vector.  
+
+ + The function `length()` is useful in writing indexes.  
+
+* Giving multiple indexes with return a sub-vector (remember, there
+are no scalars in R, just vectors of length 1). 
+
+```{r}
+
+int10 <- 1:10
+int10[3]
+int10[c(5:7,9)]
+state.area[c(1,length(state.area))]
+```
+Another useful trick is to use negative indexes.  These leave the numbered variables out.
+
+```{r}
+int10[-2]
+int10[-(3:8)]
+```
+Indexing expressions can also be used on the LHS of assignment
+operators, to allow to assignment to just certain values. 
+
+```{r}
+int10[3] <- -3
+int10
+```
+
+### Logical Indexes
+
+The second option for indexing is to use a logical vector the same
+length as the vector you are indexing.   
+
+```{r}
+int10<0
+int10[int10<0]
+int10[int10<0] <- abs (int10[int10<0])
+int10
+```
+
+Be careful with NAs.
+
+```{r}
+int55 <- -5:5
+sqrt(int55) < 1.2
+int55[sqrt(int55) < 1.2]
+```
+
+The real power of logical indexes comes when we have two vectors of
+the same length.  
+
+For example, `state.abb` gives the two letter postal codes of the
+states.  Suppose we wanted to see all of the states that 
+are bigger than average: 
+
+```{r}
+state.abb[state.area>median(state.area)]
+```
+
+### Aside:  `ifelse` and `if`
+
+The built in language primitive `if` is **not** vectorized.  It is
+expecting a single value.  The code below will not do what you think
+it will. 
+```{r}
+if (int55 < 0) {
+  cat("Negative.\n")
+} else { 
+  cat("Non-negative.\n")
+}
+```
+The functions `any()`, `all()` and `isTRUE()` are often useful here.
+```{r}
+if (all(int55 >0)) {
+  cat("Positive.\n")
+} else { 
+  cat("Not all positive.\n")
+}
+```
+
+The function `ifelse()` can be used to loop over if-else expressions.
+
+* There are two differences from `if`.  
+
+  + First the condition is a logical vector.
+  
+  + Second, both the if-true and if-false argument are always evaluated,
+  so they better not generate an error! 
+
+```{r}
+ifelse(int55<0, "-","+")
+```
+```{r NAs}
+intA <- 1:10
+intA[3] <- -3
+A<- sqrt(intA)
+A
+mean(A)
+mean(A,na.rm=TRUE)
+```
+
+
+### Names and character indexes
+
+It would be really convenient if we could access the state data by
+name.  
+
+Florida is the `r which(state.abb=="FL")` state alphabetically, but I
+can't remember that. 
+
+What we can do is add names to a vector.  Then we can select by name.
+
+```{r}
+names(state.area) <- state.abb
+head(state.area)
+head(names(state.area))
+state.area["FL"]
+state.area[c("NY","CA")]
+```
+     
+Sometimes we need to make up names.  
+
+The `paste()` command is handy for that.  
+
+It is vectorized, so you can put a bunch of numbers in.
+
+```{r}
+paste("Student",1:5,sep="_")
+```
+
+### Exercises
+
+4.  Write an expression that removes the outlier from the data you
+    generated for 1b. 
+
+```{r}
+
+
+```
+
+5.  Suppose the data you generated for problem 1 was suppose to have a
+    minimum score of 0 and a maximum score of 100.  Fix, the data set
+    so that all of the values are between 0 and 100. 
+
+```{r}
+
+```
+
+6. Fix my positive/negative test, so that it has a 0 as well
+```{r}
+
+```
+7. Find all of the states that are bigger than Florida.
+```{r}
+
+```
+8. Generate a bunch of random integers between -10 and 10.  Then turn
+all negative integers into NA. 
+```{r}
+
+```
+
+
+# Matrixes, Lists and Data Frames 
+
+## Matrixes and Arrays
+
+* A matrix is an object with rows and columns.  
+
+* An array can have any number of dimensions.
+
+* But they all the entries need to be the same type (mode).  
+
+* There is a `dim()` attribute which shows the dimensions of the matrix.
+
+```{r}
+dim(state.x77)
+head(state.x77)
+```
+
+### Getting and setting dims
+
+* The `dim()` function is used to access the number of rows and
+columns. 
+
+ + `dim()[1]` gets the number of rows 
+ 
+ + `dim()[2]` gets the number of columns. 
+
+ + For matrixes, the functions `nrow()` and `ncol()` are easier to remember.
+
+Setting `dim()` will reshape a vector into a matrix or array.
+
+```{r}
+nrow(state.x77)
+ncol(state.x77)
+int12 <- 1:12
+dim(int12) <- c(3,4)
+int12
+```
+### `matrix()` and `array()` functions
+
+* Setting the `dim()` attribute directly is not recommended (makes for
+  hard to read code). 
+
+* Instead use `matrix()` or `array()`
+
+* R stores matrixes in row major order (like FORTRAN, not like c).  
+    + Use `byrow=TRUE` to reverse this in `matrix` or `array`
+    
+```{r}
+matrix(1:12,3,4)
+matrix(1:12,3,4,byrow=TRUE)
+array(1:24,c(2,3,4))
+```
+
+
+### Numeric and logical indexes
+
+For matrixes and arrays, the `[]` operator does something a little bit
+different.  In particular, `x[i,j]` picks out row $i$ and column $j$.
+
+Either the row or column selector could be 
+
+* A number or vector of numbers (pick those rows or columns)
+* A negative number of vector of negative numbers (excluded those rows or columns)
+* A logical vector of size `nrow(x)` or `ncol(x)` (select the rows/columns corresponding to true).
+* A character vector (select rows or columns by name, see below).
+* Left blank, in which case all rows/columns are selected.
+
+If a single row or column is selected, then it turns into a vector.
+
+```{r}
+state.x77[1:5,1:5]
+state.x77[1:5,]
+state.x77[9,]
+dim(state.x77[9,])
+head(state.x77[,3])
+state.x77[9,,drop=FALSE]
+dim(state.x77[9,,drop=FALSE])
+```
+
+### `dimnames` and character indexes
+
+To use character indexes with matrixes, we need to set the `rownames()` and `colnames()` of the matrix.  
+We can also use the `dimnames()` (although this will produce a list).
+
+```{r}
+rownames(state.x77)
+colnames(state.x77)
+dimnames(state.x77)
+rownames(state.x77) <- state.abb
+head(state.x77)
+```
+### Row and column sums and averages
+
+Remember that a matrix is just a vector with a `dim` attribute.  Consequently, `mean` and other summary functions don't do what we want:
+
+```{r}
+mean(state.x77)
+sd(state.x77)
+var(state.x77)
+cor(state.x77)
+```
+
+Taking row and column sums are such a frequent operation, that there
+is a shortcut for them:  `rowSums()`, `colSums()`, `rowMeans()`,
+`colMeans()` 
+
+```{r}
+colMeans(state.x77)
+```
+
+The `summary` function in the `tidyverse` package is another way to do this.
+
+### Exercises:
+
+9. Find the population for all states whose area is bigger than Florida's.
+
+```{r}
+
+```
+
+10. Calculate the population density (population per area) for each state
+
+```{r}
+
+```
+
+11. Turn the state.x77 data into z-scores by subtracting the column means and dividing by the column standard deviations.
+
+```{r}
+
+```
+12. Scale the state.x77 data from 0 (minimum in the column) to 1 (maximum in the column).
+```{r}
+
+```
+
+## Lists
+
+* A list in R is a special vector whose elements can be anything, even
+  other lists.  
+
+* It is possible to build up quite complex objects from lists (Old S3
+  class system.)
+
+Use the `list() constructor to make lists
+```{r list}
+list(1,2:3,"four",quote(2+3))
+
+```
+
+Notice that the second element is a vector and the last element is an
+R expression (this is what `quote` does).  R lists are quite flexible.
+
+![Dangerous Bend](dangerousBend.png) Notice that the list is show with
+a double square bracket `[[` instead of a single one `[`.  This is
+because with lists the extraction operators behave a little bit
+differently.  The single bracket refers to a sublist, and the double
+bracket to the element.  Fortunately, this doesn't come up a lot at
+the beginning because, most people use the `$` extractors instead.
+
+## Named Lists and `$` extraction
+
+Named lists have a special role in R.  They are similar to
+environments in that they allow the analyst to associate names and
+values.  If `x` is a list then `x[[name]]` or `x$name` will retrieve
+(or set if used with `<-`) that element.
+
+```{r listExtractor}
+alist <- list(one=1, two=2:3, three="three", four=quote(2+2))
+alist
+alist$two
+alist$two <- 2
+alist
+
+```
+
+## Lists and Classes
+
+This ability to associate names and values is very hand.  The older S3
+(informal) class system just uses lists with appropriate values as
+classes.  To get components, just use the `$` operator.
+
+For example, the function `lm()` does a regression and returns an
+object of class `lm`.  The `$` operator can be used to access its
+components.
+
+```{r classExtractor}
+fit1 <- lm(dist~speed,data=cars)
+fit1$coefficients
+```
+## Data frame
+
+* A data frame is a list that behaves like a matrix.
+
+  + A data frame is a list of columns with a class of `data.frame`.
+
+* Different columns can have different classes or storage modes.
+
+  + Matrixes and arrays all must be the same kind of value.
+
+* Using the single square bracket `[i,j]` can reference row i and
+  column j, like a matrix.
+
+* Using the `$` operator can reference columns.
+
+```{r dataframes}
+?mtcars
+names(mtcars)  # Get the variable names
+rownames(mtcars) # Get the car names
+mtcars[1:5,] # First five rows
+mtcars["Honda Civic", ]  # Just one car
+mtcars[,"mpg"] # Just MPG variable
+mtcars$disp  # Just DISP variable
+
+```
+
+## data.frame(), as.matrix and as.data.frame
+
+The function `data.frame()` will put a data frame together column by
+column.  (If one of the arguments is a matrix each column in the
+matrix will become a column in the data frame.)
+
+```{r data.frame}
+stateX77 <- data.frame(state.x77,region=state.region,row.names=state.abb)
+stateX77
+stateX77$Income
+```
+
+The functions `as.data.frame()` and `as.matrix()` can be used to go
+back and forth between the two different representations.
+
+* All matrixes can be converted to data frames, but data frames can
+  only be converted to matrixes if all of the variables are the same
+  type.
+  
+* There are certain mathematical operators (like taking the inverse)
+  which only work on matrixes.
+
+For most of what I do in R, the data frame is the most convenient
+representation for data.
+
+The `tidyverse` package uses the `tibble` instead of the
+`data.frame`.  A `tibble` is a new class for data frames which has
+slightly more intelligence printing and more consistent subseting behavior.
+
+## read.table and read.csv 
+
+Most common format for storing data is tab separated value (`.dat`)
+and comma separated value (`.csv`).
+
+* Cases are rows
+* Variables are separated by tab or comma
+* Often a header row giving variable names
+* Sometimes there are row names.
+* Sometimes quotes are used for strings
+
+The functions `read.table()` and `read.csv()` read these data files
+and produce data frames.
+* Really the same function with different options.
+* Many options, look at the help!! 
+
+```{r helpReadTable}
+help(read.table)
+```
+
+These functions automatically convert strings to factors.  The `as.is`
+optional argument suppresses that.  Often factors, dates and missing
+values need to be cleaned up after reading in the data.  (More about
+this in the next lesson).
+
+**Windows Only**.  Usually both `.dat` and `.csv` files are mapped to
+open in Excel when you double click on them.  If the file is open in
+Excel, then Windows will lock the file and not let another program
+read it.  You may need to close the file in Excel before you can read
+it into R.
+
+
+The functions `write.table()` and  `write.csv()` go in the opposite
+directions. 
+
+The `tidyverse` alternative is `read_csv()`.  It might be somewhat
+easier to use, but it produces tibbles instead of data frames.   More
+about this in the next session.
+
+## Foreign interfaces
+
+R can read data from an other packages, but you need to load the
+`foreign` package first.
+
+* `library(foreign)` (Part of the base R distribution)
+  + `read.spss` (SPSS)
+  + `read.dta` (Stata)
+  + `read.ssd` (SAS)
+  + `read.systat` (Systat)
+  
+Excel workbooks are another common format.  The easiest way to work
+with Excel data is to save it in `.csv` format from Excel.  You could
+also try the `xlsx` package (need to install it first).
+  
+* `library(xlsx)` (Need to install from CRAN)
+  + `read.xlsx` (Excel)
+
+The book [_R for Data Science_](https://r4ds.had.co.nz/index.html)
+(Grolemund and Wickham, 2017) recommends the `haven` and `readxl`
+packages.  Also, the `DBI` package allows importing data directly from databases (an advanced R trick).
+
+### Exercises
+
+Use the function `write.csv()` to write out the `stateX77` data we
+made.  Read it into Excel (or another spreadsheet) make some changes.
+Now read the modified version back into R.
+
+```{r}
+
+```
+
+# Next Lesson
+
+You are now read for [Exploratory Data Analysis with Tidyverse and
+GGplot](EDAwithGGPlot.Rmd).  

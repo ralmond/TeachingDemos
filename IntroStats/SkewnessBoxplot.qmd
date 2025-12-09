@@ -1,0 +1,141 @@
+---
+title: "Skewness Boxplot Practice"
+author: "Russell Almond"
+date: "February 23, 2019"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(lattice)
+```
+
+```{r parameters, echo=FALSE}
+distlist <-list(
+skewNeg = list("beta(8,2)"=function(n) rbeta(n,8,2),
+                "normal with neg outliers"=function (n) {
+                  ifelse(runif(n)<.05,rnorm(n,-3),rnorm(n))
+                },
+                "hypergeometric(975,25,100)" = 
+                  function (n) rhyper(n,975,25,100)),
+skewPos = list("gamma(3)"=function(n) rgamma(n,3),
+                "normal with positive outliers"=function(n) {
+                  ifelse(runif(n)<.05,rnorm(n,3),rnorm(n))
+                },
+                "lognormal"=function (n) rlnorm(n,0,.3)),
+sym = list("normal"=rnorm, "uniform"=runif,
+            "t(5 d.f.)"=function (n) rt(n,5)))
+longnames <- c("Negatively Skewed"="skewNeg",
+               "Positively Skewed"="skewPos",
+               "Symmetric"="sym")
+## Initial draw, so that we have some starting values.
+key <- 
+{
+  ## Randomly permute the types.  
+  key <- sample(names(distlist),length(distlist))
+  ## Label from A -- C (or whatever)  
+  names(key) <- sapply(1L:length(key),
+       function (i)
+         intToUtf8(utf8ToInt("A")-1L+i))
+  key
+}
+kdist <- 
+{
+    # draw random distribution for each plot
+    sapply(key, function (r)  
+        sample(names(distlist[[r]]),1L))
+}
+
+```
+
+## Skewness Determination Exercise.
+
+In this exercise, the computer will generate 3 datasets:  A, B and C.  These will be randomly assigned to a positively skewed, negatively skewed, and symmetric distribution type.    Your job is to determine which is which.
+
+You can redraw from the same distributions by changing the sample size.
+
+```{r shinylive}
+#| standalone: true
+#| viewerHeight: 500
+library(shiny)
+ui <- fluidPage(
+inputPanel(
+  selectInput("nn", label = "Sample Size:",
+              choices = c(50, 100, 500, 1000), selected = 100)),
+mainPanel(
+  plotOutput("boxplots")),
+  h4("Which is which?"),
+  p("Identify the skewness of each distribution."),
+  do.call(inputPanel,
+         lapply(names(key), function (k)
+                selectInput(k, label=k,
+                  choices=c(Unknown="unknown", 
+                           longnames),
+                  selected="unknown"))),
+  h4("Answers:\n"),
+  tableOutput("answers"))
+
+server <- function (input,output) {
+  output$boxplots <- renderPlot({
+    ## Draw random data 
+    kdat <- lapply(names(key), function (k) {
+    x <-do.call(distlist[[key[k]]][[kdist[k]]],
+                list(input$nn))
+      scale(x,(min(x)+max(x))/2,(max(x)-min(x)))*100+50
+  })
+  names(kdat) <- names(key)
+  kdat <- as.data.frame(kdat)
+  
+  boxplot(kdat,xlab="X")
+
+})
+  output$answers <- renderTable({
+  answer <- sapply(names(key),
+   function (k) {
+      if (input[[k]]=="unknown") {
+        "Make your selection.\n"
+      } else {
+        paste(ifelse(input[[k]]==key[k],
+                     "Correct:", "Incorrect:"),
+              "Distribution was",kdist[k],
+               "(",
+        names(longnames)[grep(key[k],longnames)],
+               ")\n")
+    }})
+  names(answer) <- names(key)
+  as.data.frame(answer)
+}, colnames=FALSE,rownames=TRUE)
+}
+shinyApp(ui=ui,server=server)
+```
+
+To try again with different distributions, reload the page.  If you are having trouble, try increasing the sample size:  sometimes a small sample won't display the characteristics of the distribution strongly.
+
+## What to look for:
+
+* Is the box from median to quartile longer on one side than the other?
+* Is the whisker longer on one side than the other?
+* Are there outliers on one side and not the other?
+
+All three of these are signs of skewness in that direction (longer box, whisker, or outliers).
+
+## Related Pages
+
+Here are the other exercises in this series:
+
+* Skewness Practice:
+   + [Histograms](SkewnessPractice.Rmd)
+   + [Boxplots](SkewnessBoxplot.Rmd)
+   + [Q-Q Plots](SkewnessQQ.Rmd)
+
+* Kurtosis Practice:
+   + [Histograms](KurtosisPractice.Rmd)
+   + [Boxplots](KurtosisBoxplots.Rmd)
+   + [Q-Q Plots](KurtosisQQ.Rmd)
+
+
+
+
+
+

@@ -1,0 +1,94 @@
+---
+title: "Standard Deviations"
+author: "Russell Almond"
+date: "1/29/2019"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This R Markdown document is made interactive using Shiny. Unlike the more traditional workflow of creating static reports, you can now create documents that allow your readers to change the assumptions underlying your analysis and see the results immediately. 
+
+To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
+
+## Inputs and Outputs
+
+You can embed Shiny inputs and outputs in your document. Outputs are automatically updated whenever inputs change.  This demonstrates how a standard R plot can be made interactive by wrapping it in the Shiny `renderPlot` function. The `selectInput` and `sliderInput` functions create the input widgets used to drive the plot.
+
+```{r}
+data <- rnorm(15,mean=0,sd=2)
+plot(data,1:length(data))
+abline(v=0)
+segments(mean(data),1:length(data),data,1:length(data))
+sd(data)
+hist(data)
+```
+$$ \sqrt(\sum (X_i - \mu)^2/N) $$
+
+```{r}
+data1 <- c(11,13,14,15,17,18,19,20)
+data2 <- c(12,15,15,15,15,15,15,15)
+data3 <- c(5,13,19,24,33,38,51,70)
+data4 <- c(11,12,13,16,18,20,22,23)
+par(mfrow=c(2,2))
+plot(data1,1:length(data1),main="Data 1",xlim=c(0,50))
+abline(v=mean(data1))
+segments(mean(data1),1:length(data1),data1,1:length(data1))
+sd(data1)
+plot(data2,1:length(data2),main="Data 2",xlim=c(0,50))
+abline(v=mean(data2))
+segments(mean(data2),1:length(data2),data2,1:length(data2))
+sd(data2)
+plot(data3,1:length(data3),main="Data 3",xlim=c(0,50))
+abline(v=mean(data3))
+segments(mean(data3),1:length(data3),data3,1:length(data3))
+sd(data3)
+plot(data4,1:length(data4),main="Data 4",xlim=c(0,50))
+abline(v=mean(data4))
+segments(mean(data4),1:length(data4),data4,1:length(data4))
+sd(data4)
+```
+
+
+```{r eruptions, echo=FALSE}
+inputPanel(
+  selectInput("n_breaks", label = "Number of bins:",
+              choices = c(10, 20, 35, 50), selected = 20),
+  
+  sliderInput("bw_adjust", label = "Bandwidth adjustment:",
+              min = 0.2, max = 2, value = 1, step = 0.2)
+)
+
+renderPlot({
+  hist(faithful$eruptions, probability = TRUE, breaks = as.numeric(input$n_breaks),
+       xlab = "Duration (minutes)", main = "Geyser eruption duration")
+  
+  dens <- density(faithful$eruptions, adjust = input$bw_adjust)
+  lines(dens, col = "blue")
+})
+```
+
+## Embedded Application
+
+It's also possible to embed an entire Shiny application within an R Markdown document using the `shinyAppDir` function. This example embeds a Shiny application located in another directory:
+
+```{r tabsets, echo=FALSE}
+shinyAppDir(
+  system.file("examples/06_tabsets", package = "shiny"),
+  options = list(
+    width = "100%", height = 550
+  )
+)
+```
+
+Note the use of the `height` parameter to determine how much vertical space the embedded application should occupy.
+
+You can also use the `shinyApp` function to define an application inline rather then in an external directory.
+
+In all of R code chunks above the `echo = FALSE` attribute is used. This is to prevent the R code within the chunk from rendering in the document alongside the Shiny components.
+
+
+

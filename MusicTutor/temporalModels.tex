@@ -1,0 +1,1828 @@
+%\documentclass[11pt]{article}
+\documentclass[12pt]{RR-article}
+\setcounter{secnumdepth}{3}
+\usepackage{amsmath,graphicx}
+\usepackage{rgadefs}
+\usepackage{apacite}
+\usepackage{listings}
+\usepackage{movie15}
+\usepackage{url}
+%\errorcontextlines=7
+\usepackage{rgafigs}
+\lstloadlanguages{R}
+\lstset{basicstyle={\small\ttfamily}}
+\newcommand\origbaselinestretch{1.5}
+\begin{document}
+
+
+%************************* Title & Authors ******************************
+\title{\large{\bf An Illustration of the Use of Markov Decision
+    Processes to Represent Student Growth (Learning)}}
+\author{Russell G. Almond, ETS, Princeton, NJ}
+\catcode`\$=10 % Ignore RCS delimiters
+\date{$Revision: 1.30 $ \quad DRAFT $Date: 2007/10/31 18:00:21 $}
+\catcode`\$=3 % Go back to dollars as math delimiter.
+\vspace{40cm} \maketitle \pagestyle{plain} \thispagestyle{empty}
+\newpage
+\setlength{\topmargin}{0in}
+\pagenumbering{roman}
+%******************************* Abstract *****************************
+
+\section*{Abstract}
+
+Over the course of instruction, instructors generally collect
+a great deal of information about each student.  Integrating that
+information intelligently requires models for how a student's
+proficiency changes over time.  Armed with such models, instructors can
+\textit{filter\/} the data --- more accurately estimate the student's
+current proficiency levels --- and \textit{forecast\/} the student's
+future proficiency levels.  The process of instructional planning can
+be described as a \textit{partially observed Markov decision
+process\/} (POMDP).  Recently developed computer algorithms can be
+used to help instructors create strategies for student achievement and
+identify at-risk students.  Implementing this vision requires models
+for how instructional actions change student proficiencies.  The
+\textit{general action model} (also called the \textit{bowtie model})
+separately models the factors contributing to the success or
+effectiveness of an action, proficiency growth when the action is
+successful and proficiency growth when the action is unsuccessful.
+This class of models requires parameterization, and this paper
+presents two:  a simple linear process model (suitable for
+continuous proficiencies) and a birth-and-death process
+model (for proficiency scales expressed as ordered categorical
+variables).  Both models show how to take prerequisites and zones of
+proximal development into account.  The filtering process is
+illustrated using a simple artificial example.
+
+\vspace{1cm} \noindent{Key words}: Markov Decision Processes, Growth
+Models, Prerequisites, Zone of Proximal Development, Stochastic
+Processes, Particle Filter
+
+
+%**************************** Acknowledgments***************************
+\newpage
+\section*{Acknowledgments} 
+
+The music tutor example (Section~\ref{sect:Music}) is a free
+adaptation of an example John Sabatini presented to explain his work
+in reading comprehension.  A large number of details have been
+changed, partly because John plays guitar while I play wind
+instruments.
+
+The general action model (Section~\ref{sect:Action}) stems from some
+consulting work I did with Judy Goldsmith and her colleagues at the
+University of Kentucky and is really joint work from that
+collaboration.  
+
+Henry Braun asked a number of questions about an earlier draft that
+helped me better understand the possibilities of the simple filtering
+techniques, as well as generally improve the clarity of the paper.
+Frank Rijmen, Judy Goldsmith, Val Shute, Alina von Davier, and Mathias
+von Davier provided helpful comments on previous drafts.  Diego Zapata
+offered a number of interesting suggestions related to the simulation
+experiments.  Ren\'e Lawless and Dan Eignor did extensive proof
+reading and made numerous helpful suggestions to improve the paper's
+clarity, but should be held blameless with regard to my peculiar
+conventions (or lack thereof) of English usage and orthography.
+
+\newpage
+\section*{Table of Notation}
+
+This paper uses the following notational conventions:
+
+\begin{itemize}
+
+\item Random variables are denoted by either capital letters (\eg, $X$),
+  or by words in small capitals (\eg, \varf{Mechanics}).
+
+\item Variables whose values are assumed to be known are denoted with
+  lower case letters in italics  (\eg, $t$).
+
+\item Scaler-valued quantities and random variables are shownin italic
+  type (\eg, $X$, $t$), while vector-valued quantities and random
+  variables are put in bold face (\eg, ${\bf a}_t$, ${\bf S}_t$).
+
+\item When a random variable takes on values from a set of tokens
+  instead of a numeric value, then the names of the variable states
+  are underlined (\eg, \statef{High}, \statef{Medium},
+  \statef{Low}). 
+
+\item The function $\delta(\cdot)$ has a value of 1 if the expression
+  inside the parenthesis is true and 0 if it is false.
+
+\item $\Pr(\cdot)$ is used to indicate a probability of a random
+  event, and $E[\cdot]$ is used to indicate the expectation of a
+  random variable.
+
+
+\end{itemize}
+
+\def\urldir#1{\url{http://www.ets.org/media/Research/pdf/RR-07-40-#1}}
+Note that Figures~\ref{fig:Sim2m}, \ref{fig:Sim2mna},
+and~\ref{fig:Sim2wna} are movies in MPEG-4 format.  These
+should be viewable in recent versions of Adobe Reader, although an
+additional viewer component may need to be downloaded.  If you are
+having difficulty getting this to work, or if you have a paper copy of
+this report, the animations may be viewed at
+%\url{http://www.ets.org/media/Research/pdf/RR-07-40-MusicTutor.pdf}
+\urldir{MusicTutor.pdf}
+
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section{Introduction}
+
+\citeA{BlackWiliamA,BlackWiliamB} gather a number of studies that
+support the result that teachers using assessment to guide
+instructional decision-making had measurably better outcomes than
+teachers who did not.  A mathematical model of this decision-making
+process requires two pieces:  a model for the assessment and a model
+for the instructional activity.  Evidence-centered assessment design
+\cite<ECD; >{OnTheStructure} provides a principled approach to
+developing a mathematical model for the instructional component but
+not effects of instruction.
+
+Teachers, tutors and other instructors build qualitative models for
+the effects of the instruction that become a critical part of their
+reasoning.  ETS's Pathwise$^{\textregistered}$ curriculum is typical
+in this respect.  Each unit describes the topic covered --- the effect
+of instruction --- and the prerequisites --- the factors leading to
+success.  What is typically missing is any quantitative information,
+information about how likely students are to succeed at the lesson (if
+the prerequisites are or are not met) and how large the effect is
+likely to be if the lesson is successful (or unsuccessful).
+
+This report describes a general action model
+(Section~\ref{sect:Action}; called the \textit{bowtie} model because
+of the shape of the graph) that is compatible with the qualitative
+model used informally by instructors.  In particular, it provides
+explicit mechanisms for modeling prerequisite relationships and the
+effects of actions, as well as providing a general framework for
+eliciting model parameters from subject-matter experts.  The general
+action model has been used in modeling welfare-to-work counseling
+\cite{bowties,WelfareToWorkIJAR}.
+
+One important reason to model the effects of instruction is that it
+provides a framework for integrating information gathered about a
+student at multiple points of time (before and after instruction).
+Consider a typical tutoring regimen.  The student and the tutor have
+regular contacts at which time the student performs certain activities
+(benchmark assessments) that are designed, at least in part, to assess
+the student's current level of proficiency.  Typically such
+assessments are limited in time, and hence reliability, but over time
+the tutor amasses quite a large body of information about the student.
+However, as the student's proficiency is presumably changing across
+time, integrating that information requires a model for student
+growth.
+
+In many ways the problem of estimating the level of student
+proficiency is like separating an audio or radio signal from the
+surrounding noise.  Algorithms that use past data to estimate the
+current level of a process are known in the signal-processing
+community as {\it filters}.  Section~\ref{sect:Sim} explores
+the application of filtering techniques in the context of educational
+measurement. 
+
+A related problem to filtering is \textit{forecasting}.  Forecasting
+uses the model of how a proficiency develops to extrapolate a
+student's proficiency at some future time.  Forecasting
+models have particular value in light of the current emphasis on
+standards in education.  Instructors want to be able to identify
+students who are at risk for not meeting the standards at the end of
+the year, in time to provide intervention.
+
+Ultimately, the purpose of the instructor is to form a \textit{plan\/}
+for meeting a student's educational goals.  A plan is a series of
+actions --- in this case a series of assignments --- to maximize the
+probability of achieving the goal.  Instructors need to adapt those
+plans to changing circumstances and on the basis of new information.
+In particular, they need to develop a \textit{policy\/} --- rules
+for choosing actions at each time point based on current estimates of
+proficiencies.
+
+Understanding what interventions are available is key to building
+useful assessments.  An assessment is useful to a instructor only if that
+assessment helps the instructor choose between possible actions.
+Section~\ref{subs:VOI} discusses embedding the assessment in the
+context of the instructor's decision problem.  Section~\ref{subs:Markov}
+describes how repeating that small decision process at many time
+points produces a \textit{Markov decision process\/}, and
+Section~\ref{subs:lit} provides a
+brief review of similar models found in the literature.  Casting the
+instructor's problem in this framework allows us to take advantage of
+recent research in the field of planning
+(Section~\ref{sect:Planning}).
+
+In order to take advantage of this framework, a model of how
+proficiencies change over time is needed.  Section~\ref{sect:Action}
+describes a broad class of models for an \textit{action\/} that a
+instructor can take.  The general form supports both models where the
+proficiency variables are continuous (Section~\ref{sect:Lin}) and
+those where they are discrete (Section~\ref{sect:Birth}).  All of
+these models will be described using a simple music tutoring example
+introduced in Section~\ref{sect:Music}.  Section~\ref{sect:Sim}
+illustrates this simple example numerically with some simulation
+experiments.
+
+
+\section{The Music Tutor}
+\label{sect:Music}
+
+Consider a music tutor who meets weekly with a student to teach that
+student how to play a musical instrument.\fnote{This example is
+loosely adapted from a metaphor that John Sabatini has used to explain
+his models for reading proficiency.  I'm using this example rather
+than a more realistic one for two reasons.  One, by creating an
+artificial example I can restrict the problem to a few dimensions,
+focusing on those aspects of the problem which require a new approach.
+Two, I expect that most of my audience have not recently been
+beginning readers, but that many of them have recent experiences with
+beginning musicians, either through their own interest or that of
+their children.  Thus, I expect them to resonate
+better with the proposed models of cognition.}  Each week the tutor
+evaluates the student's progress and makes an assignment for what the
+student will do during the next week.  To simplify the model, assume
+that most of the learning occurs during the student's practice during
+the week.  The tutor may demonstrate new concepts and techniques to
+the student, but it is through using them over the course of the week
+that the student ``learns'' them.
+
+For simplicity, let the domain of proficiency consist of two
+variables:
+\begin{itemize}%[Mechanics]
+\item \varf{Mechanics\/} --- Being able to find the right fingerings for
+  notes;   knowing how to vary dynamics (volume) and articulation;
+  being able to produce scales, chords, trills and other musical idioms.
+\item \varf{Fluency\/} --- Being able to play musical phrases without
+  unintended hesitation; being able to sight-read music quickly;
+  playing expressively.  
+\end{itemize}
+Obviously, there is some overlap between the two concepts, and in a
+real application we would need better definitions.  Also, although
+these concepts could increase to arbitrarily high levels (say those
+obtained by a professional musician), the tutor is only interested
+in a relatively limited range of proficiency at the bottom of the
+scale.  
+
+Although the proficiencies are correlated, there is another facet of
+the relationship that we must take into account:  \varf{Mechanics} are a
+\textit{prerequisite\/} for \varf{Fluency}.  For example, if the student
+has not yet mastered the fingering for a particular note, then the
+student is unlikely to be able to play passages containing that note
+without hesitation.
+
+At each meeting between student and tutor, the tutor assigns a
+practice activity that contains some mixture of exercises and songs
+(musical pieces or a meaningful part of a musical piece) for the
+student to practice.  Vygotsky's zone of proximal development theory
+\cite{Vygotsky1978} is clearly relevant to this choice.  If the
+tutor assigns a lesson that is too easy, then the student will not
+reap much benefit.  Similarly, if the tutor assigns a lesson which
+is too difficult, then very little learning will occur.  Part of the
+problem is assessing the current level of proficiency, so that
+appropriate lessons can be assigned.  Assume that the tutor can
+adjust the difficulty of the activity in the two dimensions,
+\varf{Mechanics} and \varf{Fluency}.  We will refer to ${\bf
+a}_t=(a_{t,\varf{Mechanics}},a_{t,\varf{Fluency}})$ as the
+\textit{action\/} taken by the tutor (or the assignment given by the
+tutor) at Time~$t$.
+
+Lessons occurs at discrete time points, $t_1, t_2, t_3,\ldots$.  In
+general, these will be regular intervals, but there may be gaps
+(vacation, missed lessons, etc.).  As we are frequently interested in
+what happens between one lesson and the next, let $\Delta t_n =
+t_{n+1} - t_{n}$, the amount of time until the next lesson.  (In many
+applications, $\Delta t_n$ will be constant across time; however, the
+notation allows for missed lessons, vacations and other causes for
+irregular spacing.)  Even in a relatively constrained example, we have
+a large number of features of the problem that must be modeled.  The
+following section describes those models in more detail.
+
+\section{A General Framework for Temporal Models}
+\label{sect:Framework}
+
+
+As we can see from the proceeding example, the tutor needs to make not
+just one decision, but rather a series of decisions, one at each time
+point.  One class of models addressing such a sequence of decisions is
+the Markov decision process (MDP; Section~\ref{subs:Markov}).
+However, before looking at a problem spanning many time points, it is
+instructive to look at a model with just two time points.
+Section~\ref{subs:VOI} takes a look at this model and the lessons
+which can be learned from it.  The full MDP framework is created by
+repeating this simple model over multiple time points
+(Section~\ref{subs:Markov}).  Section~\ref{subs:lit} compares the
+framework proposed here to others previously studied in the
+literature.  This framework is quite general; specific
+parameterizations are needed to build
+models. Section~\ref{sect:Action} describes one approach to
+parameterizing these models.
+
+\subsection{The Value of Assessment}
+\label{subs:VOI}
+
+In a typical educational setting, the payoff for both the student and
+the instructor comes not from the assessment or the instruction but
+rather from the student's proficiency at the end of the course.
+Figure~\ref{fig:voi} shows an {\it{influence diagram}\/}
+\cite{HowardMatheson1981} illustrating this concept.  Influence
+diagrams have three types of variables represented by three different
+node shapes:
+\begin{itemize}
+\item Square boxes are {\it{decision variables}\/}.  Arrows going into
+decision variables represent information available at the time when
+the decision is to be made.
+\item Circles are \textit{chance nodes\/} ({random variables}).
+  Arrows going into the circles indicate that the distribution for
+  a given variable is specified as conditional on its parents in the
+  graph.  Note that this sets up the same kind of conditional
+  independence relationships present in Bayesian networks.
+  (Hence an influence diagram consisting purely of chance nodes is a
+  Bayesian network.)
+\item Hexagonal boxes are {\it\rindex{utilities}\/}.  Utilities are a
+  way of comparing possible outcomes from the system by assigning them
+  a value on a common scale (often with monetary units).  Costs are
+  negative utilities.    
+\end{itemize}
+
+\rgafigbblongcap[voi]{Influence diagram for skill
+training decision}hsize=3.5truein vsize=1.5truein/ An
+influence diagram which shows factors revolving around a decision about
+whether or not to send a candidate for training in a particular skill.
+
+On the right of Figure~\ref{fig:voi} is a node representing the
+utility associated with a student knowing the skill at the end of the
+course.  The student's probability of knowing the skill at the end of
+the course depends on both the student's skill level at the beginning
+of the course and what kind of instruction the student receives.  The
+instruction has certain costs (both monetary and student's time)
+associated with it (as does no instruction, but we can scale our
+utilities so that the cost of no instruction is zero).  We do not know
+the student's ability at the beginning of the course, but we can give
+the student a pretest to assess the student's ability.  This pretest
+also has a cost associated with it.  We can use the outcome of the
+pretest when we make the decision about what instruction to give.
+
+The decision of what instruction to provide depends not only on
+whether or not the student seems to have the skill based on the
+results of the pretest but also the cost of the instruction and the
+value of the skill.  If the instruction is very expensive and the
+skill not very valuable, it may not be cost-effective to give the
+instruction, even if we know the student does not have the skill.
+Similarly, the decision about whether or not to test will depend both
+on the cost of the test and the cost of the instruction.  If the
+instruction is very inexpensive (for example, asking the student to
+read a short paper or pamphlet), it may be more cost-effective to just
+give the instruction and not bother with the pretest.
+
+A concept frequently associated with decision analysis problems of
+this type is the {\it{value of information}\/} \cite{Matheson1990}.
+Suppose that we have a perfect assessment that could measure the
+student's initial proficiency without error.  Armed with perfect
+knowledge about the student's initial proficiency, we could make a
+decision about which instructional action to take and calculate an
+expected utility.  Compare that to the expected utility of the best
+decision we can make knowing nothing about the student's initial
+proficiency level.  The difference between these two conditions is the
+\textit{expected value of perfect information}.  In general, real
+assessments have less than perfect reliability.  If we know the error
+distribution for an assessment, we can calculate its expected value of
+information for this decision (which will always be less than the
+value of perfect information).  Note that an assessment is only
+worthwhile when its value of information exceeds its cost.
+
+In many ways, an assessment that has high value of information is
+similar to the hinge questions of \citeA{BlackWiliamA}.  A hinge
+question is one used by an instructor to make decisions about how to
+direct a lesson; in other words, the lesson plan is contingent on the
+responses to the question.  In a similar way an assessment that has
+high value of information becomes a hinge in the educational strategy
+for the student;  future actions are based on the outcome of
+the assessment.  Note that there are other ways in which
+a well-designed assessment can be valuable for learning, such as
+promoting classroom discussion and helping students learn to
+self-assess their own level of proficiency.
+
+
+\subsection{Markov Decision Processes}
+\label{subs:Markov}
+
+The model of Section~\ref{subs:VOI} contains only two time points.
+The challenge is to extend this model to cover multiple time points,
+$t_1, t_2, t_3, \ldots$.  For simplicity, assume that the cost of
+testing is small, so that we do not need to worry about whether or not
+to test at each time slice.  Periodic assessments are sometimes called
+tracking or benchmark assessments.  At each time point, the student is
+given an assessment and the instructor needs to decide upon an action
+to carry out until the next time point.  Assume that given perfect
+knowledge of the student's current state of proficiency, our
+expectations about the student's future proficiency are independent of
+the student's past proficiency.  This Markov assumption allows the
+periodic assessment and instructional decision process to be modeled
+as a {\it Markov decision process (MDP).\/}\fnote{Technically, there
+is one other restriction on the Markov decision process, and that is
+that the utility must also factor across time.  This is discussed
+below.}  (The Markov assumption might not hold if there was some
+latency to the process of acquiring proficiency, or if there was some
+kind of momentum effect, e.g., having just learned a concept making the
+student more receptive to learning the next concept.  Often a process
+can be turned into a Markov process by adding another variable to the
+current state to capture the dependency on the past.  In the above
+example, we might include a none for the student self-efficacy or
+other non-cognitive factors that might lead to dependencies to the
+past.)
+
+Figure~\ref{fig:mdp} shows several time slices of an MDP for student
+learning.  Each time slice, $t=1,2,3,\ldots$, represents a short period
+of time in which the proficiencies of the learner are assumed to be
+constant.  The variables~${\bf S}_t$ (vector valued to reflect
+multiple skills) represent the proficiency of the student at each time
+slice.  The variables~${\bf O}_t$ (vector valued to represent multiple
+tasks or multiple aspects on which a task result may be judged)
+represent the observed outcomes from assessment tasks assigned during
+that time slice.  The activities are chosen by the instructor and
+occur between time slices.  To model a formative assessment, the time
+slices could represent periodic events at which benchmark assessments
+are given (e.g., quarters of the academic year).  To model an
+electronic learning system, the time slices could represent periods in
+which the system is in ``assessment mode,'' while the activities
+represent ``instructional tasks.''  As a simplifying approximation, we
+assume that no \textit{growth\/}---change in the state of the
+proficiency variables---occurs within a time slice.
+
+\rgafigbblongcap[mdp]{Testing as Markov decision process}hsize=4truein
+vsize=1.5truein/This model shows an MDP made up of
+two sub-models (to be specified later), one for {\it assessment\/} and
+one for {\it growth}.  The nodes marked with circles ($\bigcirc$)
+represent latent variables, the nodes marked with triangles
+($\bigtriangledown$ ) are observable quantities, and the nodes marked
+with diamonds ($\diamond$) are decision variables whose quantities are
+determined by the instructor.
+
+In general, the proficiency variables~${\bf S}$ are not observable,
+therefore Figure~\ref{fig:mdp} represents a \textit{partially
+observable Markov decision process\/} \cite<POMDP; >{Boutilier1999}.
+As solving POMDPs is generally hard, we need to seek opportunities to
+take advantage of any special structure in the chosen models for
+assessment and growth.  In particular, the relationship among the
+proficiencies can be modeled with a Bayesian network.
+
+\textit{Dynamic Bayesian networks\/} \cite<DBNs;>[]{DeanKanazawa1989}
+are Bayesian networks in which some of the edges represent changes over
+time. (In Figure~\ref{fig:dbn}, the curved edges are temporal while
+the straight edges connect nodes within a single time slice.)  The DBN is
+basically a Bayesian network repeated at each time slice with
+additional edges connecting (proficiency) variables at one time point to
+variables at the next time point.  \citeA{Boutilier1999} note that a
+DBN can be constructed by first constructing a baseline Bayesian
+network to model the initial time point, and then constructing a
+\textit{two time-slice Bayesian network (2TBN)\/} to model the change
+over time.
+
+\rgafigbblongcap[dbn]{Dynamic Bayesian network for
+education}hsize=4truein vsize=2truein/{In this
+figure, the state of the proficiency variables at each time slice is
+represented with a Bayesian network.  The dotted edges represent
+potential observations (through assessment tasks) at each time slice.
+The curved edges represent temporal relationships modeling growth among
+the skills.  Note that the assigned tasks and observables may change
+from time point to time point.}
+
+Although DBNs have been known for over a decade, until recently their
+computational complexity has made them impractical to employ in an
+authentic context.  \citeA{BoyenKoller} present an approximation
+technique for drawing inferences from DBNs.  Both \citeA{Koller2001}
+and \citeA{Murphy2001} present approximations based on particle
+filtering \cite<Appendix~\ref{subs:pf}; >{Liu2001,Doucet2001}.
+\citeA{Takikawa2002} suggest further efficiencies in the algorithm by
+noting variables which do not change over time, producing partially
+dynamic Bayesian networks.
+
+There is a close correspondence between the POMDP model of
+Figure~\ref{fig:mdp} and evidence--centered design objects
+\cite{OnTheStructure}.  The nodes ${\bf S}_t$ represent the
+proficiency model and the nodes ${\bf O}_t$ (or more properly the
+edges between ${\bf S}_t$ and ${\bf O_t}$) represent the evidence
+models.  What this framework has added are the \textit{action
+models\/}:  the 2TBNs representing the change between ${\bf S}_{t_1}$
+and ${\bf S}_{t_2}$.  One of the principal challenges of this research
+is to build simple mathematical models of proficiency growth (the
+2TBNs) that correspond to our cognitive understanding of the process.
+The term \textit{action model} recognizes that actions taken by the
+instructor will influence the future proficiency level of the student.
+
+\subsection{Similarity to Other Temporal Models}
+\label{subs:lit}
+
+Removing the activity nodes from Figure~\ref{fig:mdp} produces a figure
+which looks like a hidden Markov model, a class of models that has
+found applications in many fields.  \citeA{Langeheine1990} describe a
+general framework for using Markov models in psychological
+measurement.  \citeA{Eid2002} uses hidden Markov 
+models to model change in consumer preference; and \citeA{Rijmen2007}
+use these models to model change in patient state at a psychiatric
+clinic.  Both of these applications have a significant difference from
+the educational application in that the set of states is unordered
+(consumer preference), or at best partially ordered, while there is a
+natural order to the educational states.  Generally, in
+education the student moves from lower states to higher states, where
+in the other applications the patient can move readily between states.
+\citeA{Reye2004} looks at Markov models in the context of
+education and also arrives at a model based on dynamic Bayesian
+networks.  
+
+Similar models for change in student ability have been constructed
+using latent growth curves, structural equation models and
+hierarchical linear models \cite{Raudenbush2001}.  Von Davier and von
+Davier (2005\nocite{vonDavier2}) provide a review of some of the
+current research trends and software used for estimating these models.
+One complication addressed in many of these models, but not in this
+paper, is the hierarchy of student, classroom, teacher and school
+effects all of which can affect the rate at which students learn.
+
+If the tests administered at each time point are not strictly
+parallel, then the issue of equating the test forms, sometimes called
+vertical scaling, arises.  As this goes far beyond the scope of this
+paper, which does not address estimation in depth, we will simply
+assume that all of the benchmark tests are either strictly parallel or
+have been placed on a common vertical scale.
+
+Most of the research surveyed in the papers mentioned above addresses
+actions in the context of attempting to measure the effectiveness of a
+particular intervention.  This is a difficult problem, principally
+because the sizes of the instructional effects are often smaller than
+the student-to-student and/or classroom level variability, and
+instructional treatments are often applied at the classroom level.
+Note that causal attribution is not necessary for the MDP, that is, it
+is not necessary to separate the contributions of the teacher, the
+class and the curriculum but rather to have a good estimate of the
+total effect.  In the classical context of program evaluation, current
+educational practice is usually given priority:  A new program must
+show that it is sufficiently better and that the improvement can be
+noticed above the measurement error and between subject variability.
+In the decision theoretic framework, priority is given to the method
+with the lowest cost (often, but not always, the standard treatment).
+If the actions have equal cost, decision theory favors the action with
+the highest expected effect, even if that difference is not
+statistically significant (i.e., the methods have roughly equal
+value).
+
+The key difference between the approach outlined in this report and
+others discussed above, is that the MDP framework
+treats instruction as an action variable to be manipulated, rather
+than an observed covariate.  This requires an explicit model for how
+an action affects student proficiency.  Section~\ref{sect:Action}
+develops that model.
+
+\section{General Action Model}
+\label{sect:Action}
+
+Let ${\bf S}_t=(S_{1,t}, \ldots, S_{K,t})$ be the student's
+proficiencies on $K$ different skills at time $t$.  Under the
+assumptions of the MDP, only the current value of the proficiency
+variables, ${\bf S}_{t_1}$ and the action chosen at Time~$t_1$, ${\bf
+a}_{t_1}$ are relevant for predicting the state of of the proficiency
+variables at the next time point, ${\bf S}_{t_2}$.  A general
+assumption of the MDP framework is that the effects of actions depend
+only on the current state of the system (the student's current
+proficiency profile).  Further, assume that each potential action,
+${\bf a}$, has a focal skill, $S_{k({\bf a})}$, that it targets.
+Under these conditions, the MPD is specified through a set of
+transition probabilities $P_{{\bf a}} (S_{k({\bf a}),t_2} | {\bf
+S}_{t_1})$ describing the possible states of the focal skill at the
+next time point given all of the skills at the current time point.
+(An action can have multiple focal skills, in which case the
+transition probabilities become a joint distribution over all focal
+skills.)
+
+One factor that affects the transition probabilities is how
+successfully the student completes the assigned work.  To simplify the
+model, we assume that the outcome from all actions can be represented
+with a binary variable indicating successful completion.  (We may or
+may not be able to observe the state of the \varf{Success} variable.)
+The probability of success for an activity will depend on the state of
+prerequisite skill variables and possibly on student characteristics
+(\ie, the student's receptiveness to various styles of
+instruction). The Markov transition probabilities for various skill
+variables will depend on the success of the activity (with different
+transition probabilities for success and failure).
+
+\rgafigbblongcap[Action]{A general action model}hsize=4truein
+vsize=2truein/{The central node is the students success or failure in
+  the assigned activity.  This is influenced by the current values of
+  certain prerequisite skill nodes.  The transition probabilities are
+  influenced by the prerequisites only through the success or failure
+  of the action.  Success may or may not be observed.}
+
+Figure~\ref{fig:Action} shows a generic action
+model. \citeA{bowtie} call this model a \textit{bowtie} model
+because the left and right halves are separated by the \textit{knot} of
+the \varf{Success} variable.  It is generally assumed that an
+instructional activity can be either successful or not.  Certain
+prerequisite skills will influence the probability of a successful
+outcome. Successful (and unsuccessful) outcomes will each have certain
+probabilities of changing one of the underlying proficiencies.
+
+This model contains a key simplification:  The value of each focal
+skill (a skill targeted by instruction) at Time~$t+1$ is
+conditionally independent from the prerequisites given the
+\varf{Success} of the action and the value of 
+the skill at Time~$t$.  Effectively, \varf{Success} is a switch that
+selects one of two different sets of transition probabilities for
+each focal skill.  Furthermore, interaction between skills occurs only
+through the prerequisites for \varf{Success} (note that the focal skill could
+appear both on the left-hand side of the knot as a prerequisite and on
+the right-hand side as the old value of the skill).  This implies that
+the model needs only two sets of transition probabilities for the
+focal skills of the action, instead of a set of transition
+probabilities for each configuration of the prerequisites.  If the
+action has multiple focal skills, then we assume that the change in
+each focal skill is independent given proficiency.  (In more complex
+situations, we could build a separate bowtie for each focal skill).
+
+The simplification provided by the bowtie is also very important when
+working with experts to elicit model structure and prior values for
+model parameters.  Under the bowtie model, experts need only worry
+about interactions among the skills when describing the prerequisites
+for \varf{Success} of an action.  When defining the effects of the
+action, the experts can work one skill at a time.  This simplification
+may not result in models that accurately reflect of the cognitive
+process, but it should result in models which are tractable to specify
+and compute.
+
+This model was originally developed in collaboration with Judy
+Goldsmith and colleagues at the University of Kentucky who were
+developing a Welfare-to-Work advising system \cite{bowties,WelfareToWorkIJAR}.
+The counseling problem has a longer time scale than the music example.
+It also has some actions for which the success may be observed (\eg,
+completing a high school GED program) and some for which it may not be
+observed (\eg, the success of a substance abuse treatment program).
+\citeA{bowties} found that experts (welfare case workers) had
+difficulty specifying a complete set of transition
+probabilities for an action, but did feel comfortable supplying a list
+of prerequisites and consequences of an action along with a relative
+indication of the strength and direction for each variable.
+
+Vygotsky's zone of proximal development for an action can be modeled
+in both the probability of success and the transition probabilities.
+Assignments that are too hard are modeled with a low probability of
+success.  This is reflected in the model by making the focal
+proficiency a prerequisite for success.  Assignments that are too easy
+are marked by reducing the transition probability to higher states.  If
+such an assignment is completed successfully, the probability of
+moving from a low proficiency state to a middle state is high, but the
+probability of moving from a middle to a high proficiency state is
+low.
+
+The general action model makes a number of crude assumptions, but it
+still has some attractive properties.  In particular, it has a very
+clean graphical structure and supports probability distributions
+containing only a few parameters related to concepts with which
+experts will resonate.  More importantly, it splits the problem of
+modeling an action into two pieces: modeling the factors contributing
+to success (Section~\ref{subs:noisyand}) and modeling the effects of
+the action given success (Section~\ref{sect:Lin} for continuous
+proficiency variables, and~\ref{sect:Birth} for discrete).  Each piece
+can then be addressed separately.
+
+\subsection{The Noisy-And Model of Success}
+\label{subs:noisyand}
+
+The \varf{Success} variable in the bowtie model renders the left-hand
+side (modeling the prerequisite relationships) and the right-hand side
+(modeling student growth) conditionally independent.
+Section~\ref{sect:Lin} and~\ref{sect:Birth} describe the models for
+growth.  The key contribution of the \varf{Success} variable is that
+it allows for two different growth curves, one for when the lesson was
+effective and one for when it was ineffective.
+
+Let $X_t$ represent the value of the \varf{Success} variable for the
+action assigned at Time~$t$, coded \statef{1} for success and
+\statef{0} for failure.  Here ``success'' lumps together
+motivation --- did the student do the lesson, --- mastery of the
+proficiency addressed in the lesson --- did the student do it
+right, --- and appropriateness --- was this lesson an effective use of the
+student's practice time.  The left-hand side of the bowtie model
+requires that the distribution of success must be given conditioned on
+the values of the prerequisite proficiency variables at the time of
+the start of the lesson.  In the most general case, the number of
+parameters can grow exponentially with the number of prerequisites;
+therefore, it is worth trying to find a simpler model for this part of
+the relationship.
+
+Usually, for an action to be successful all the {\it prerequisites\/}
+for that action must be met.  For each prerequisite, $S_{k'}$, let
+$s^{-}_{k',{\bf a}}$ be the minimum level of that proficiency required
+for Action~${\bf a}$ to have a high probability of success, and let
+$\delta(S_{k',t}\geq s^{-}_{k',{\bf a}})=1$ if $S_{k',t}\geq
+s^{-}_{k',{\bf a}}$ is true (student meets prerequisites for
+Proficiency~$k'$) and $\delta(S_{k',t}\geq s^{-}_{k',{\bf a}})=0$
+otherwise.  Even given the current proficiency level of the student,
+some uncertainty remains about the success of the action, $X_t$.
+In particular, let $q_{k',{\bf a}}$ be the probability that a student
+assigned Action~${\bf a}$ compensates for missing the prerequisite,
+$S_{k'}$, and let $q_{0,{\bf a}}$ be the probability that a student who
+meet the prerequisites successfully completes the activity.
+Then the \textit{noisy-and\/} distribution
+\cite{Pearl1988,Junker2001} can model the relationship between ${\bf
+S}$ and $X$:
+\begin{equation}
+\label{eq:effective}
+\Pr(X_t=1|{\bf S}_t, {\bf a}) = q_{0,{\bf a}} \prod_{k'} q_{k',{\bf a}}^{1-\delta(S_{k',t}\geq
+  s^{-}_{k',{\bf a}})} \ .
+\end{equation}
+
+Note that zone of proximal development considerations could be added
+by making the interval two-sided, \eg, $\delta(s^{+}_{k',{\bf a}} \geq
+S_{k',t}\geq s^{-}_{k',{\bf a}})$.  This would state that the action
+would usually be unsuccessful (ineffective) if the prerequisite skill
+was either too high or too low.  The use of bounds also conveniently
+renders all variables as binary, which is necessary for the noisy-and
+model.  
+
+The number of parameters in this model is linear in the number of
+prerequisite skills.  The experts must specify (or the analysts must
+learn from data) only the lower and upper bound for each prerequisite
+and the probability that the student can work around the missing
+prerequisite, $q_{k,{\bf a}}$.  In addition, the probability that the
+lesson will be successful when the prerequisites are met,
+$q_{0,{\bf a}}$ must be specified.  In practice, experts will
+generally specify the thresholds and prior distributions for the
+$q_{k,{\bf a}}$ parameters. The latter can be refined through
+calibration, if appropriate longitudinal data are available.  This
+seems like a large number of parameters to work with; however, without
+some kind of modeling restriction, the number of parameters grows
+exponentially with the number of prerequisites.  Furthermore, the
+boundaries should be close to the natural way that experts think
+about instructional activities (\ie, this activity is appropriate for
+persons whose skill is in this range and who meets these
+prerequisites).  
+
+One interesting possibility for this model is to explain how
+instructional scaffolding might help in an action.  Presumably,
+scaffolding works to lower the level of the prerequisite skills
+required for a high chance of success and thus raises the probability
+of success for an action that is unlikely to be effective without
+scaffolding.
+
+Note that the value of the \varf{Success} probability can be observed
+or unobserved.  When \varf{Success} is observed at Time~$t$, it also
+provides information about the proficiency of the student at Time~$t$.
+\varf{Success} is more likely at some proficiency states than others.  Hence,
+it can be treated as an additional observable at Time~$t$.  When
+\varf{Success} is not observed, there may be some indirect measure of
+success, such as the student's self-report.  With a little more work,
+these measures can be incorporated into the model.  Also, with a little more
+work, there could be multiple values for \varf{Success} (for example,
+the grade received on an assignment).  This might be useful for
+modeling situations in which there are many different growth curves in
+the population.  However, the number of parameters increases as the
+number of states of \varf{Success} increases, on both the right- and
+left-hand sides of the bowtie model.
+
+\subsection{Linear Growth Model}
+\label{sect:Lin}
+
+
+Assuming that the underlying proficiencies are continuous
+and that growth occurs in a linear way (albeit with noise) leads to a
+linear growth model.  This model is similar to one used in a classical
+signal processing problem called the Kalman filter
+\cite{KalmanBucy1961}.
+
+Following the general convention for the Markov decision process
+framework, we need a model for the initial timeslice and then a model
+for what happens at each increment.  For the initial conditions, we
+assume a multivariate normal distribution:  ${\bf S}_0 \sim N({\bf
+\theta}_0, {\bf \Sigma}_0)$.
+
+At this point, we make a fundamental assumption:  Practice increases
+skills and skills decrease with lack of practice.  According to this
+assumption, we can split the growth model into two pieces.  In the
+background, skills deteriorate over time unless that decrease is
+offset by practice.  If the skill is being actively and effectively
+practiced then the skill will increase over time.  However, the
+effectiveness of the practice depends on how well the selected
+assignment (the action) is matched to the student's current ability
+levels.
+
+First, we examine the background deterioration of the proficiency.  We
+assume that the proficiency deteriorates at a fixed rate over time.
+Let $\mu_k$ be the deterioration rate for proficiency $S_k$.  In the
+absence of instruction,
+\[
+E[S_{k,t_2} | S_{k,t_1}] = S_{k,t_1} - \mu_k\Delta t_1 \ .
+\]
+Note that if the skill is normally practiced in day-to-day life, then
+$\mu_k$ might be zero or negative (indicating a slow background growth
+in the skill).
+
+Instruction on the other hand should produce an increase in the skill
+at the rate $\lambda_{k}({\bf a}_t,{\bf S}_t, X_t)$, which is a
+function of the current proficiency state, ${\bf S}_t$, the action
+taken at Time~$t$, ${\bf a}_t$ and the success of that action, $X_t$.
+The correct time line for proficiency growth is rehearsal time and not 
+calendar time.  However, in most practical problems, the rehearsal time
+will be a multiple of $\Delta t$, possibly depending on the action and
+its success.  Therefore, the difference between rehearsal and calendar
+time can be built into the growth rate, $\lambda_{k}({\bf a}_t,{\bf
+S}_t, X_t)$.  Thus, the proficiency value at time $t_2$ will be:
+\begin{equation}
+\label{eq:lin}
+S_{k,t_2} = S_{k,t_1} + \lambda_{k}({\bf a}_t,{\bf S}_t, X_t) \Delta t_1 -
+\mu_k\Delta t_1 + \epsilon_{t,k}\ ,
+\end{equation}
+where $\epsilon_{t,k} \sim N(0,\Delta t \sigma_{\bf a}^2)$.  Making
+the variance depend on the elapsed time is a usual assumption of
+Brownian motion processes \cite{Ross1989}.  
+
+As stated, both $\lambda_{k}({\bf a}_t,{\bf S}_t, X_t)$ and
+$\mu_k$ are not identifiable from data.  One possible constraint is to
+set a zero growth rate for all unsuccessful actions, $\lambda_{k}({\bf
+a}_t,{\bf S}_t, X_t=0)=0$.  This models a common rate of skill growth
+(deterioration), $\mu_k$, for failure across all actions.  This is
+appealing from a parameter reduction standpoint.  Another possibility
+is to set $\mu_k$ to a fixed value, thus effectively modeling the
+proficiency change when the action fails individually for each action.
+
+As $\lambda_{k}({\bf a}_t,{\bf S}_t, X_t)$ depends on $X_t$,
+it already incorporates the prerequisite relationships and zone of
+proximal development; however, it does so through the use of hard
+boundaries.  Although Equation~\ref{eq:effective} captures the
+prerequisite relationships, it does not do a good job of capturing the
+zone of proximal development.  We expect that an assignment which 
+is a little too easy will have some value, just not as much.  The
+same will be true for an assignment which is a little too hard.
+On the other hand, an assignment which is much too easy or much too
+hard should produce little benefit.  Let $s^*_{k,{\bf a}}$ be the
+target difficulty for Action~${\bf a}$.  One possible parameterization
+for, $\lambda_{k}({\bf S}_t, {\bf a}, X_t)$ is:
+
+\begin{equation}
+\label{eq:linRate}
+\lambda_{k}({\bf S}_t,{\bf a}, X_t) = \eta_{k,{\bf a},X_t} - \gamma_{k,{\bf a},X_t}
+(S_{k,t}-s^*_{k,{\bf a}})^2 \ .
+\end{equation}
+
+The first term, $\eta_{k,{\bf a},X_t}$, is an action specific constant
+effect.  The second term is a penalty for the action being at an
+inappropriate level; the parameter $\gamma_{k,{\bf a},X_t}$ describes the
+strength of this penalty.  The choice of squared error loss to
+encode the proximal zone of development is fairly conventional.  It
+has the desired property of having zero penalty when the student is
+exactly at the target level for the action with the penalty going up
+rapidly as the student's proficiency level is either too high or too
+low.  In fact, it may be necessary to truncate
+Equation~\ref{eq:linRate} so that $\lambda_{k}({\bf S}_t, {\bf a}, X_t)$
+never falls below zero.  One possible problem with this
+parameterization of $\lambda$ is that it treats
+insufficient and excess skill symmetrically.  This may or may not be
+realistic.  However, using the focal proficiency as both a prerequisite and in
+the proximal zone equation allows limited modeling of asymmetric
+relationships.
+
+Two values of $\eta$ and $\gamma$ must be specified for each action,
+${\bf a}$, and each proficiency variable affected by the action,
+$S_k$:  one set of values is needed for a successful action, $X_t=1$,
+and one for an unsuccessful action, $X_t=0$.  As noted above, in many
+situations it may be desirable to set the values of $\eta$ and
+$\gamma$ to zero when the action is not successful and let the base
+rate $\mu_k$ dominate the change in ability.
+
+\subsection{Birth and Death Process Model}
+\label{sect:Birth}
+
+The insights gained from the linear model can be used to create a
+similarly simple model for discrete proficiencies.  For this section,
+assume that the proficiency variables range over the values 0 to
+5\fnote{Alternatively, the ordered set of values \texttt{do},
+\texttt{re}, \texttt{mi}, \texttt{fa}, \texttt{sol}, \texttt{la} could
+be used to make a true proficiency scale.}  (truncating the
+proficiency scale at the higher abilities model students graduating
+from this tutoring program).  
+
+Assume that the time interval $\Delta t_n$ is always small enough that
+the probability of a student moving more than one proficiency level
+between lessons is negligible.  In this case, a class of stochastic
+process models called the \textit{birth-and-death process\/}
+\cite{Ross1989} is often used.  It is called a birth and death process
+because it is useful for modeling population change.  In our example,
+the student's ability corresponds to the population.  The
+birth-and-death process assumes that birth (increase) and death
+(decrease) events both happen according to independent Poisson
+processes.  In the case of skill acquisition, the birth rate is the
+rate of skill growth, $\lambda_{k}({\bf S}_t,{\bf a}, X_t)$, and the
+death rate, $\mu_k$, is the rate of skill deterioration.
+
+Actually, this is not quite a classic birth and death process because
+there is an absorbing state at the top of the ability scale.  In some
+ways, this makes things easier because the outcome spaces are finite
+(and the same model is not likely to be valid for infinite ability
+ranges).  A second difference from the classical birth-and-death model
+is that the birth rate is a random variable (as it depends on the
+random success, $X_t$, of the action).
+
+In general, both the improvement and deterioration rate will depend on
+the student's current proficiency level.  At the minimum, the rates at
+the boundary conditions will be zero (a student cannot transition
+lower from the lowest state or higher than the highest).  It seems
+sensible to keep the deterioration rate, $\mu_k$, constant, except at
+the boundary.  Similarly, we could press Equation~\ref{eq:linRate}
+into service to generate the improvement rates.
+
+\section{Examples of the Models in Action}
+\label{sect:Sim}
+
+A small simulated data experiment should aid in understanding how the
+proposed temporal models can unfold.  Section~\ref{subs:setup}
+describes the parameters used in simulation, based on the Music Tutor
+example (Section~\ref{sect:Music}).  Section~\ref{subs:statement}
+looks at a couple of simulated series and at how well they can be
+estimated by various techniques.  Section~\ref{subs:analysis}
+summarizes key findings from the simulation.
+
+\subsection{Music Tutoring Simulation}
+\label{subs:setup}
+
+
+The music tutoring problem defines two proficiency scales,
+\varf{Mechanics} and \varf{Fluency}.  The student's proficiencies on
+these two scales at Time~$t$, taken together, form ${\bf S}_t$.  To
+further specify the scale for a numerical example, we will say that
+both are continuous and take on values between 0 and 6.  To further
+define the scale, assume that the the student is assumed to be
+randomly selected from a population with the following normal
+distribution:
+\[
+{\bf S}_0 \sim N (\bfmu, \Omega)
+\]
+where 
+\[
+  \bfmu = \left [ \begin{matrix}
+     1.5 \\ 1.5
+  \end{matrix} \right ] \ , 
+\quad\mbox{and} \quad
+  \Omega = \left [ \begin{matrix}
+   0.52 & 0.48 \\ 0.48 & 0.52
+  \end{matrix} \right ]  
+\ .
+\] 
+
+Assume that at each meeting with the student, the tutor evaluates
+the student's current proficiency rating, assigning a score for
+\varf{Mechanics} and \varf{Fluency} based on the same scale as the
+underlying proficiencies (0--6), but rounded to the nearest
+half-integer.  We assume that the assessment at any time point, ${\bf 
+Y}_t$, has relatively low reliability and that the two measures are
+confounded so that the \varf{Mechanics} proficiency influences the
+\varf{Fluency} component of the score and vice versa.  The evidence
+model for these benchmark evaluations is given by the following
+equation:
+
+\begin{equation}
+\label{eq:muEM}
+{\bf Y}_t = A {\bf S}_t  + {\bf e}_t\ ,
+\end{equation}
+where
+\[
+{\bf e}_t \sim N ({\bf 0}, \Lambda) \ ,
+\]
+with
+\[
+A =   \left [ \begin{matrix}
+   0.7 & 0.3 \\ 0.3 & 0.7
+  \end{matrix} \right ]  \ ,
+\quad\mbox{and}\quad
+\Lambda =
+  \left [ \begin{matrix}
+   0.65 & 0 \\ 0 & 0.65
+  \end{matrix} \right ]  \ ,
+\]
+
+and the tutor rounds the scores to the nearest half-integer.  
+
+The numbers stated above are enough to calculate the reliability of
+the benchmark assessment at Time~0.  The expression
+$\Omega_{ii}/(\Omega + A^{-1}\Lambda (A^{-1})^{T}))_{ii}$, gives the
+reliability for the measurement of Skill~$i$.  Using the
+number from the simulation, this gives a reliability of 0.45 at Time~0.  
+
+As time passes, however,  the variance of the population will
+increase.  Equation~\ref{eq:lin} describes a random walk in discrete
+time, or a Brownian motion process.  In both cases the variance of
+${S_{k,t}}$ should be $\sigma^2_{S_{k,0}} + t \sigma^2_{\Delta S_k}$,
+where $\sigma^2_{S_{k,0}}$ is the Time~0 population variance and
+$\sigma^2_{\Delta S_k}$ is a quantity that describes the variance of
+the innovations (the result of differencing Equation~\ref{eq:lin}) at
+each time step.  Thus, both the numerator and denominator in the
+reliability equation will increase over time, and the reliability will
+increase.  This is a reflection of a well-known fact that reliability
+is population dependent.
+
+In general, the variance of $\Delta {\bf S}_t$ (change in skill from
+time to time) is difficult to calculate, in part because it depends on
+the policy --- the series of rules by which actions are chosen.  Thus,
+in the model described here, there are three sources of variance for
+the difference in skill between time points:  (1)~the random response
+to the chosen action (as expressed by the \varf{Success} variable);
+(2)~estimation error for the current proficiency level which causes
+the chosen action to target a proficiency higher or lower than the
+actual one (thus affecting the growth rate); and (3)~the variation of
+the observed growth around the average growth curve, the quantity
+referred to as $\epsilon_{k,t}$ in Equation~\ref{eq:lin}.
+
+\smallskip
+
+For the tutor, choosing an action, ${\bf a}_t$, consists of choosing
+a \varf{Mechanics} and \varf{Fluency} level for the assignment.
+(We will ignore for the moment the fact that lessons with high
+\varf{Fluency} and low \varf{Mechanics} demands might be
+difficult to obtain, as they will rarely be called for by the model.)
+A reasonable first guess at an optimal policy is for the tutor to
+simply assign a lesson based on the tutor's best estimate of
+current student proficiency.  
+
+Using the bowtie model, the action is modeled in two pieces: one for
+the success of the action and one for the effect of the action given
+the success status.  In this simulation, each proficiency dimension
+is assigned a separate success value, $X_{tk}$, taking on the value
+\statef{1} if the lesson is effective and \statef{0} if the lesson
+is not effective.  Furthermore, the two success values are assumed to
+be independent given the proficiency.  A key component of the model is
+that the proficiency level of the assigned lesson, ${\bf a}_t$, must
+be within the zone of proximal development of the student's
+proficiency, ${\bf S}_t$.  This is accomplished by setting
+bounds for $S_{k,t} - a_{k,t}$.
+
+For the \varf{Mechanics} skill, there is still some benefit from
+practicing easy techniques (large positive difference between skill
+and action), but if the technique to be
+practiced is much above the student's current \varf{Mechanics}
+proficiency (negative difference), the benefit will be minimal.  For
+that reason, the \varf{Mechanics} prerequisite is considered met when
+$\delta_M ({\bf S}_t,{\bf a}_t) = \delta(-1 \leq
+S_{\varf{Mechanics},t}-a_{\varf{Mechanics},t} \leq 2)$.  For
+\varf{Fluency} the opposite is true; rehearsing musical pieces below
+the current student level has minimal benefit, while attempting a
+piece which is a musical stretch is still worthwhile.  Therefore, the
+\varf{Fluency} prerequisite is considered met when $\delta_F
+({\bf S}_t,{\bf a}_t) = \delta(-1 \leq
+S_{\varf{Fluency},t}-a_{\varf{Fluency},2} \leq 2)$.  Because
+students may benefit from the lesson even if the prerequisites are
+not met, we add \textit{guessing parameters}, ${\bf q}_1$, to the
+model.  For this example we set $q_{1,\varf{Mechanics}}= .4$ for and
+$q_{1,\varf{Mechanics}}= .5$, reflecting the fact that mechanical
+ability is harder to fake than fluency.
+
+Finally, Equation~\ref{eq:effective} contains a parameter, $q_0$, for
+the probability that a student succeed given that the prerequisites
+are met.  As our success variable is two-dimensional, this parameter
+is two-dimensional as well.  The probabilities are .8 for
+\varf{Mechanics} and .9 for \varf{Fluency}, reflecting the fact that
+students are usually less motivated to study mechanics than fluency.
+Multiplying the values of ${\bf q}$ and $q_0$ out according to
+Equation~\ref{eq:effective} yields the conditional probability table
+for $\Pr({\bf X}_t|{\bf S}_t,{\bf a}_t)$ show in
+Table~\ref{tab:success}.
+
+\begin{table}[ht]
+\caption{Success Probabilities by Prerequisite.}
+\label{tab:success}
+\begin{tabular}{cc|rr}
+$\delta_M ({\bf S}_t,{\bf a}_t)$ & $\delta_F ({\bf S}_t,{\bf a}_t)$ &
+$\Pr(X_{t,\varf{Mechanics}} = 1)$ & $\Pr(X_{t,\varf{Fluency}} = 1)$ \\
+\hline
+TRUE & TRUE & .80 & .90 \\
+TRUE & FALSE & .40 & .45 \\
+FALSE & TRUE & .32 & .36 \\
+FALSE & FALSE & .16 & .18 \\
+\end{tabular}
+\end{table}
+
+We make the relatively simplistic assumption that successful practice
+is ten times as effective as unsuccessful practice.  Thus, we can
+simply multiply the rate constant $\lambda$ by $(.9*X_t + .1)$ to get the
+effective improvement rate for each time period.  
+
+Setting the improvement and deterioration rates requires first picking
+a time scale.  If the base time scale is months, then we can simulate
+a monthly series by using a time step of 1 between data points and a
+weekly series by using a time step of 1/4.  Using this scale, the
+\varf{Mechanics} proficiency deteriorates at the rate of .02
+proficiency units per month, while \varf{Fluency} deteriorates at the
+rate of .01 proficiency units per month.  Thus, over a short
+simulation, proficiency is likely to stay fairly level with no
+instruction. 
+
+Recall that according to Equation~\ref{eq:linRate}, the improvement
+rate has two components:  a constant term $\eta$ and a quadratic
+penalty term, $\gamma$,  for being far from the target proficiency of
+the lesson.  For both proficiencies, $\eta$ was set at .2 proficiency
+units per month (10--20 times the deterioration rate), while $\gamma$
+was set to .1 for \varf{Mechanics} and .15 for \varf{Fluency},
+indicating that mechanical practice for a lesson which is off target
+provides more benefit than fluency practice (provided that the lesson
+was effective).
+
+Naturally, there is some random variability in the proficiency change
+at each time point.  We assume that this happens according to a
+Brownian motion process \cite<see>{Ross1989}, so that the variance
+will increase with the elapsed time between lessons.  In this case,
+$\Var(\epsilon_{k,t}) = \sigma^2 \Delta t$.  For this example, we set
+$\sigma$ to .02 for both proficiencies.  (Note that the model does not
+require that the errors be uncorrelated across the dimensions; we
+could instead describe the error in terms of a covariance matrix.)
+
+Using these numbers and a policy for making assignments at each time
+point, it is reasonably straightforward to write a simulation.
+Appendix~\ref{appx:R} gives the code written in the R language \cite{R}
+used to perform the simulation. Two questions are of immediate
+interest:  (1)~given a sequence of observations, what is the most
+likely value for the underlying student proficiency? and (1)~how do we
+set a policy for assigning an action at each time point?
+
+The first corresponds to a classic time series concept called
+\textit{filtering}.  The name comes from signal processing, in which
+high frequency noise (measurement error) is separated from the
+underlying signal.  Filters takes the previous observations as input
+and outputs an estimate of the current level of the signal (or in
+this case, the current proficiency level).  Appendix~\ref{appx:filter}
+describes several possible filters.
+
+One filter that is able to take advantage of the structure and
+constraints of the problem is the \textit{particle filter}
+\cite{Doucet2001,Liu2001}.  The particle filter works by generating a
+number of plausible trajectories for the student through proficiency
+space and weighting each one by its likelihood of generating the
+sequence of observed outcomes (Appendix~\ref{subs:pf} provides more
+detail).  This can be represented graphically (Figure~\ref{fig:Sim2m})
+by a cloud of points colored with an intensity related to their
+weights.  The best estimate for the student at each time point is the
+weighted average of the particle locations at that time point.  A 95\%
+credibility interval can be formed by selecting a region which
+contains 95\% of the particles by weight.
+
+Although the particle filter is quite flexible, it is also
+computationally intensive.  For the purposes of the simulation, the
+policy was based on an ability estimate that was simpler to compute.
+In the simulation described below, the tutor's assignments were based
+on an estimate using an \textit{exponential filter}, a simple weighted
+sum of the current observation and the previous estimate.  Exponential
+filters are optimal when the underlying process is well approximated
+by an integrated moving average process \cite{BoxJenkins}, a simple
+class of models that often provides a good approximation to the
+behavior of nonstationary time series.  Appendix~\ref{subs:expf}
+describes the exponential filter.  The weight is set rather
+arbitrarily at 0.5.
+
+Finally, we need to specify the policy.  In this case, we will use the
+straightforward policy of having the instructor target the lesson to
+the best estimate (using the exponential filter) of the student's
+current ability.
+
+\subsection{The Simulation Experiment}
+\label{subs:statement}
+
+Using the model of Section~\ref{subs:setup}, assume that the student
+and music tutor meet monthly.  Using this basic framework,
+Table~\ref{tab:sim2m} shows data for a simulated year of interactions
+between tutor and student.  Note that the actions shown in
+Table~\ref{tab:sim2m} are based on matching the action level to the
+average of the previous three observed values (rounded to the nearest
+half-integer).  This provides an opportunity to compare the particle
+filter, which incorporates the model for growth, to the much simpler
+exponential filter, which does not.
+
+\begin{table}
+\caption{Monthly Simulated Data for Music Tutor Example}
+\label{tab:sim2m}
+\begin{tabular}{|r|rr|rr|rr|rr|rr|}
+\hline
+\multicolumn{1}{|c|}{\bf Time} & \multicolumn{2}{c|}{\bf Truth} &
+\multicolumn{2}{c|}{\bf Observed} & \multicolumn{2}{c|}{\bf Action} &
+\multicolumn{2}{c|}{\bf Success} \\
+Months & {\it Mech.} & {\it Flu.} & {\it Mech.} & {\it Flu.} & 
+{\it Mech.} & {\it Flu.} & {\it Mech.} & {\it Flu.} \\ \hline
+ 0 & 1.55 & 1.37 & 1.5 & 1.5 & 1.5 & 1.5 & 1 & 1 \\
+ 1 & 1.73 & 1.51 & 2.0 & 1.5 & 1.5 & 1.5 & 1 & 1 \\
+ 2 & 1.88 & 1.72 & 2.5 & 1.0 & 2.0 & 1.0 & 1 & 1 \\
+ 3 & 2.05 & 1.84 & 3.0 & 2.0 & 2.5 & 1.5 & 1 & 1 \\
+ 4 & 2.21 & 2.02 & 2.0 & 2.0 & 2.0 & 1.5 & 1 & 1 \\
+ 5 & 2.39 & 2.15 & 1.0 & 2.0 & 1.5 & 1.5 & 1 & 1 \\
+ 6 & 2.48 & 2.26 & 2.5 & 3.0 & 2.0 & 2.0 & 1 & 1 \\
+ 7 & 2.65 & 2.42 & 4.0 & 3.0 & 3.0 & 2.5 & 1 & 1 \\
+ 8 & 2.79 & 2.59 & 2.5 & 1.0 & 2.5 & 1.5 & 0 & 0 \\
+ 9 & 2.79 & 2.59 & 3.0 & 3.0 & 2.5 & 2.0 & 0 & 1 \\
+ 10 & 2.78 & 2.73 & 3.5 & 2.0 & 3.0 & 2.0 & 0 & 1 \\
+ 11 & 2.77 & 2.84 & 3.0 & 3.0 & 3.0 & 2.5 & 1 & 1 \\
+ 12 & 2.97 & 3.00 & 2.5 & 3.5 &  &  &  &  \\
+\hline
+\end{tabular}
+\end{table}
+
+
+Figure~\ref{fig:Sim2m} is an animation\fnote{Readers who are viewing a
+paper version of this report, or for whom the embedded animation in
+not working properly can view the figure online at
+\urldir{Sime2m.mp4}.} of the result of applying the particle filter to
+the data in Table~\ref{tab:sim2m}, with the value of the success
+variable assumed to be observed (input to the filter).  The red
+diamond represents the student simulated proficiency.  This is the
+ground truth of the simulation, and the target of inference.  The blue
+triangle plots the noisy (low reliability) benchmark test.  The
+magenta star plots the estimate from the exponential filter, which the
+simulated tutor uses to decide on the action.
+
+\begin{figure}[ht]
+\begin{centering}
+\includemovie[poster,text={\urldir{Sime2m.mp4}}]{352pt}{288pt}{Sime2m.mp4}
+%\centerline{\includegraphics[width=5.5in]{Sime2mBootstrap}}
+\caption{Particle filter estimates for Music Tutor example, action
+  success observed.}  
+\label{fig:Sim2m}
+\end{centering}
+\end{figure}
+
+The estimate from the particle filter is shown with the cloud of
+circles.  The circles are colored gray with the intensity proportional
+to the weights.  (The gray value\fnote{The way this color is rendered on
+various screens or printers may vary considerably, so interpret the
+gray values with some caution.} is $1-w^{(n)}_t/max_n w^{(n)}_t$,
+where $w^{(n)}_t$ is the weight assigned to particle~$n$ at time $t$.
+The point with the highest weight is black, and the other particles are
+increasingly paler shades of gray.)  In order to avoid a
+large number of particle with low weights, the collection of particles
+is periodically resampled from the existing particles (this is called
+the \textit{bootstrap filter}, see Appendix~\ref{subs:pf}).
+
+The performance of the estimators can be seen a little more clearly by
+looking at the estimates for the two proficiency variables as separate
+time series.  Figure~\ref{fig:Sim2mTS} shows the same estimates as
+Figure~\ref{fig:Sim2m} from a different orientation.  The upper and
+lower bounds for the particle filter estimate are formed by looking at
+the value at which 97.5\% (or 2.5\%) of the weight falls below.  Note
+that although the true value moves to the upper and lower bounds of
+the estimate, it always stays within the interval.  The exponential
+filter smoothes some but not all of the variability.  The amount of
+smoothing could be increased by decreasing the weight in the filter;
+however, this will make the estimates more sensitive to the initial
+value.
+
+\begin{figure}[p]
+\centerline{\includegraphics[height=6in]{Sime2mB2TS}}
+\caption{Time series estimates for Music Tutor example, action success
+observed.}
+\label{fig:Sim2mTS}
+\end{figure}
+
+
+It may or may not be possible to observe the success of the monthly
+assignments.  Figures~\ref{fig:Sim2mna}\fnote{This animation can be
+viewed at \urldir{Sime2mna.mp4}.}  and~\ref{fig:Sim2mnaTS} show the
+results of the particle filter estimate when the action is not
+observed.  Note that the 95\% interval is wider on the new scale.
+
+
+\begin{figure}[ht]
+\begin{centering}
+\includemovie[poster,text={\urldir{Sime2mna.mp4}}]{352pt}{288pt}{Sime2mna.mp4}
+\caption{Particle filter estimates for Music Tutor example, action
+  success unobserved.}  
+\label{fig:Sim2mna}
+\end{centering}
+\end{figure}
+
+\begin{figure}[p]
+\centerline{\includegraphics[height=6in]{Sime2mnaB2TS}}
+\caption{Time series estimates for Music Tutor example, action success
+unobserved.}
+\label{fig:Sim2mnaTS}
+\end{figure}
+
+By changing the value of $\Delta t$, the simulation can be run for
+weekly rather than monthly meetings between tutor and student.  In the
+weekly scheme, the tutor has the ability to adjust the lesson on a
+weekly basis; there are also more observations.
+Figures~\ref{fig:Sim2wna}\fnote{This animation can be viewed at
+\urldir{Sime2wna.mp4}.}  and~\ref{fig:Sim2wnaTS} show the results.
+Again, the particle filter tracks the true proficiency to within the
+95\% confidence band, although in many cases it looks like the true
+value lies close to the lower limit.
+
+\begin{figure}[ht]
+\begin{centering}
+\includemovie[poster,text={\urldir{Sime2wna.mp4}}]{352pt}{288pt}{Sime2wna.mp4}
+\caption{Particle filter estimates for Music Tutor example, action
+  success unobserved, weekly meetings.}  
+\label{fig:Sim2wna}
+\end{centering}
+\end{figure}
+
+\begin{figure}[p]
+\centerline{\includegraphics[height=6in]{Sime2wB2NATS}}
+\caption{Time series estimates for Music Tutor example, action success
+unobserved, weekly meetings.}
+\label{fig:Sim2wnaTS}
+\end{figure}
+
+\subsection{Analysis of This Example}
+\label{subs:analysis}
+
+The particle filter technique looks good in these artificial
+settings, where the simulation model matches the model used in the
+particle filter.  With this choice of weight, the exponential filter
+smooths out only a small part of the noise of the series.  Decreasing
+the weight results in a smoother estimatencreasing the reliability of the benchmark assessment should
+produce an increase in the smoothness of both the exponential and 
+particle filter estimate.  The effect should be stronger in the
+exponential filter, which is not making optimal use of past
+observations to stabilize the estimates.  Similarly, if the variance
+of the skill growth process is large, the particle filter will have
+less information from past observations with which to stabilize the
+current estimates.  Thus, its improvement over the exponential filter
+type estimator will be more modest.
+
+Note that the benchmark assessment was deliberately chosen to have low
+reliability.  The practical considerations of time spent in the
+classroom for instruction versus assessment require that the benchmark
+assessments be short in duration.  That means that as a practical
+matter the reliability of the benchmark assessments will be at best
+modest.
+
+A larger problem with the exponential filter is that it does not adapt
+its weight as the series gets longer and longer.  In the initial part
+of the series, the previous estimate is based on only a few prior
+observations and thus still has a fairly large forecasting error.  In
+this case, the weight given to new observations should be fairly high.
+After several observations from the series, the forecasting error
+should decrease, and the previous estimate should be weighted more
+strongly in the mixture.  The particle filter does this naturally
+(using the variance of the particle cloud as its estimate of the
+forecasting variance).  The Kalman filter \cite{KalmanBucy1961} also
+automaticly adjusts the weights, and might produce a good
+approximation to the more expensive particle filter.
+
+\medskip
+
+Another interesting feature of this simulation is the fact that the
+growth curves display periods of growth interspersed with flat
+plateaus.  This shape is characteristic of a learning process that is
+a (latent) mixture of two growth curves.  This seems to mimic behavior
+sometimes seen in real growth curves, where some students will show
+improvement at the beginning of a measurement period and some towards
+then end.  If the \varf{Success} variable was allowed to take on more
+than two values, the bowtie model could mimic situations with multiple
+growth curves at the cost of adding a few more parameters to the
+model.
+
+These results do not take into account the uncertainty in the
+parameters due to estimation.  The particle filter used the same
+parameters as the data generation process, thus, it was operating
+under nearly ideal conditions.  It is still unknown how easy it will
+be to estimate parameters for this model.  Fortunately, the problem
+can be divided into two pieces:  estimating the parameters for the
+evidence models (for the benchmark tests) and estimating the
+parameters for the action models (for student growth).  Evidence
+models can be estimated from cross-sectional data, for which it is
+relatively inexpensive to get large sample sizes.  Estimating growth
+requires longitudinal data, which are always more expensive to collect.
+
+The big advantage of the more complex model described in this paper is
+that it explicitly takes the instructor's actions from lesson to
+lesson into account when estimating the student's ability.  Thus, the
+model provides a forecast the student's ability under any educational
+{\it policy\/} (set of rules for determining an action), making it
+useful for instructional planning.
+
+
+\section{Planning}
+\label{sect:Planning}
+
+Although the cognitive processes of proficiency acquisition and
+deterioration are almost certainly more complex than the simple model
+described here, the model does capture some of their salient features.
+The model is hoped to be good enough for the purpose of filtering
+(improving the estimates of current student proficiency levels) and
+forecasting (predicting future proficiency levels).  In particular,
+the instructor needs to be able to form a \textit{plan\/} --- a series
+of actions or strategies for selecting the actions at each lesson ---
+that has the best probability of getting the student to the goal
+state.
+
+The setup described here has most of the features of a Markov decision
+process.  The previous sections show how the growth in proficiency can
+be modeled as a discrete time (or continuous time) Markov process. The
+evidence-centered design framework describes how observations can be
+made at various points in time.  The last needed element is the
+specification of the utilities.  First, assume that the costs
+associated with each test and each action are independent of time.
+Next, assume that there is a certain utility $u({\bf S}_t,t)$ for the
+student being at state ${\bf S}_t$ at Time~$t$, and let the total
+utility be $\sum_t u({\bf S}_t,t)$.  Then the utilities factor over
+time and all of the conditions of an MDP are met.
+
+In general, the proficiency variables, ${\bf S}_t$, are
+unobserved.  The action outcome $X_t$ may be directly observable,
+indirectly observable (say through student self-report of practice
+time) or not observed at all.  This puts us into a class of models
+called \textit{partially observed Markov decision processes\/}
+(POMDPs), which require a great deal of computational resources to
+solve \cite{Mundhenk2000}.
+
+Another potential issue with this approach is the infinite time
+horizon.  In theory, the total utility of a sequence of actions is
+the sum of the utilities across all time points.  In order for that
+utility to be finite, either the time horizon must be finite (\ie, one
+semester), or future rewards must be discounted in relationship to
+current rewards.  This is usually done by introducing a discount
+factor $\phi$ and setting the utility at Time~$t$ to be $\phi^t u({\bf
+S}_t)$.  This assumption may have interesting educational
+implications.  For example, it is widely reported that students who
+acquire reading skills early have an advantage in many other subjects
+while students who acquire reading skills late have significant
+difficulties to overcome.
+
+The solution to a MDP is a \textit{policy\/} --- a mapping from
+the proficiency states of the student to actions (assignments given to
+the student).  However, in the POMDP framework, as true proficiency
+levels are known, policies map from belief states about students to
+actions.  If testing has a high cost in this framework, testing can be
+considered a different action (one that improves information rather
+than changes student state), and decisions about when to test can be
+included in the policy.
+
+Finding solutions to POMDPs is hard \cite{Mundhenk2000}, but a number
+of approximate algorithms for solving POMDPs exist.  The problem is
+still very difficult and heuristics for reducing the number of
+candidate actions are potentially useful.  Here, reasoning about
+prerequisites can reduce the size of the search space.  In
+particular, if the probability of success for an action is small, it
+can be eliminated.  For example, any assignments
+which are much more difficult than our current best guess of the
+student's proficiency level can probably be safely pruned from the
+search space.
+
+Suppose that the utility has a structure that gives a high reward if
+the student has reached a goal state, a certain minimal level of
+proficiency.  This utility models much of the emphasis on standards in
+current educational practice.  Then we can use the POMDP model to
+calculate the probability that the student will reach the goal --- meet
+the standards --- by a specified time point.  In particular, the model
+can identify students for whom the probability of meeting the goal
+is small.  These are \textit{at-risk\/} students for whom the
+current educational policy is just not working.  Additional resources
+from outside the system would need to be brought to bear on these
+students.
+
+\section{Discussion}
+
+The model described above captures many of the salient features of
+proficiency acquisition using only a small number of parameters.  In
+particular, the number of parameters grows linearly in the number of
+prerequisites for each action, rather then exponentially.  They are a
+compromise between producing a parsimonious model and a model faithful
+to the cognitive science.  As such, this model may not satisfy either pure
+statisticians or cognitive scientists, but it should have sufficient
+ability to forecast student ability to be useful, especially for the
+purposes of planning.
+
+Even though the models are parsimonious, the ability to estimate the
+parameters from data is still largely untested.  Markov chain Monte
+Carlo and other techniques may provide an approach to the problem, but
+weak identifiability of the parameters could cause convergence problems
+in such situations.  These models need to be tested both through
+simulation experiments and applications to real data.
+
+One part of the estimation problem is estimating the effects of a
+particular action.  The literature on this topic is vast (von Davier
+and von Davier, 2005, provide a review)\nocite{vonDavier2}.  Usually
+both the pretest and posttest need to have high reliability, and often
+there is a problem of vertical scaling between the pretest and
+posttest.
+
+One difficulty with estimating growth model parameters is that
+experiments in classrooms rarely have pure randomized designs that
+easily allow causal attribution of observed effects.  The goal of the
+model described in this paper is filtering (better information about
+current proficiency) and forecasting (predicting future state), not
+measuring change.  It is sufficient for our purpose to know that
+normal classroom activities plus a particular supplemental program
+have a given expected outcome.  Untangling the causal factors has
+important implications for designing better actions but not immediate
+applicability to the filtering and forecasting problems.  Even in
+situations where the goal is to make inferences about the effect of a
+particular program, the models developed in this paper would be
+suitable as imputation models to fill-in data missing due to random
+events (\eg, student absence on one of the test dates).  As missing
+data can affect a large number of records in a study which observes
+students over a length of time, this capablity represents a big
+improvement.
+
+Many traditional models for student growth assume that growth for all
+students is along the same trajectory, with random errors about that
+common trajectory.  Typical studies looking at proficiency
+trajectories \cite<\eg,>[]{Ye2005} show a large number of different
+growth curves.  The models described in this paper have only two
+growth curves (at each time point):  one if the action succeeded and
+another if it did not (although a student can be on different curves
+in different time intervals).  Whether this is adequate, or whether
+allowing the \varf{Success} variable to take on more than two states
+will produce an improvement, has yet to be determined.  If the
+individual differences in rates are large, then either shortening the
+intervals between tests or increasing the reliability of the
+individual tests should diminish the impact of those differences in
+rate on the estimation of student proficiency.
+
+Another potential problem is that in typical classroom assessments
+periodic benchmark assessments must be short in order to minimize the
+amount of time taken away from instruction.  As test length plays a
+strong role in determining reliability, short benchmark tests will
+have modest reliability at best.  In the Bayesian framework an
+estimate about a student's current ability is always a balance between
+the \textit{prior} probability (based on the population and previous
+observations) and the {\it evidence} from the observations at the
+current time point.  If the reliability of the benchmark tests is low,
+then our estimates of an examinee's current proficiency level will be
+based mostly on previous observations.  Thus, the Bayesian
+framework already takes reliability into account.
+
+There is a point of diminishing returns.  If the test adds almost no
+information to our current picture of the student's proficiency, there
+is little point in testing.  Likewise there is little point in testing
+if the action will be the same no matter the outcome of the test.
+Actually, the lack of meaningful choices in the action space may prove
+to be the largest problem that this framework poses.  No matter how
+good the diagnostic assessment system is, it will have little value if
+the instructor does not have a rich set of viable instructional
+strategies available to ensure that the educational goals are reached.
+On the other hand, a diagnostic assessment system which integrates
+explicit models of student growth together with a well aligned set of
+instructional actions could add value for both students and instructors.
+
+
+\bibliographystyle{apacite}
+\bibliography{temporalModels}
+
+\appendix
+\section{Filters}
+\label{appx:filter}
+
+In time series analysis, a \textit{filter} is a function of a series
+of observations that produces a smoothed estimate of the trend of the
+series.  The term comes from signal processing where the filter
+removes high frequency noise\fnote{Technically this is a low-pass
+filter; high-pass filters for removing low frequency noise are also
+used.} from a signal.  The filter provides a better estimate of the
+current position in the series.  Usually the filter can be run for a
+few additional cycles to produce a forecast for the series.
+
+This paper uses two different filters.  Section~\ref{subs:expf}
+describes the simple exponential filter.  Section~\ref{subs:pf}
+describes the more flexible and complex particle filter.  The Kalman
+filter (\citeNP{KalmanBucy1961}; see also
+\citeNP{BrockwellDavis2002}) lies somewhere between the two in
+complexity.  If the growth process described by Equation~\ref{eq:lin}
+was a simple normal increment, then the Kalman filter would provide
+optimal predictions.
+
+\subsection{Exponential Filter}
+\label{subs:expf}
+
+Assume that we are interested in a time series $S_0,\ldots,S_t$, but
+we have observed a series $Y_0,\ldots,Y_t$ which reflects $S_t$ with
+some added uncorrelated errors.  A simple and often effective filter
+is formed by the weighted sum of $Y_t$ and the previous estimate $\hat
+{S_{t-1}}$, as follows:
+\begin{equation}
+\label{eq:expf}
+\hat {S_{t}} = 
+\begin{cases}
+Y_0 & \mbox{for } t=0 \\
+\alpha Y_t + (1-\alpha)\hat{S_{t-1}} & \mbox{for } t>0.\\
+\end{cases}
+\end{equation}
+
+This is called an \textit{exponential filter}, because when it is
+written as a sum of past observations, it looks like
+\[
+\hat {S_{t}} = \sum_{k=0}^t \alpha (1-\alpha)^k Y_{t-k} \ .
+\]
+Thus, past observations fade into the background at a rate
+$(1-\alpha)^k$.  For large values of $\alpha$, the filter output tracks
+the series $Y_t$ fairly closely.  For small values of $\alpha$, the
+filter is much smoother.  However, the summation form is
+truncated at $Y_0$.  Thus for small $\alpha$ the initial estimate has
+a fairly high weight.
+
+There doesn't seem to be a clear consensus about how to set an optimal
+value for the filter parameter $\alpha$.  \citeA{BrockwellDavis2002}
+describe the filter but suggest plotting the filtered series for
+several values of $\alpha$ against the observed series and choosing
+the parameter based on the quality of the smoothed series.
+
+\citeA{BoxJenkins} note that the filter is optimal for integrated
+moving average processes of order one, that is, time series that can be
+represented by the equation:
+\begin{equation}
+\label{eq:ima}
+Y_t = Y_{t-1} + e_t - \theta_1 e_{t-1} \ ,
+\end{equation}
+where $e_t$ is a white noise process with zero mean and constant
+variance, and where $\alpha = 1-\theta_1$.  However,
+estimating the coefficients of an integrated moving average process
+from a short series can be difficult.  Another difficulty is that a
+value of $\alpha$ chosen as optimal for one student may not
+work well for another student.
+
+Another issue is that the series described in Equation~\ref{eq:ima}
+when differenced has a zero expected value.  Contrast this to
+Equation~\ref{eq:lin}.  If the tutor is applying a reasonable policy,
+the differenced should have a positive expected value.  Accounting for
+this positive expecation requires an additional term for the expected
+effects of instruction in the filter equation.  Without this term, the
+filter will slightly underestimate the true value.  The smaller the
+value of $\alpha$, the more these errors will accumulate to cause
+underestimates of the true series.  However, adding an average drift
+parameter to the filter introduces a second parameter to estimate.
+
+\subsection{Particle Filter}
+\label{subs:pf}
+
+When both the evidence model and the action model are based on normal
+distributions, the Kalman filter
+\cite{KalmanBucy1961} provides an analytical method for calculating the
+posterior distribution over the student's proficiency at any time
+point.  Unfortunately, the normality assumption falls down in two 
+respects:  (1)~if the success variable is unobserved, then the process
+is a mixture of normals and not a single normal; and (2)~the size of
+the drift depends on the distance between the unobserved true
+proficiency and the difficulty level of the chosen action.  To get
+around those problems, we look at numerical methods for filtering and
+forecasting.  
+
+The technique chosen below is the \textit{particle filter}
+\cite{Doucet2001,Liu2001}, also known as sequential importance
+sampling.  This is a Monte Carlo approximation, which estimates the
+posterior distribution through a randomly generated set of
+\textit{particles}, ${\bf S}^{(1)}, \ldots, {\bf S}^{(N)}$.  Each
+particle, ${\bf S}^{(n)} = \{ {\bf S}^{(n)}_0, {\bf S}^{(n)}_1, {\bf
+S}^{(n)}_2, \ldots\}$, represents a possible trajectory of the
+student through proficiency space.  At each time step, the particle
+filter assigns a weight, $w^{(n)}_t$, to each particle based on the
+likelihood of the observations sequence ${\bf Y} = \{{\bf Y}_0, {\bf
+Y}_1, \ldots, {\bf Y}_t\}$.  This weight factors as follows:
+\begin{equation}
+\label{eq:pfweight}
+w^{(n)}_t = \Pr({\bf Y}_t | {\bf S}^{(n)}_t) w^{(n)}_{t-1}
+\ .
+\end{equation}
+
+The particle filter has a number of desirable properties.  First, the
+accuracy is driven by the number of particles, $N$, and not the
+dimensionality of the proficiency space.  Second, both the calculation
+of the trajectories and the weights factor in time and only require
+the forward data generation equations (as given in
+Section~\ref{sect:Sim}).  Consequently, particle filters are mostly
+implemented by creating a ``cloud'' of particles at time point zero
+and moving them along a random trajectory at each time point, updating
+the weights along the way.
+
+One disadvantage of the particle filter is that over time, the weights
+of most of the particles will approach zero.  This means that the
+estimates will be based on only a few particles.  To overcome this
+problem, the \textit{bootstrap particle filter} periodically resamples
+particles from the current distribution, hopefully producing a new set
+of particles that spans a more meaningful part of the support of the
+distribution.  The bootstrap filter takes a weighted sample using the
+current weight values and sets the weights of the newly sampled points
+to $1$.  Usually 
+the bootstrap sampling is done according to a fixed time schedule
+(every so many time points), but other schemes are possible
+\cite{Liu2001}.
+
+In estimating proficiencies in the music tutor problem, we observe a
+series of \textit{benchmark assessment} results, ${\bf Y}_0, {\bf
+Y}_1, \ldots$, and a series of \textit{actions}, ${\bf a}_0, {\bf a}_1,
+\ldots$.  There are two cases to consider.  If the success of each
+action is known, then the data are augmented with the success indicator
+variables, ${\bf X}_0, {\bf X}_1, \ldots$.  If not, then the particles
+are augmented with the success indicators and the success values must
+be simulated at each time step.  Both variations of the music tutor
+example can be solved with the algorithm shown in Table~\ref{tab:pf}.
+
+\begin{table}
+\caption{Bootstrap Particle Filter for Music Tutor Problem}
+\label{tab:pf}
+\hrule
+\begin{enumerate}
+\sl
+\item Simulate $N$ particles, ${\bf S}^{(n)}_0$ from the initial
+  population distribution for proficiency at Time 0.
+
+\item Calculate the initial weights for these particles based on the
+  likelihoods of the observables at the pretest benchmark, ${\bf
+  Y}_0$.
+
+\item For each time point, $t$:
+
+\begin{enumerate}
+
+\item If this is a bootstrap cycle (cycle number is divisible by
+the bootstrap resampling rate), then:
+\begin{enumerate}
+\item Replace the current set of particles with a new set of particles
+  randomly chosen according to a weighted sample using the current
+  weights.
+\item Set the current weight, $w^{(n)}_t=1$.
+\end{enumerate}
+\item If ${\bf X}_t$ is unknown, sample a value for ${\bf X}_t$
+  according to the distribution $\Pr({\bf X}_t|{\bf S}^{(n)}_t, {\bf
+  a}_t)$ (Equation~\ref{eq:effective}).
+\item \label{st:advance} Sample the value of the particle at the next
+  time point by using the distribution $\Pr({\bf S}_{t+1}|{\bf
+  S}^{(n)}_t,{\bf a}_t,{\bf X}_t)$ (Equation~\ref{eq:lin}).
+\item Update the weights for the observations at time $t+1$ using
+  Equation~\ref{eq:pfweight}.  
+\end{enumerate}
+\end{enumerate}
+\hrule
+\end{table}
+
+
+
+
+\section{Simulation Code}
+\label{appx:R}
+
+This section shows the code used for the simulation, written in the R
+\cite{R} programming language.  Section~\ref{subs:SimFun} provides
+the functions used for the simulation, Section~\ref{subs:PFCode} shows
+the implementation of the particle filter, and
+Section~\ref{subs:Script} shows a script.
+
+For those unfamiliar with R, it follows most of the usual conventions
+of algebraic computer languages (\eg, FORTRAN, C, Pascal, Java).
+However, a few features of R are worth noting:
+\begin{itemize}
+\item R is a functional language and functions can be passed as
+  arguments to other functions.  The \texttt{do.call} function is
+  called to invoke the function.  This allows both the simulator and
+  particle filter to be written in abstract terms.  Thus the line 
+  \texttt{est <- do.call(initial,list(nparticles))} in the particle
+  filter, creates the initial set of particles by calling the function
+  \texttt{initial} with the argument \texttt{nparticles}; both the
+  function and number of particles are passed as arguments to the
+  particle filter itself.
+
+\item R treats matrixes and vectors as objects and implicitly loops
+  over the elements.  Thus, \texttt{A+B} is the element-wise addition
+  of the matrixes \texttt{A} and \texttt{B}.  The \texttt{apply()} and
+  \texttt{sweep()} functions can be used to perform actions on rows
+  and columns.  For example, \texttt{apply(X,2,sum)} yields the column
+  sums for the matrix \texttt{X}, and \texttt{sweep(X,1,Y,"/")}
+  divides each row in the matrix \texttt{X} by the appropriate element
+  of the vector \texttt{Y} (the length of \texttt{Y} is assumed to be
+  the same as the number of rows of \texttt{X}).
+
+\end{itemize}
+
+\subsection{Simulation Function}
+\label{subs:SimFun}
+
+This section displays the code for setting up the simulation
+described in Section~\ref{subs:setup}.
+
+
+\renewcommand\baselinestretch{1.0}
+\lstinputlisting[language=R]{generator1.q}
+\renewcommand\baselinestretch{\origbaselinestretch}
+
+\subsection{Particle Filter}
+\label{subs:PFCode}
+
+This section displays the code for the particle filter
+(Section~\ref{subs:pf}) as well as some graphics designed to work with
+the particle filter.
+
+\renewcommand\baselinestretch{1.0}
+\lstinputlisting[language=R]{particle1.q}
+\renewcommand\baselinestretch{\origbaselinestretch}
+
+
+\subsection{Sample Script}
+\label{subs:Script}
+
+This section displays the script used to generate the examples.
+Simulation~2 in the code corresponds to Section~\ref{subs:statement}.
+
+
+\renewcommand\baselinestretch{1.0}
+\lstinputlisting[language=R]{script2.q}
+\renewcommand\baselinestretch{\origbaselinestretch}
+
+
+
+
+
+\end{document}
