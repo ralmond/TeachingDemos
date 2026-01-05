@@ -2,13 +2,16 @@
 title: "Normal Parameters"
 author: "Russell Almond"
 date: "January 24, 2019"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
 library(shiny)
 knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
 ```
 
 The [exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution) is a distribution often used for

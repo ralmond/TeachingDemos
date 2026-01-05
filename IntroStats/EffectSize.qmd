@@ -2,12 +2,15 @@
 title: "Effect Size Calculator"
 author: "Russell Almond"
 date: "2019-01-26"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
 ```
 
 If the units of a test are well known, the size of an effect is pretty easy to understand.  For example, if a study found that on average, people on this diet lost about 5 lbs (2.5 kg) in a week, most people would know what that means.

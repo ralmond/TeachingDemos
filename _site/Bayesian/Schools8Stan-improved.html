@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Russell Almond">
+<meta name="dcterms.date" content="2019-01-31">
+
+<title>8 Schools Stan Improved – Russell’s Teaching Demos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-112abf1fb9774a9d9a8d6b432759ed21.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+div.callout-db.callout {
+  border-left-color: blue;
+}
+div.callout-db.callout-style-default > .callout-header {
+  background-color: rgb(from blue r g b / 13%);
+}
+div.callout-db .callout-toggle::before {  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(33, 37, 41)" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');}
+div.callout-db.callout-style-default .callout-icon::before, div.callout-db.callout-titled .callout-icon::before {
+  content: '☡';
+  background-image: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Russell’s Teaching Demos</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../IntroStats/index.html"> 
+<span class="menu-text">Intro Stats</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../RIntro/index.html"> 
+<span class="menu-text">Intro to R</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Bayesian/index.html"> 
+<span class="menu-text">Bayesian</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Bayesian/Schools8Stan-improved.html">8 Schools Stan Improved</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Bayesian/BetaBinomiall.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Normal Normal Bayesian Model</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Bayesian/NormalNormal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Normal Normal Bayesian Model</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Bayesian/RatersStan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multiple Raters in Stan</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Bayesian/Schools8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8 Schools EM</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Bayesian/Schools8Stan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8 Schools Stan</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Bayesian/Schools8Stan-improved.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">8 Schools Stan Improved</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-8-schools-problem" id="toc-the-8-schools-problem" class="nav-link active" data-scroll-target="#the-8-schools-problem">The 8 Schools Problem</a>
+  <ul class="collapse">
+  <li><a href="#model-setup-in-stan." id="toc-model-setup-in-stan." class="nav-link" data-scroll-target="#model-setup-in-stan.">Model Setup in Stan.</a>
+  <ul class="collapse">
+  <li><a href="#parts-of-the-stan-code." id="toc-parts-of-the-stan-code." class="nav-link" data-scroll-target="#parts-of-the-stan-code.">Parts of the stan code.</a></li>
+  </ul></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data preparation</a></li>
+  <li><a href="#running-stan" id="toc-running-stan" class="nav-link" data-scroll-target="#running-stan">Running Stan</a></li>
+  <li><a href="#summaries-using-the-base-stan-functions" id="toc-summaries-using-the-base-stan-functions" class="nav-link" data-scroll-target="#summaries-using-the-base-stan-functions">Summaries using the base Stan functions</a></li>
+  <li><a href="#shinystan" id="toc-shinystan" class="nav-link" data-scroll-target="#shinystan">Shinystan</a>
+  <ul class="collapse">
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">8 Schools Stan Improved</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Russell Almond </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 31, 2019</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="the-8-schools-problem" class="level1">
+<h1>The 8 Schools Problem</h1>
+<p>This is the classic eight schools example from Rubin(1981)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. (It is also found in Chapter 5 of Gelman et al., 2014 <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.) The story is that 8 different schools experimented with an SAT coaching experiment. The performance gains of the coached students were compared to students on a weight list control. Separate estimates were obtained for each school, but because the size of the schools differed, the standard errors differed as well.</p>
+<p>Here are the data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Schools <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">row.names=</span><span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>,<span class="st">"D"</span>,<span class="st">"E"</span>,<span class="st">"F"</span>,<span class="st">"G"</span>,<span class="st">"H"</span>),</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">effect =</span> <span class="fu">c</span>(<span class="fl">28.39</span>,<span class="fl">7.94</span>,<span class="sc">-</span><span class="fl">2.75</span>,<span class="fl">6.82</span>,<span class="sc">-</span>.<span class="dv">64</span>,.<span class="dv">63</span>,<span class="fl">18.01</span>,<span class="fl">12.16</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">see =</span> <span class="fu">c</span>(<span class="fl">14.9</span>, <span class="fl">10.2</span>, <span class="fl">16.3</span>, <span class="fl">11.0</span>, <span class="fl">9.4</span>, <span class="fl">11.4</span>, <span class="fl">10.4</span>, <span class="fl">17.6</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Schools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  effect  see
+A  28.39 14.9
+B   7.94 10.2
+C  -2.75 16.3
+D   6.82 11.0
+E  -0.64  9.4
+F   0.63 11.4
+G  18.01 10.4
+H  12.16 17.6</code></pre>
+</div>
+</div>
+<p>Lets start by calculating a weighted average effect. I’ll weight each case by the precision (one over the square of the see).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Schools<span class="sc">$</span>w <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>Schools<span class="sc">$</span>see<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Schools.mean <span class="ot">&lt;-</span> <span class="fu">sum</span>(Schools<span class="sc">$</span>w<span class="sc">*</span>Schools<span class="sc">$</span>effect)<span class="sc">/</span><span class="fu">sum</span>(Schools<span class="sc">$</span>w)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Schools.mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7.870546</code></pre>
+</div>
+</div>
+<p>Here is a plot of the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ord <span class="ot">&lt;-</span> <span class="fu">order</span>(Schools<span class="sc">$</span>effect)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Schools<span class="sc">$</span>effect[ord[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>)]]<span class="sc">+</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>)<span class="sc">*</span>Schools<span class="sc">$</span>see[ord[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>)]],</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">c</span>(<span class="fu">nrow</span>(Schools),<span class="dv">1</span>),<span class="at">main =</span> <span class="st">"8 Schools data."</span>,<span class="at">type=</span><span class="st">"n"</span>,<span class="at">yaxt=</span><span class="st">"n"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"Effect Size"</span>,<span class="at">ylab=</span><span class="st">"School"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(Schools<span class="sc">$</span>effect[ord],<span class="fu">nrow</span>(Schools)<span class="sc">:</span><span class="dv">1</span>,<span class="at">pch=</span><span class="fu">rownames</span>(Schools)[ord])</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(Schools<span class="sc">$</span>effect[ord]<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>Schools<span class="sc">$</span>see[ord],<span class="fu">nrow</span>(Schools)<span class="sc">:</span><span class="dv">1</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>         Schools<span class="sc">$</span>effect[ord]<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>Schools<span class="sc">$</span>see[ord],<span class="fu">nrow</span>(Schools)<span class="sc">:</span><span class="dv">1</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span>Schools.mean,<span class="at">col=</span><span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Schools8Stan-improved_files/figure-html/data Plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="model-setup-in-stan." class="level2">
+<h2 class="anchored" data-anchor-id="model-setup-in-stan.">Model Setup in Stan.</h2>
+<p>First we need to load the packages. The <code>rstan</code> package runs stan from R. The <code>shinystan</code> package gives us a browser for the results.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: StanHeaders</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+rstan version 2.32.7 (Stan version 2.32.2)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>For execution on a local, multicore CPU with excess RAM we recommend calling
+options(mc.cores = parallel::detectCores()).
+To avoid recompilation of unchanged Stan programs, we recommend calling
+rstan_options(auto_write = TRUE)
+For within-chain threading using `reduce_sum()` or `map_rect()` Stan functions,
+change `threads_per_chain` option:
+rstan_options(threads_per_chain = 1)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shinystan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: shiny</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+This is shinystan version 2.6.0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel) <span class="co"># For using multiple chains</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First we set up the Stan model, and put it into a variable called <code>school8</code> (note the <code>output.var="school8"</code> in stan block tag)</p>
+<div class="cell" data-output.var="school8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; J; <span class="co">// number of schools</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> y[J]; <span class="co">// estimated treatement effects</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; sigma[J]; <span class="co">//s.e. of effects.</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="kw">parameters</span> {</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span> mu;</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">real</span>&lt;<span class="kw">lower</span>=<span class="dv">0</span>&gt; tau;</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span>[J] eta;</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="kw">transformed parameters</span> {</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">vector</span> [J] theta;</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  theta = mu + eta*tau;</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="kw">model</span> {</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  eta ~ normal(<span class="dv">0</span>,<span class="dv">1</span>);</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">//target += normal_lpdf(theta|mu,tau);</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  y ~ normal(theta,sigma);</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">//target += normal_lpdf(effect|theta,see);</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="parts-of-the-stan-code." class="level3">
+<h3 class="anchored" data-anchor-id="parts-of-the-stan-code.">Parts of the stan code.</h3>
+<p>Almost all models will have a <code>data</code>, <code>parameters</code> and <code>model</code> block. They could have others as well (common ones are <code>transformed data</code> to do pre-calculations and <code>transformed parameters</code> to recast the model).</p>
+<section id="data" class="level4">
+<h4 class="anchored" data-anchor-id="data">Data</h4>
+<p>In a stan model, <em>data</em> refers to values that don’t change over the course of the MCMC loop. This tends to be one of three things: * The observed data values. * Fixed hyperparameters for prior distributions. * Structural hyperparamters (e.g., sample size, number of groups).</p>
+<p>In stan (like C++) all variables must be declared. They are generally either <code>int</code> or <code>real</code> (here <code>vector</code> is shorthand for a vector of real values). The modifiers &lt;lower=XXX&gt; and &lt;upper=XXX&gt; can be used to constrain the inputs. In the data field this is just used to to type checking.</p>
+</section>
+<section id="parameters" class="level4">
+<h4 class="anchored" data-anchor-id="parameters">Parameters</h4>
+<p>The parameters are the values that stan will try to estimate. These include both latent variables and ordinary parameters and hyperparameters.</p>
+<p>In stan, parameters should all be real. Non-continuous parameters don’t work with the Hamiltonian Monte Carlo. (There are tricks for dealing with common cases like mixture models in the stan examples.) This is called <code>lp__</code> (log pdf) in the output.</p>
+<p>Note carefully the use of the lower and upper bounds. It is important for stan to know when a parameter is restricted to say positive values (i.e., a scale parameter) as it needs to constrain the space for the sampler.</p>
+</section>
+<section id="model" class="level4">
+<h4 class="anchored" data-anchor-id="model">Model</h4>
+<p>This section gives the distribution for all of the parameters. First I give the BUGS-like way of doing this. This is to use the <code>~</code> operator to give the distribution. The names are slightly different in stan and R, so the rstan function <code>lookup</code> can help you find the stan function corresponding to the R function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lookup</span>(dnorm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          StanFunction
+415 normal_id_glm_lpdf
+418         normal_log
+419        normal_lpdf
+553    std_normal_lpdf
+                                                                       Arguments
+415 (real, matrix, real, vector, T);(vector, row_vector, vector, vector, vector)
+418                                     (real, real, T);(vector, vector, vector)
+419                                     (real, real, T);(vector, vector, vector)
+553                                                                 (T);(vector)
+    ReturnType
+415     T;real
+418     T;real
+419     T;real
+553     T;real</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lookup</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      StanFunction                                              Arguments
+562  student_t_log (real, real, real, T);(vector, vector, vector, vector)
+563 student_t_lpdf (real, real, real, T);(vector, vector, vector, vector)
+    ReturnType
+562     T;real
+563     T;real</code></pre>
+</div>
+</div>
+<p>Note that what stan is actually doing in the model block is calculating the log p.d.f. Thus, the commented out expressions are an alternative to the <code>~</code> notation.</p>
+<p>Finally, note that this is an incomplete Bayesian model as there are no distributions for <code>mu</code> or <code>tau</code>. In stan this means we are implicitly putting a uniform prior on <code>mu</code> and <code>log(tau)</code>; the latter is transformed so that it will always be positive. These are improper priors, but stan will be fine as long as the posterior is proper.</p>
+</section>
+</section>
+</section>
+<section id="data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation">Data preparation</h2>
+<p>Build a list which contains the data as elements using the names in the data section of the model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>school8.dat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">J =</span> <span class="fu">nrow</span>(Schools),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> Schools<span class="sc">$</span>effect,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma=</span>Schools<span class="sc">$</span>see)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="running-stan" class="level2">
+<h2 class="anchored" data-anchor-id="running-stan">Running Stan</h2>
+<p>There are two funcitons to start the sampling in stan. The first one is <code>stan(file=XXX,data=YYY,...)</code>. This assumes that the stan model is in a file. However, with R markdown, we already saved the model in an object so we can use <code>sampling(model,data=YYY,...)</code>. By the way, this same function can be used to make additional samples after we have sampled for a while.</p>
+<p>The mc.cores should work well for Unix (Linux and Mac OS), I’m not so sure about Windows.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#options(mc.cores = parallel::detectCores()-1)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>school8.fit1 <span class="ot">&lt;-</span> <span class="fu">sampling</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  school8,       <span class="co"># The model</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> school8.dat, <span class="co"># The data</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">5</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">1000</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">2000</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh=</span><span class="dv">1000</span>        <span class="co"># Show progress</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There were 3 divergent transitions after warmup. See
+https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
+to find out why this is a problem and how to eliminate them.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(school8.fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4775
+tau       9.1052115 19.7136121 2327.896 1.0015684
+eta[1]    1.0315979  2.1702931 4867.594 1.0005030
+eta[2]    0.6038292  1.7575377 5039.402 0.9995612
+eta[3]    0.4435779  1.6478861 5245.409 0.9993708
+eta[4]    0.5638652  1.6657116 5558.884 0.9997504
+eta[5]    0.2340142  1.4861669 5305.889 0.9998699
+eta[6]    0.3620663  1.5623228 4894.520 1.0001554
+eta[7]    0.9115123  2.0291966 4784.759 1.0004121
+eta[8]    0.6889746  1.8865260 5513.766 0.9996236
+theta[1] 15.7714754 32.8230629 3370.790 1.0005775
+theta[2] 11.9793957 20.3729747 5464.851 0.9997725
+theta[3] 11.1034097 21.0252281 4373.520 1.0001817
+theta[4] 11.8827749 21.1340201 5362.160 0.9998073
+theta[5]  9.8017072 16.9570110 5526.486 1.0007979
+theta[6] 10.6206478 18.4255261 5500.031 1.0009768
+theta[7] 14.5116616 25.1983460 4325.928 1.0001939
+theta[8] 12.9424748 25.9498102 4572.715 1.0002053
+lp__     -3.0313726 -0.5140309 1560.513 1.0032085
+
+$c_summary
+, , chains = chain:1
+
+          stats
+parameter          mean        sd        2.5%        25%         50%        75%
+  mu        8.108977919 4.5414579  -1.3735888  5.1920601  8.16485328 11.1048192
+  tau       6.196502314 5.0705968   0.3051799  2.4856176  4.99387040  8.4951222
+  eta[1]    0.377026768 0.9516892  -1.5356402 -0.2752460  0.37186417  1.0062744
+  eta[2]   -0.005839293 0.8685292  -1.7253996 -0.5446877 -0.02515838  0.5468288
+  eta[3]   -0.182964412 0.9571102  -2.0553740 -0.8061908 -0.19696588  0.4582568
+  eta[4]   -0.047212212 0.8975976  -1.7863226 -0.6436490 -0.03972658  0.5347721
+  eta[5]   -0.337766958 0.9182210  -2.1641677 -0.9070398 -0.33365592  0.2405289
+  eta[6]   -0.228016366 0.8637041  -1.8619810 -0.8047200 -0.22061596  0.3390450
+  eta[7]    0.298692959 0.9158723  -1.5002286 -0.2954845  0.29221986  0.8677758
+  eta[8]    0.044490389 0.9421667  -1.7426750 -0.6191457  0.03489879  0.6973535
+  theta[1] 11.527464459 8.4252323  -1.6984561  6.3422959 10.51978536 15.3487061
+  theta[2]  7.938971310 5.8333094  -3.5050637  4.3669240  8.01192729 11.5234189
+  theta[3]  6.547431266 7.8296833 -11.5778553  3.1088068  7.29252875 11.1371943
+  theta[4]  8.036214206 6.1828977  -3.7091480  4.2985883  7.96721128 11.4889555
+  theta[5]  5.792198654 6.4551752  -8.9274652  2.0787198  6.23225467  9.9841633
+  theta[6]  6.431389216 6.5422285  -9.6454064  2.7619612  7.16121278 10.5606060
+  theta[7] 10.543852816 6.4320421  -0.3579881  6.1798853 10.04096160 14.1887795
+  theta[8]  8.782358158 7.6219863  -7.1582848  4.4444597  8.57645560 12.7680413
+  lp__     -4.870801197 2.5488115 -10.9226984 -6.4380852 -4.68081643 -3.0915766
+          stats
+parameter       97.5%
+  mu       16.9712636
+  tau      18.5799679
+  eta[1]    2.1481498
+  eta[2]    1.6823520
+  eta[3]    1.7362172
+  eta[4]    1.6954624
+  eta[5]    1.4922502
+  eta[6]    1.5142767
+  eta[7]    2.1457115
+  eta[8]    1.8410109
+  theta[1] 31.9545933
+  theta[2] 20.2092511
+  theta[3] 19.5321853
+  theta[4] 21.3236209
+  theta[5] 17.2868457
+  theta[6] 18.1561487
+  theta[7] 24.8549275
+  theta[8] 25.5726002
+  lp__     -0.5535598
+
+, , chains = chain:2
+
+          stats
+parameter          mean        sd        2.5%        25%         50%        75%
+  mu        7.987985477 4.9485908  -1.7741590  4.5938001  7.70471754 11.2855018
+  tau       6.499956713 5.3508862   0.2214177  2.5013624  5.25135778  9.0830559
+  eta[1]    0.421067042 0.9525111  -1.6066398 -0.2255225  0.45065971  1.0714713
+  eta[2]    0.034622963 0.8693805  -1.7301475 -0.5639677  0.01826661  0.6301161
+  eta[3]   -0.194723788 0.9206019  -2.0368697 -0.7970403 -0.15026239  0.4635916
+  eta[4]   -0.001710459 0.8635883  -1.7109605 -0.5872694 -0.02683828  0.5775723
+  eta[5]   -0.310222863 0.9203612  -2.1063580 -0.9076318 -0.30167275  0.2938009
+  eta[6]   -0.210230107 0.8668066  -1.9233771 -0.8001534 -0.22322717  0.3614584
+  eta[7]    0.340137258 0.9504863  -1.5561022 -0.2761296  0.38080872  0.9456390
+  eta[8]    0.082262061 0.9285287  -1.7977866 -0.6002183  0.06180018  0.6998272
+  theta[1] 11.626050013 8.5608429  -3.5768229  6.2308734 10.54640986 15.7830646
+  theta[2]  8.231382568 6.2648629  -5.2720175  4.5376533  8.20970960 12.2993767
+  theta[3]  6.289476595 8.1186267 -13.0287501  2.3455710  6.91186800 11.2359355
+  theta[4]  7.798334347 6.2596044  -4.8754885  3.9974516  7.75565326 11.8550496
+  theta[5]  5.376882498 6.4380220  -8.5264248  1.5266789  6.04329046  9.7377413
+  theta[6]  6.194451030 6.8106011  -8.1767518  2.6580334  6.71880474 10.6567160
+  theta[7] 10.560320941 6.8518688  -2.3827422  6.0608562 10.33902352 14.4815048
+  theta[8]  8.677443402 7.3595251  -6.1942521  4.4943854  8.35334916 12.9665546
+  lp__     -4.859834219 2.6400012 -10.6963718 -6.4683610 -4.53241189 -3.0195196
+          stats
+parameter       97.5%
+  mu       17.6452037
+  tau      20.5068063
+  eta[1]    2.2748092
+  eta[2]    1.6874192
+  eta[3]    1.4905939
+  eta[4]    1.7217261
+  eta[5]    1.6425875
+  eta[6]    1.5324748
+  eta[7]    2.2551346
+  eta[8]    1.9195188
+  theta[1] 34.3108883
+  theta[2] 19.6477325
+  theta[3] 21.0252281
+  theta[4] 20.2212760
+  theta[5] 16.4239411
+  theta[6] 18.3513917
+  theta[7] 25.2776176
+  theta[8] 25.3181385
+  lp__     -0.2811735
+
+, , chains = chain:3
+
+          stats
+parameter          mean        sd        2.5%        25%           50%
+  mu        7.984119163 5.2850843  -2.6906032  4.4702459  7.9669988035
+  tau       6.780726194 5.3925022   0.3420370  2.6894762  5.3488883323
+  eta[1]    0.422059210 0.8786949  -1.4036719 -0.1566890  0.4748823818
+  eta[2]   -0.005168801 0.9233485  -1.8010965 -0.6185735 -0.0006456158
+  eta[3]   -0.197612781 0.9128971  -2.0036544 -0.7828097 -0.1697648829
+  eta[4]   -0.029129209 0.8274659  -1.6977804 -0.5534801 -0.0786573035
+  eta[5]   -0.339073873 0.8813990  -2.1100295 -0.9022798 -0.3226100845
+  eta[6]   -0.240538025 0.9570248  -2.0828795 -0.8767444 -0.3168690590
+  eta[7]    0.370962848 0.8522918  -1.3383904 -0.2069558  0.3670871187
+  eta[8]    0.057490341 0.8982614  -1.7181044 -0.5457274  0.0319265505
+  theta[1] 11.858118376 8.6589213  -2.2177205  6.3145163 10.5151562196
+  theta[2]  8.077483688 6.5248129  -4.5663661  3.9543494  7.7995007755
+  theta[3]  6.430177567 7.3508015 -10.7982961  2.6259719  6.7403931349
+  theta[4]  7.651956720 6.6603158  -6.1989833  3.1791978  7.8470966484
+  theta[5]  5.212598772 6.6982450 -10.0382583  1.0732341  5.6817361269
+  theta[6]  5.956522723 7.1653881  -8.9729190  1.9823107  6.1762180114
+  theta[7] 11.005251355 6.7836879  -0.8372271  6.2917144 10.5131491035
+  theta[8]  8.394853046 8.1271922  -7.2379880  3.6046370  8.2098218925
+  lp__     -4.681947470 2.5433275 -10.2939556 -6.2493706 -4.3799520615
+          stats
+parameter         75%      97.5%
+  mu       11.4501720 18.0367866
+  tau       9.5751040 19.4194335
+  eta[1]    1.0321554  2.0314540
+  eta[2]    0.5718271  1.8079509
+  eta[3]    0.4018604  1.5354504
+  eta[4]    0.5638104  1.5982821
+  eta[5]    0.2142210  1.4652254
+  eta[6]    0.3970379  1.6284067
+  eta[7]    0.9808142  1.9911270
+  eta[8]    0.6558605  1.8397262
+  theta[1] 16.0178470 32.7342324
+  theta[2] 12.2099101 20.9826191
+  theta[3] 10.8044350 19.9495177
+  theta[4] 11.9809052 20.4077498
+  theta[5]  9.7347633 16.8115437
+  theta[6] 10.4993680 19.4004811
+  theta[7] 15.2306949 25.2127880
+  theta[8] 13.1711533 27.4107701
+  lp__     -2.8813004 -0.4347474
+
+, , chains = chain:4
+
+          stats
+parameter         mean        sd        2.5%        25%         50%        75%
+  mu        8.44665379 5.3352691  -2.1109467  5.2235058  8.43858013 11.6889727
+  tau       6.36235338 5.1244939   0.2145530  2.3905578  5.18501654  9.3451497
+  eta[1]    0.39351569 0.9526534  -1.5048961 -0.2352222  0.37309645  1.0415627
+  eta[2]   -0.01394600 0.8948069  -1.7834092 -0.6606825 -0.02510561  0.5879319
+  eta[3]   -0.20981645 0.9618919  -2.0412251 -0.8562945 -0.25376539  0.4067044
+  eta[4]   -0.06472502 0.9085278  -1.8483946 -0.6858356 -0.08699758  0.5870187
+  eta[5]   -0.35049693 0.8598175  -2.0637544 -0.8785655 -0.36019478  0.1749668
+  eta[6]   -0.19764028 0.8677715  -1.7752442 -0.7741922 -0.21515830  0.3610380
+  eta[7]    0.28158021 0.8747492  -1.5085901 -0.2877497  0.27330443  0.8883679
+  eta[8]    0.06057562 0.9323394  -1.6899463 -0.5864536  0.03007708  0.7186805
+  theta[1] 11.93664296 8.8661074  -1.8322951  6.5261195 10.39641677 15.8024621
+  theta[2]  8.13858640 6.2720884  -5.2098070  4.5104608  8.05332736 12.0186045
+  theta[3]  6.40706617 7.7754159 -10.7513604  2.6023981  6.98826548 10.9046641
+  theta[4]  7.79463597 6.7970699  -6.2089815  3.9410127  7.71173461 11.8406025
+  theta[5]  5.74374317 6.4742331  -8.6747880  1.9901396  6.18363699  9.8017072
+  theta[6]  6.68675265 6.1641735  -6.5593358  2.9558672  7.11144483 10.7035672
+  theta[7] 10.60196469 6.6552632  -0.6750905  6.3221718  9.84516715 14.3359601
+  theta[8]  8.90212977 7.6528502  -6.2404706  4.4843181  8.58407628 13.2530573
+  lp__     -4.89105481 2.5517024 -10.5534623 -6.4349997 -4.61885489 -3.0983923
+          stats
+parameter       97.5%
+  mu       19.7533189
+  tau      18.6019300
+  eta[1]    2.2706853
+  eta[2]    1.6774047
+  eta[3]    1.6555280
+  eta[4]    1.6249366
+  eta[5]    1.4518943
+  eta[6]    1.5161620
+  eta[7]    1.9501146
+  eta[8]    1.9422304
+  theta[1] 34.6422306
+  theta[2] 20.3747862
+  theta[3] 22.0549434
+  theta[4] 21.7956785
+  theta[5] 17.1235708
+  theta[6] 17.8626937
+  theta[7] 25.6872509
+  theta[8] 25.8055607
+  lp__     -0.6692973
+
+, , chains = chain:5
+
+          stats
+parameter         mean        sd        2.5%        25%          50%        75%
+  mu        7.88789952 5.2968479  -3.1739389  4.7941353  7.936581174 11.0851131
+  tau       6.49968276 5.6275900   0.2933862  2.3355451  5.203383688  8.9535951
+  eta[1]    0.40926627 0.9273579  -1.6023623 -0.1483100  0.442381542  1.0190204
+  eta[2]    0.01174387 0.9496373  -1.7913149 -0.6635487 -0.001269867  0.6443615
+  eta[3]   -0.17059668 0.9561931  -2.0580794 -0.8297595 -0.195094958  0.4610610
+  eta[4]   -0.04583669 0.8920741  -1.7570111 -0.6370955 -0.052372765  0.5507579
+  eta[5]   -0.34070341 0.8832294  -2.0955712 -0.9400672 -0.336256555  0.2305865
+  eta[6]   -0.21940965 0.9197785  -2.0679843 -0.7843355 -0.221604668  0.3501175
+  eta[7]    0.26507534 0.8821249  -1.4431344 -0.3065250  0.274923652  0.8607893
+  eta[8]    0.05337650 0.9611311  -1.9539667 -0.6018330  0.031994549  0.6603284
+  theta[1] 11.42238212 8.0313287  -1.8515100  6.3042972 10.458319786 15.5981450
+  theta[2]  8.02661989 6.2991880  -4.5652951  4.3154461  8.067431618 12.0332342
+  theta[3]  6.44998187 8.2403939 -13.5917810  2.0755653  6.965794605 11.4371533
+  theta[4]  7.59030205 6.7866914  -6.7788374  3.4761028  7.768158189 12.0822328
+  theta[5]  5.27694502 6.9975740 -10.3148216  1.4341781  6.248980880  9.8514621
+  theta[6]  6.22942588 6.9814265 -10.4572939  2.4707043  6.665314539 10.7908328
+  theta[7] 10.38928427 6.7143272  -1.1111282  6.0216802  9.615524238 14.1214804
+  theta[8]  8.57333315 7.5871618  -6.4708957  4.3154441  8.513236219 12.4728154
+  lp__     -5.02582912 2.6971745 -11.2602533 -6.6779278 -4.650729965 -3.0834741
+          stats
+parameter      97.5%
+  mu       18.637779
+  tau      20.018943
+  eta[1]    2.170385
+  eta[2]    1.986170
+  eta[3]    1.704753
+  eta[4]    1.672707
+  eta[5]    1.395249
+  eta[6]    1.614642
+  eta[7]    1.935258
+  eta[8]    1.884664
+  theta[1] 30.400062
+  theta[2] 19.711725
+  theta[3] 21.530849
+  theta[4] 20.863305
+  theta[5] 17.008023
+  theta[6] 18.314343
+  theta[7] 24.953030
+  theta[8] 25.527128
+  lp__     -0.744831</code></pre>
+</div>
+</div>
+<p>Alternate style using external file.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>school8.fit1 <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">file=</span><span class="st">"school8.stan"</span>,       <span class="co"># The model</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> school8.dat, <span class="co"># The data</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">5</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">1000</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">2000</span>,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh=</span><span class="dv">100</span>        <span class="co"># Show progress</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There were 233 divergent transitions after warmup. See
+https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
+to find out why this is a problem and how to eliminate them.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The largest R-hat is 1.08, indicating chains have not mixed.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#r-hat</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#bulk-ess</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
+Running the chains for more iterations may help. See
+https://mc-stan.org/misc/warnings.html#tail-ess</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(school8.fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2.444536   7.040953  10.401303
+  theta[4]   7.507625 6.252242  -5.411605   4.305377   7.164747  10.223777
+  theta[5]   5.352699 6.004565  -8.087215   1.868330   5.877882   8.461308
+  theta[6]   5.655399 6.537624  -9.533864   2.776726   5.715788   8.834715
+  theta[7]  10.233571 6.969352  -2.462557   5.948144   8.544680  14.348132
+  theta[8]   8.003704 7.355961  -6.278288   4.447453   8.093741  11.799609
+  lp__     -16.675897 6.007824 -27.120424 -21.387987 -17.224413 -11.477834
+          stats
+parameter     97.5%
+  mu       17.69822
+  tau      19.58059
+  theta[1] 28.99350
+  theta[2] 19.59113
+  theta[3] 21.22832
+  theta[4] 21.05145
+  theta[5] 17.40312
+  theta[6] 18.69120
+  theta[7] 26.93931
+  theta[8] 24.80068
+  lp__     -6.96373
+
+, , chains = chain:4
+
+          stats
+parameter        mean       sd        2.5%        25%        50%       75%
+  mu         7.807457 3.947565  -0.5354557   6.143475   7.827468  9.559913
+  tau        4.626939 4.227888   0.8404751   1.241994   3.348635  6.611204
+  theta[1]  10.140869 6.616249  -0.4700222   6.850292   8.512737 12.658141
+  theta[2]   7.760199 5.034573  -3.4875662   5.421400   8.366147  9.890144
+  theta[3]   6.841542 6.480835  -8.3835000   3.834625   7.298074  9.879202
+  theta[4]   7.464682 5.134219  -3.7308068   5.517495   7.021376  9.883241
+  theta[5]   6.072091 5.170162  -7.2718859   3.418545   7.714479  8.626607
+  theta[6]   6.730924 5.332127  -5.7074361   4.329503   7.761382  9.057138
+  theta[7]   9.716830 5.655594  -0.7444194   7.303205   8.810354 11.748011
+  theta[8]   7.924238 6.066356  -3.9011466   5.206314   7.317763 10.145656
+  lp__     -13.975460 6.687842 -25.2925621 -19.166760 -14.545492 -8.053060
+          stats
+parameter      97.5%
+  mu       15.845724
+  tau      15.627613
+  theta[1] 27.074990
+  theta[2] 18.550191
+  theta[3] 19.535936
+  theta[4] 18.183394
+  theta[5] 14.789921
+  theta[6] 16.210865
+  theta[7] 22.160988
+  theta[8] 21.712748
+  lp__     -4.169001
+
+, , chains = chain:5
+
+          stats
+parameter        mean       sd       2.5%         25%        50%        75%
+  mu         7.809227 5.753002  -3.540052   3.9092469   7.997191  11.524356
+  tau        7.741493 5.904724   1.182937   3.6291849   6.311963  10.454191
+  theta[1]  12.027258 9.546470  -3.429993   5.6852704  10.533546  17.041697
+  theta[2]   7.738394 6.784932  -5.469701   3.2753704   7.880612  11.921140
+  theta[3]   5.833821 7.886881 -11.564060   1.3506997   5.779110  10.608191
+  theta[4]   7.449897 6.997839  -6.370111   3.1381277   7.372843  11.542219
+  theta[5]   4.617703 6.773813  -8.477131   0.6694448   4.833342   9.073287
+  theta[6]   5.487537 7.362180 -11.166849   1.2774045   5.828258  10.462749
+  theta[7]  11.082788 7.347846  -1.566953   5.9998747  10.452288  14.912969
+  theta[8]   8.175263 8.591608  -8.094414   3.0607827   8.161392  13.135705
+  lp__     -18.775596 5.353685 -28.725127 -22.6867659 -18.983923 -15.256365
+          stats
+parameter      97.5%
+  mu       18.385645
+  tau      22.728494
+  theta[1] 34.352263
+  theta[2] 20.930151
+  theta[3] 21.262265
+  theta[4] 21.398070
+  theta[5] 17.499642
+  theta[6] 19.395661
+  theta[7] 27.724934
+  theta[8] 25.965795
+  lp__     -8.376766</code></pre>
+</div>
+</div>
+</section>
+<section id="summaries-using-the-base-stan-functions" class="level2">
+<h2 class="anchored" data-anchor-id="summaries-using-the-base-stan-functions">Summaries using the base Stan functions</h2>
+<p>Printing gives summaries of the posterior for the specified parameters. Use the <code>pars</code> argument to select what to print.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(school8.fit1,<span class="at">pars=</span><span class="fu">c</span>(<span class="st">"theta"</span>,<span class="st">"mu"</span>,<span class="st">"tau"</span>,<span class="st">"lp__"</span>), <span class="at">probs=</span><span class="fu">c</span>(.<span class="dv">1</span>,.<span class="dv">5</span>,.<span class="dv">9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Inference for Stan model: anon_model.
+5 chains, each with iter=2000; warmup=1000; thin=1; 
+post-warmup draws per chain=1000, total post-warmup draws=5000.
+
+           mean se_mean   sd    10%    50%   90% n_eff Rhat
+theta[1]  11.64    0.31 8.32   2.83   9.93 22.71   713 1.01
+theta[2]   7.86    0.15 6.16   0.40   8.03 15.47  1670 1.00
+theta[3]   6.10    0.19 7.96  -3.49   6.87 15.04  1693 1.00
+theta[4]   7.55    0.15 6.45  -0.38   7.43 15.58  1765 1.00
+theta[5]   5.23    0.20 6.36  -2.98   6.01 12.79  1020 1.00
+theta[6]   5.89    0.20 6.79  -2.73   6.40 14.02  1194 1.00
+theta[7]  10.77    0.24 6.80   3.12   9.78 19.59   791 1.01
+theta[8]   8.27    0.18 7.68  -0.79   7.94 17.68  1887 1.00
+mu         7.92    0.16 5.08   1.77   7.83 14.19   988 1.00
+tau        6.78    0.46 5.46   1.38   5.42 13.77   140 1.04
+lp__     -17.29    0.84 6.03 -24.50 -18.13 -8.47    51 1.09
+
+Samples were drawn using NUTS(diag_e) at Sun Jan  4 20:11:41 2026.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).</code></pre>
+</div>
+</div>
+<p>The <code>plot</code> function gives 50% and 95% intervals.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(school8.fit1,<span class="at">pars=</span><span class="fu">c</span>(<span class="st">"theta"</span>,<span class="st">"mu"</span>,<span class="st">"tau"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ci_level: 0.8 (80% intervals)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>outer_level: 0.95 (95% intervals)</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Schools8Stan-improved_files/figure-html/stan plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Traceplot shows convergence (note stan and coda have slightly different traceplot functions).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>rstan<span class="sc">::</span><span class="fu">traceplot</span>(school8.fit1,<span class="at">pars=</span><span class="fu">c</span>(<span class="st">"mu"</span>,<span class="st">"tau"</span>,<span class="st">"lp__"</span>), <span class="at">inc_warmup=</span><span class="cn">TRUE</span>, <span class="at">nrow=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Schools8Stan-improved_files/figure-html/stan traceplot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>What we are looking for here is (a) white-noise like, and all chains plotting over top of each other.</p>
+<p>Typically variance and scale parameters will be positively skewed, and log-posterior is often not as well behaved as others.</p>
+<p>Pair plot sometimes uncover problems with models.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">## This is not working, and I can't figure out why</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="do">## pairs(school8.fit1,pars=c("mu","eta[1]","tau"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="shinystan" class="level2">
+<h2 class="anchored" data-anchor-id="shinystan">Shinystan</h2>
+<p>Shinystan opens a new shiny workspace which allows interactive browsing of the results.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>school8.fit1s <span class="ot">&lt;-</span> <span class="fu">launch_shinystan</span>(school8.fit1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+
+
+</section>
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Rubin, D. B. (1981). Estimation in Parallel randomized experiments. <em>Journal of Educational Statistics</em>, <strong>6</strong>, 377-401.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B., Vehtari, A. and Rubin, D. B. (2014). <em>Bayesian Data Analysis: Third Edition</em>. CRC Press. (ISBN: 978-1-4398-4095-5)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

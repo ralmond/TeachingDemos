@@ -1,6 +1,8 @@
 ---
 title: "Basic R Data Structures"
-output: html_notebook
+output: 
+  html:
+    sidebar: id-r
 ---
 
 ## A brief history of S, Splus and R

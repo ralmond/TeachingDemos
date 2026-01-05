@@ -2,12 +2,15 @@
 title: "Rare Disease -- COVID-19"
 author: "Russell Almond"
 date: "March 22, 2020"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
 ```
 
 The _rare disease problem_ is one of those "paradoxes" of statistics.  The results are surprising because their are two sources of information:  the prevalence of the disease in the population and the accuracy of the test.  Often the former is stronger evidence than the latter, so people find it surprising.

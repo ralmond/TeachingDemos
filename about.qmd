@@ -1,9 +1,17 @@
 ---
 title: "About"
+output:
+  html:
+    sidebar: id-default
 ---
 
-About this site
+These are a series of small shiny apps I developed for teaching.
+Please feel free to use them in your courses or for your personal learning.
 
-```{r}
-1 + 1
-```
+As learning from my R code is part of the learning, the source for these pages can be found on my github account:  [github:ralmond/TeachingDemos](https://github.com/ralmond/TeachingDemos).
+
+If you see a problem feel free to raise an issue on github (or better yet, send me a pull request with a fix for the issue.)
+
+All pages are Copyright 2026 Russell G. Almond.
+Permission to reuse and remix granted under the basis of the CC-BY 4.0 license. 
+![https://creativecommons.org/licenses/by/4.0](img/by.png)

@@ -1,6 +1,8 @@
 ---
 title: "String Hacks"
-output: html_notebook
+output: 
+  html:
+    sidebar: id-r
 ---
 
 Tidyverse contains the stringr package.
@@ -18,6 +20,7 @@ file.path("dir","subdir","file.ext")
 ```
 
 ## Regular expressions.
+
 ```{r}
 x <- c("apple", "banana", "pear")
 str_view(x, "an")
@@ -34,13 +37,15 @@ str_view(exp,"^...$")
 
 ## Challenge problem
 
-The answer to a stat question is $t = -.876$.  Suppose that the answer is to be counted correct:
+The answer to a stat question is $t = -.876$.  Suppose that the answer
+is to be counted correct:  
 * No matter how many digits the person has.
 * No matter whether or not the person put a leading zero.
 * No matter whether or not the person included the minus sign.
 * Does not count rounding errors.
 
-Write a regular expression that matches a character string (consisting of numbers) which "scores" this example.
+Write a regular expression that matches a character string (consisting
+of numbers) which "scores" this example.
 
 ```{r}
 posex <- c("-.876","-.88", "-.9","-0.9","-0.876",
@@ -49,7 +54,5 @@ posex <- c("-.876","-.88", "-.9","-0.9","-0.876",
 negex <- c("-.54",".33",".888","-1.876")
 str_detect(posex,".876?")
 str_detect(negex,".876?")
-
-
 ```
 

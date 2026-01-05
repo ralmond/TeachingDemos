@@ -2,9 +2,10 @@
 title: "Working With R Data"
 author: "Russell Almond"
 date: "9/4/2020"
-output:
+output: 
+  html:
+    sidebar: id-r
   pdf_document: default
-  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -36,7 +37,8 @@ lesson will show tidyverse alternatives.
 
 ## Basic R Container objects
 
-* Vector -- ordered collection of objects of the same storage `mode` (`[` extract)
+* Vector -- ordered collection of objects of the same storage `mode`
+  (`[` extract)
   + Named Vector -- adds a `names` attribute (Can use names in subscripts)
   + Matrix, Array -- adds a `dim` and `dimnames` attribute
 * List -- ordered collection of objects of any type or mode (`[[` extract)
@@ -49,11 +51,11 @@ lesson will show tidyverse alternatives.
 
 ## Storage modes.
 
-The mode function in R refers to storage modes, not the mode of a distribution.
+The mode function in R refers to storage modes, not the mode of a
+distribution.
 
 
 ```{r}
-
 mode(123)
 mode(123L)
 mode(TRUE)
@@ -193,11 +195,9 @@ sd(z)
   `rXXX` (try substituting chisq, t, beta, gamma, &c for XXX). 
 
 ```{r}
-
 runif(5)
 rnorm(10)
 sample.int(5,5,replace=TRUE)
-
 ```
 
 ### Exercises
@@ -208,7 +208,8 @@ sample.int(5,5,replace=TRUE)
 
 ```
 
-1a.  Use the result of the previous question to generate a random sample of size 101 with one outlier of 200.
+1a.  Use the result of the previous question to generate a random
+     sample of size 101 with one outlier of 200.
 
 ```{r}
 
@@ -219,7 +220,9 @@ sample.int(5,5,replace=TRUE)
 ```{r}
 
 ```
-3. The variable `state.area` contains the areas of the 50 US states (in alphabetical area).  Create a random sample of size 10 of the state areas.
+3. The variable `state.area` contains the areas of the 50 US states
+   (in alphabetical area).  Create a random sample of size 10 of the
+   state areas.
 
 ```{r}
 
@@ -249,10 +252,9 @@ sample.int(5,5,replace=TRUE)
  + The function `length()` is useful in writing indexes.  
 
 * Giving multiple indexes with return a sub-vector (remember, there
-are no scalars in R, just vectors of length 1). 
+are no scalars in R, just vectors of length 1).
 
 ```{r}
-
 int10 <- 1:10
 int10[3]
 int10[c(5:7,9)]
@@ -309,11 +311,13 @@ The built in language primitive `if` is **not** vectorized.  It is
 expecting a single value.  The code below will not do what you think
 it will. 
 ```{r}
-if (int55 < 0) {
-  cat("Negative.\n")
-} else { 
-  cat("Non-negative.\n")
-}
+try({
+  if (int55 < 0) {
+    cat("Negative.\n")
+  } else { 
+    cat("Non-negative.\n")
+  }
+})
 ```
 The functions `any()`, `all()` and `isTRUE()` are often useful here.
 ```{r}
@@ -560,12 +564,14 @@ list(1,2:3,"four",quote(2+3))
 Notice that the second element is a vector and the last element is an
 R expression (this is what `quote` does).  R lists are quite flexible.
 
-![Dangerous Bend](dangerousBend.png) Notice that the list is show with
+:::{.callout-db}
+Notice that the list is show with
 a double square bracket `[[` instead of a single one `[`.  This is
 because with lists the extraction operators behave a little bit
 differently.  The single bracket refers to a sublist, and the double
 bracket to the element.  Fortunately, this doesn't come up a lot at
 the beginning because, most people use the `$` extractors instead.
+:::
 
 ## Named Lists and `$` extraction
 

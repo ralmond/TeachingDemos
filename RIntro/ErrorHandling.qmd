@@ -1,34 +1,73 @@
 ---
 title: "Error Handling in R"
-output: html_notebook
+output: 
+  html:
+    sidebar: id-r
 ---
+
+## Some simple examples
 
 Let's start by making an error.
 
 ```{r}
+#| eval: false
 plot(c00rs)
+```
+```{r}
+#| echo: false
+## Need to wrap this in try, so it won't interrupt quarto
+## generation.
+try(plot(c00rs))
 ```
 
 ```{r}
 plotit <- function (x)
   plot(x)
-
+```
+```{r}
+#| eval: false
 plotit(c00rs)
 ```
+```{r}
+#| echo: false
+try(plotit(c00rs))
+```
+
+Note that this function doesn't make sense if the input is negative.
+
 ```{r}
 scaleme <- function (x, sf) {
   x/sqrt(sf)
 }
 scaleme(1:10,-3)
 ```
-```{r}
+
+This produces a NaN.  That might be a problem as we might not notice
+that there is a problem until several calculations down the line.
+
+
+Can check for negative scale factor and provide a more informative
+error message.
+
+```{r} 
 scaleme <- function (x, sf) {
   if (!is.numeric(sf) || sf <= 0) 
     stop("Expected sf to be a positive number, got ", sf)
   x/sqrt(sf)
 }
+```
+```{r}
+#| eval: false
 scaleme(1:10,-3)
 ```
+```{r}
+#| echo: false
+try(scaleme(1:10,-3))
+```
+
+Or maybe, just issue a warning and let the NaN go through
+
+
 ```{r}
 scaleme <- function (x, sf) {
   if (!is.numeric(sf) || sf <= 0) 
@@ -38,6 +77,8 @@ scaleme <- function (x, sf) {
 scaleme(1:10,-3)
 ```
 
+## R Options for handling warnings.
+
 Setting 
 - options(warn=0) -- Print warnings at end of function.
 - options(warn=1) -- Print warnings as they happen
@@ -46,15 +87,19 @@ Setting
 ```{r}
 options(warn=1)
 scaleme(1:10,-3)
-
 ```
 
 ```{r}
+#| eval: false
 options(warn=2)
 scaleme(1:10,-3)
-
 ```
+
+Adding a call to `recover()` where the error occurs will allow the
+programmer to look around at what is going on when the error occurs.
+
 ```{r}
+#| eval: false
 scaleme <- function (x, sf) {
   if (!is.numeric(sf) || sf <= 0) {
     warning("Expected sf to be a positive number, got ", sf,"\n")

@@ -1,11 +1,24 @@
 ---
-title: "TeachingDemos"
+title: "Teaching Demos"
+author:  Russell G. Almond
+output:
+  html:
+    sidebar: id-default
 ---
 
-This is a Quarto website.
+These are a series of small shiny apps I developed for teaching.
+Please feel free to use them in your courses or for your personal learning.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+As learning from my R code is part of the learning, the source for these pages can be found on my github account:  [github:ralmond/TeachingDemos](https://github.com/ralmond/TeachingDemos).
 
-```{r}
-1 + 1
-```
+The following sets of demos are available.
+
+* [Intro Stats](IntroStats/index.qmd) -- Demos for an introductory statistics class, includes an online normal distribution calculator.
+
+* [Bayesian Stats](Bayesian/index.qmd) -- Some Bayesian demonstrations including Beta-Binomial and Normal-Normal shiny apps and some sample stan code.
+
+* [R Intro](RIntro/index.qmd) -- Some various talks I've given on how to use R (no narration).
+
+Copyright 2026 Russell G. Almond.
+Permission to reuse and remix granted under the basis of the CC-BY 4.0 license. 
+![https://creativecommons.org/licenses/by/4.0](img/by.png)

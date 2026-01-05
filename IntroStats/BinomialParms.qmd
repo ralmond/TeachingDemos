@@ -2,7 +2,9 @@
 title: "Binomial Parameters"
 author: "Russell Almond"
 date: "September 1, 2020"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 

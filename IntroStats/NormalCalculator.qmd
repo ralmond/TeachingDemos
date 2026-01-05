@@ -2,15 +2,18 @@
 title: "Normal Calculator"
 author: "Russell Almond"
 date: "9/10/2019"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 resource_files:
-- Chi2calculator.Rmd
-- Studenttcalculator.Rmd
+- Chi2calculator.qmd
+- Studenttcalculator.qmd
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
 ```
 
 ## Normal Probabilities.
@@ -141,4 +144,4 @@ renderPlot({
          })
   
 })
-
+```

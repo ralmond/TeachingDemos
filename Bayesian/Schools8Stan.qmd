@@ -2,7 +2,9 @@
 title: "8 Schools Stan"
 author: "Russell Almond"
 date: "1/31/2019"
-output: html_notebook
+output: 
+  html:
+    sidebar: id-bayes
 editor_options: 
   chunk_output_type: inline
 ---
@@ -135,10 +137,10 @@ school8.fit1 <- sampling(
 summary(school8.fit1)
 ```
 Alternate style using external file.
-```{r Run Stan-stan}
+```{r Run Stan-stan, eval=FALSE}
 options(mc.cores = parallel::detectCores()-1)
 school8.fit1 <- stan(
-  file="Bayesian/school8.stan",       # The model
+  file="school8.stan",       # The model
   data = school8.dat, # The data
   chains = 5,
   warmup = 1000,
@@ -184,7 +186,7 @@ pairs(school8.fit1,pars=c("mu","theta[1]","tau"))
 
 Shinystan opens a new shiny workspace which allows interactive browsing of the results.
 
-```{r shinystan}
+```{r shinystan, eval=FALSE}
 school8.fit1s <- launch_shinystan(school8.fit1)
 ```
 

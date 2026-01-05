@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Russell Almond">
+<meta name="dcterms.date" content="2019-01-31">
+
+<title>8 Schools EM – Russell’s Teaching Demos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-112abf1fb9774a9d9a8d6b432759ed21.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/ionrangeslider-javascript-2.3.1/js/ion.rangeSlider.min.js"></script>
+<script src="../site_libs/strftime-0.9.2/strftime-min.js"></script>
+<link href="../site_libs/ionrangeslider-css-2.3.1/css/ion.rangeSlider.css" rel="stylesheet">
+<link href="../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<style>
+div.callout-db.callout {
+  border-left-color: blue;
+}
+div.callout-db.callout-style-default > .callout-header {
+  background-color: rgb(from blue r g b / 13%);
+}
+div.callout-db .callout-toggle::before {  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(33, 37, 41)" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');}
+div.callout-db.callout-style-default .callout-icon::before, div.callout-db.callout-titled .callout-icon::before {
+  content: '☡';
+  background-image: none;
+}
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Russell’s Teaching Demos</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../IntroStats/index.html"> 
+<span class="menu-text">Intro Stats</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../RIntro/index.html"> 
+<span class="menu-text">Intro to R</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Bayesian/index.html"> 
+<span class="menu-text">Bayesian</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Bayesian/Schools8.html">8 Schools EM</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Bayesian/BetaBinomiall.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Normal Normal Bayesian Model</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Bayesian/NormalNormal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Normal Normal Bayesian Model</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Bayesian/RatersStan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multiple Raters in Stan</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Bayesian/Schools8.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">8 Schools EM</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Bayesian/Schools8Stan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8 Schools Stan</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Bayesian/Schools8Stan-improved.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8 Schools Stan Improved</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-8-schools-problem" id="toc-the-8-schools-problem" class="nav-link active" data-scroll-target="#the-8-schools-problem">The 8 Schools Problem</a>
+  <ul class="collapse">
+  <li><a href="#unpooled-pooled-and-partially-pooled-estimates." id="toc-unpooled-pooled-and-partially-pooled-estimates." class="nav-link" data-scroll-target="#unpooled-pooled-and-partially-pooled-estimates.">Unpooled, pooled and partially pooled estimates.</a></li>
+  <li><a href="#senstivity-to-prior-standard-deviation" id="toc-senstivity-to-prior-standard-deviation" class="nav-link" data-scroll-target="#senstivity-to-prior-standard-deviation">Senstivity to prior standard deviation</a></li>
+  </ul></li>
+  <li><a href="#the-em-algorithm" id="toc-the-em-algorithm" class="nav-link" data-scroll-target="#the-em-algorithm">The EM Algorithm</a>
+  <ul class="collapse">
+  <li><a href="#em-for-the-8-schools-problem." id="toc-em-for-the-8-schools-problem." class="nav-link" data-scroll-target="#em-for-the-8-schools-problem.">EM for the 8 Schools problem.</a>
+  <ul class="collapse">
+  <li><a href="#e-step" id="toc-e-step" class="nav-link" data-scroll-target="#e-step">E-Step</a></li>
+  </ul></li>
+  <li><a href="#m-step" id="toc-m-step" class="nav-link" data-scroll-target="#m-step">M-Step</a></li>
+  <li><a href="#the-em-algorithm-1" id="toc-the-em-algorithm-1" class="nav-link" data-scroll-target="#the-em-algorithm-1">The EM algorithm</a></li>
+  <li><a href="#visualizing-the-em-algorithm." id="toc-visualizing-the-em-algorithm." class="nav-link" data-scroll-target="#visualizing-the-em-algorithm.">Visualizing the EM algorithm.</a></li>
+  <li><a href="#em-in-practice." id="toc-em-in-practice." class="nav-link" data-scroll-target="#em-in-practice.">EM in practice.</a>
+  <ul class="collapse">
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">8 Schools EM</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Russell Almond </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 31, 2019</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="the-8-schools-problem" class="level1">
+<h1>The 8 Schools Problem</h1>
+<p>This is the classic eight schools example from Rubin(1981)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. (It is also found in Chapter 5 of Gelman et al., 2014 <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.) The story is that 8 different schools experimented with an SAT coaching experiment. The performance gains of the coached students were compared to students on a weight list control. Separate estimates were obtained for each school, but because the size of the schools differed, the standard errors differed as well.</p>
+<p>Here are the data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Schools <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">row.names=</span><span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>,<span class="st">"D"</span>,<span class="st">"E"</span>,<span class="st">"F"</span>,<span class="st">"G"</span>,<span class="st">"H"</span>),</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">effect =</span> <span class="fu">c</span>(<span class="fl">28.39</span>,<span class="fl">7.94</span>,<span class="sc">-</span><span class="fl">2.75</span>,<span class="fl">6.82</span>,<span class="sc">-</span>.<span class="dv">64</span>,.<span class="dv">63</span>,<span class="fl">18.01</span>,<span class="fl">12.16</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">see =</span> <span class="fu">c</span>(<span class="fl">14.9</span>, <span class="fl">10.2</span>, <span class="fl">16.3</span>, <span class="fl">11.0</span>, <span class="fl">9.4</span>, <span class="fl">11.4</span>, <span class="fl">10.4</span>, <span class="fl">17.6</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Schools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  effect  see
+A  28.39 14.9
+B   7.94 10.2
+C  -2.75 16.3
+D   6.82 11.0
+E  -0.64  9.4
+F   0.63 11.4
+G  18.01 10.4
+H  12.16 17.6</code></pre>
+</div>
+</div>
+<p>Lets start by calculating a weighted average effect. I’ll weight each case by the precision (one over the square of the see).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Schools<span class="sc">$</span>w <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>Schools<span class="sc">$</span>see<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Schools.mean <span class="ot">&lt;-</span> <span class="fu">sum</span>(Schools<span class="sc">$</span>w<span class="sc">*</span>Schools<span class="sc">$</span>effect)<span class="sc">/</span><span class="fu">sum</span>(Schools<span class="sc">$</span>w)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Schools.mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7.870546</code></pre>
+</div>
+</div>
+<p>Here is a plot of the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ord <span class="ot">&lt;-</span> <span class="fu">order</span>(Schools<span class="sc">$</span>effect)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Schools<span class="sc">$</span>effect[ord[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>)]]<span class="sc">+</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>)<span class="sc">*</span>Schools<span class="sc">$</span>see[ord[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>)]],</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">c</span>(<span class="fu">nrow</span>(Schools),<span class="dv">1</span>),<span class="at">main =</span> <span class="st">"8 Schools data."</span>,<span class="at">type=</span><span class="st">"n"</span>,<span class="at">yaxt=</span><span class="st">"n"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"Effect Size"</span>,<span class="at">ylab=</span><span class="st">"School"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(Schools<span class="sc">$</span>effect[ord],<span class="fu">nrow</span>(Schools)<span class="sc">:</span><span class="dv">1</span>,<span class="at">pch=</span><span class="fu">rownames</span>(Schools)[ord])</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(Schools<span class="sc">$</span>effect[ord]<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>Schools<span class="sc">$</span>see[ord],<span class="fu">nrow</span>(Schools)<span class="sc">:</span><span class="dv">1</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>         Schools<span class="sc">$</span>effect[ord]<span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>Schools<span class="sc">$</span>see[ord],<span class="fu">nrow</span>(Schools)<span class="sc">:</span><span class="dv">1</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span>Schools.mean,<span class="at">col=</span><span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Schools8_files/figure-html/data Plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="unpooled-pooled-and-partially-pooled-estimates." class="level2">
+<h2 class="anchored" data-anchor-id="unpooled-pooled-and-partially-pooled-estimates.">Unpooled, pooled and partially pooled estimates.</h2>
+<p>The blue line in the figure above is the grand mean. This is the totally pooled solution. The letters are the unpooled estimates for the schools. Now suppose that the effects for the schools come from a normal population with mean equal to the grand mean above, and a standard deviation of <span class="math inline">\(\tau\)</span> (Gelman and Hill, 2007<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, calls this <span class="math inline">\(\sigma_\alpha\)</span>). Let <span class="math inline">\(\bar y\)</span> be the grand mean, and let <span class="math inline">\(\sigma_i\)</span> be standard error for School <span class="math inline">\(i\)</span>. Then we get the following Bayesian posterior: <span class="math display">\[ \widetilde\sigma_i^{2} = 1/(\tau^{-2} + \sigma_i^{-2})\;; \qquad
+\widetilde y_i = \frac{\tau^{-2} \bar y + \sigma_i^{-2} y_i}{\tilde\sigma_i^{-2}}\;.\]</span></p>
+<p>Lets look at this for various values of <span class="math inline">\(\tau\)</span>. For this purpose, the following function will be handy. It will compute the posterior distribution for a given prior over the school means.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Schools.post <span class="ot">&lt;-</span> <span class="cf">function</span> (data, prior) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  V <span class="ot">&lt;-</span>  <span class="dv">1</span><span class="sc">/</span>data<span class="sc">$</span>see<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>prior[<span class="st">"sd"</span>]<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  theta <span class="ot">&lt;-</span> (data<span class="sc">$</span>effect<span class="sc">/</span>data<span class="sc">$</span>see<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> prior[<span class="st">"mean"</span>]<span class="sc">/</span>prior[<span class="st">"sd"</span>]<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>V</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">effect=</span>theta,<span class="at">see=</span><span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(V),<span class="at">row.names=</span><span class="fu">rownames</span>(data))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">Schools.post</span>(Schools,<span class="fu">c</span>(<span class="at">mean=</span>Schools.mean,<span class="at">sd=</span><span class="cn">Inf</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  effect  see
+A  28.39 14.9
+B   7.94 10.2
+C  -2.75 16.3
+D   6.82 11.0
+E  -0.64  9.4
+F   0.63 11.4
+G  18.01 10.4
+H  12.16 17.6</code></pre>
+</div>
+</div>
+<p>With infinite standard deviation in the prior, we recover the unpooled estimate. With zero standard we get NaN, but with a value close to 0 we get the completely pooled estimate.</p>
+</section>
+<section id="senstivity-to-prior-standard-deviation" class="level2">
+<h2 class="anchored" data-anchor-id="senstivity-to-prior-standard-deviation">Senstivity to prior standard deviation</h2>
+<p>Lets put a slider on <span class="math inline">\(\tau\)</span> so we can see going from the pooled to the unpooled estimate.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="shiny-input-panel">
+<div class="shiny-flow-layout">
+<div>
+<div class="form-group shiny-input-container">
+<label class="control-label" id="tau-label" for="tau">School-level standard deviation:</label>
+<input class="js-range-slider" id="tau" data-skin="shiny" data-min="0.02" data-max="50" data-from="10" data-step="0.02" data-grid="true" data-grid-num="9.996" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="shiny-plot-output html-fill-item" id="outf3d43ac0034df629" style="width:100%;height:400px;"></div>
+</div>
+</div>
+</section>
+</section>
+<section id="the-em-algorithm" class="level1">
+<h1>The EM Algorithm</h1>
+<p>So how do we get the right value for <span class="math inline">\(\tau\)</span>, the high level standard deviation. One way is to try to find a value of <span class="math inline">\(\tau\)</span> that maximizes the likelihood of the observed data. We can do this using the EM algorithm.</p>
+<p><em>EM</em> stands for expectation–maximization. In the EM algorithm, the unknown quatities are split into two pieces: latent variables, <span class="math inline">\(\theta\)</span>, and parameters, <span class="math inline">\(\phi\)</span>. In the example above, the school means are the latent variables, and the mean and standard deviation of the school mean distribution are the parameters. Furthermore, we need to know the sufficient statistics for the latent variables, <span class="math inline">\(S(\theta)\)</span>; for the 8 schools example, this is the expected value and standard deviation of the posterior distribution. Start with an initial guess of the parameters values: <span class="math inline">\(\phi^{(0)}\)</span>. Now for each cycle, <span class="math inline">\(r\)</span>, there are three steps:</p>
+<ul>
+<li><p><strong>E-Step</strong>: Using the current version of the parameters, <span class="math inline">\(\phi^{(r)}\)</span>, calculate the expected value of the sufficient statistics for the latent variables, $S()^{(r+1)} = E[S()|^{(r)},{} ] $.</p></li>
+<li><p><strong>M-Step</strong>: Find new parameter values, <span class="math inline">\(\phi^{(r+1)}\)</span> that maximize the likelihood (or posterior for Bayesian EM) of the data and sufficient statistics, <span class="math inline">\(\phi^{(r+1)} = \textrm{argmax}_{\phi} P({\bf X},S(\theta)^{(r+1)}|\phi)\)</span>.</p></li>
+<li><p><strong>Convergence Check</strong>: Stop if <span class="math inline">\(||\phi^{(r+1)} - \phi^{(r)}|| &lt; \epsilon\)</span> or <span class="math inline">\(r &gt; r_{max}\)</span>. (Alternately, the stopping criteria can be if the likelihood doesn’t change).</p></li>
+</ul>
+<p>If the distance between the parameters gets sufficiently small before <span class="math inline">\(r\)</span> execeeds the maximum, then the EM algorithm is said to have converged. If not, then it has instead gotten stuck. Dempster, Laird and Rubin (1977)<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> showed that this will eventually converge to a local maximum of the likelihood.</p>
+<p>A couple of problems. First, if the likelihood (or posterior) has more than one local maximum, the EM algorithm can find the wrong one. This is often the result of an underidentified problem, but it also can just be the case that there are more than one solution at the given parameterization. Second, if the likelihood has a long flat place, the algorithm can move very slowly.</p>
+<section id="em-for-the-8-schools-problem." class="level2">
+<h2 class="anchored" data-anchor-id="em-for-the-8-schools-problem.">EM for the 8 Schools problem.</h2>
+<p>Let <span class="math inline">\(Y_i\)</span> be the effect size for School <span class="math inline">\(i\)</span>, and let <span class="math inline">\(\sigma_i\)</span> be the standard error.</p>
+<p>Let the latent variables be <span class="math inline">\(\theta = \{\mu_1, \ldots, \mu_8\}\)</span>, the means for the 8 schools. The sufficient statistics are the expected value, <span class="math inline">\(M_i\)</span> and the variances <span class="math inline">\(V_i\)</span>.</p>
+<p>The parameters are mean, <span class="math inline">\(\xi\)</span>, and the standard devaition, <span class="math inline">\(\tau\)</span>, of the school mean distribution.</p>
+<section id="e-step" class="level3">
+<h3 class="anchored" data-anchor-id="e-step">E-Step</h3>
+<p>We will start with an arbitrary set of initial values: <span class="math inline">\(\xi=0\)</span> and <span class="math inline">\(\tau=\infty\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculates posterior means for each of the schools</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>param0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">mean=</span><span class="dv">0</span>,<span class="at">sd=</span><span class="cn">Inf</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>Schools.EStep <span class="ot">&lt;-</span> <span class="cf">function</span> (data, params) {</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  Pre <span class="ot">&lt;-</span>  <span class="dv">1</span><span class="sc">/</span>data<span class="sc">$</span>see<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>params[<span class="st">"sd"</span>]<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  M <span class="ot">&lt;-</span> (data<span class="sc">$</span>effect<span class="sc">/</span>data<span class="sc">$</span>see<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> params[<span class="st">"mean"</span>]<span class="sc">/</span>params[<span class="st">"sd"</span>]<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>Pre</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">M=</span>M,<span class="at">V=</span><span class="dv">1</span><span class="sc">/</span>Pre)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>lv0 <span class="ot">&lt;-</span> <span class="fu">Schools.EStep</span>(Schools,param0)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>lv0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$M
+[1] 28.39  7.94 -2.75  6.82 -0.64  0.63 18.01 12.16
+
+$V
+[1] 222.01 104.04 265.69 121.00  88.36 129.96 108.16 309.76</code></pre>
+</div>
+</div>
+<p>Note that except for some changes of notation, <code>Schools.Estep</code> is the same as <code>Schools.post</code> above.</p>
+</section>
+</section>
+<section id="m-step" class="level2">
+<h2 class="anchored" data-anchor-id="m-step">M-Step</h2>
+<p>We are rather fortunate in that the maixmization can be done in closed form. In particular, the new value for <span class="math inline">\(\xi\)</span> is just the mean of <span class="math inline">\(M_i\)</span>. The variance is given by <span class="math inline">\(\tau^2 = \textrm{Var}(M_i) + \sum V_i\)</span>. This gives us the following code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Schools.MStep <span class="ot">&lt;-</span> <span class="cf">function</span> (data, latentvars) {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  J <span class="ot">&lt;-</span> <span class="fu">length</span>(latentvars<span class="sc">$</span>M)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> <span class="fu">mean</span>(latentvars<span class="sc">$</span>M)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  sig <span class="ot">&lt;-</span> <span class="fu">sum</span>((latentvars<span class="sc">$</span>M<span class="sc">-</span>mu)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(J<span class="dv">-1</span>)<span class="sc">+</span><span class="fu">sum</span>(latentvars<span class="sc">$</span>V)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">mean=</span>mu,<span class="at">sd=</span><span class="fu">sqrt</span>(sig))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">Schools.MStep</span>(Schools,lv0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    mean       sd 
+ 8.82000 38.20371 </code></pre>
+</div>
+</div>
+</section>
+<section id="the-em-algorithm-1" class="level2">
+<h2 class="anchored" data-anchor-id="the-em-algorithm-1">The EM algorithm</h2>
+<p>OK, Here is a general EM-algorithm function. Note that the E-step and M-step are passed in as functions. It also gives some options to print out the E-step and M-step results as we go.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>EM <span class="ot">&lt;-</span> <span class="cf">function</span> (data,initial.param,EStep,MStep,<span class="at">maxit=</span><span class="dv">10</span>L,<span class="at">tol=</span>.<span class="dv">001</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">printParams=</span><span class="cn">FALSE</span>,<span class="at">printLatent=</span><span class="cn">FALSE</span>) {</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  param.hist <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,maxit,<span class="fu">length</span>(initial.param))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  lv.hist <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>,maxit<span class="dv">-1</span>L)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dimnames</span>(param.hist) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">paste</span>(<span class="dv">1</span><span class="sc">:</span>maxit),<span class="fu">names</span>(initial.param))</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  param.hist[<span class="dv">1</span>,] <span class="ot">&lt;-</span> param <span class="ot">&lt;-</span> initial.param</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (printParams) <span class="fu">cat</span>(<span class="st">"Initial Parameters"</span>,param,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  converged <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>maxit) {</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (printParams <span class="sc">||</span> printLatent) <span class="fu">cat</span>(<span class="st">"Iteration "</span>,i<span class="dv">-1</span>,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    latent <span class="ot">&lt;-</span> <span class="fu">do.call</span>(EStep,<span class="fu">list</span>(data,param))</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    lv.hist[[i<span class="dv">-1</span>]] <span class="ot">&lt;-</span> latent</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (printLatent) {</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>          <span class="fu">cat</span>(<span class="st">"Latent variables:</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>         <span class="fu">print</span>(latent)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>         <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    param.hist[i,] <span class="ot">&lt;-</span> param <span class="ot">&lt;-</span> <span class="fu">do.call</span>(MStep,<span class="fu">list</span>(data,latent))</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (printParams) <span class="fu">cat</span>(<span class="st">"Parameters"</span>,param,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">max</span>(<span class="fu">abs</span>(param<span class="sc">-</span>param.hist[i<span class="dv">-1</span>,])) <span class="sc">&lt;</span> tol) {</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>      converged <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cat</span>(<span class="st">"Converged at iteration "</span>,i,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>      <span class="cf">break</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>converged) <span class="fu">cat</span>(<span class="st">"Did not converge in"</span>,i,<span class="st">"iterations.</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">param=</span>param,<span class="at">latent=</span>latent,<span class="at">param.hist=</span>param.hist,<span class="at">lv.hist=</span>lv.hist)</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is an example of the EM algorithm in action:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>em.out <span class="ot">&lt;-</span> <span class="fu">EM</span>(Schools,param0,Schools.EStep,Schools.MStep,<span class="at">printParams=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Initial Parameters 0 Inf 
+Iteration  1 
+Parameters 8.82 38.20371 
+Iteration  2 
+Parameters 8.745069 35.66051 
+Iteration  3 
+Parameters 8.727737 35.33237 
+Iteration  4 
+Parameters 8.724355 35.28564 
+Iteration  5 
+Parameters 8.723759 35.27889 
+Iteration  6 
+Parameters 8.72366 35.27792 
+Converged at iteration  7 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>em.out<span class="sc">$</span>param</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    mean       sd 
+ 8.72366 35.27792 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>em.out<span class="sc">$</span>latent<span class="sc">$</span>M</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 25.41299752  8.00046259 -0.73153823  6.98868395 -0.01928998  1.39523743
+[7] 17.26751819 11.47521018</code></pre>
+</div>
+</div>
+</section>
+<section id="visualizing-the-em-algorithm." class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-the-em-algorithm.">Visualizing the EM algorithm.</h2>
+<p>Lets see if we can look at the output of the EM algorithm graphically.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inputPanel</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sliderInput</span>(<span class="st">"mu0"</span>, <span class="at">label=</span><span class="st">"Starting School level mean"</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">min=</span><span class="sc">-</span><span class="dv">25</span>,<span class="at">max=</span><span class="dv">25</span>,<span class="at">value=</span><span class="dv">0</span>,<span class="at">step=</span>.<span class="dv">25</span>),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sliderInput</span>(<span class="st">"tau0"</span>, <span class="at">label =</span> <span class="st">"Starting School-level standard deviation:"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">min =</span> <span class="fl">0.02</span>, <span class="at">max =</span> <span class="dv">100</span>, <span class="at">value =</span> <span class="dv">90</span>, <span class="at">step =</span> <span class="fl">0.02</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="shiny-input-panel">
+<div class="shiny-flow-layout">
+<div>
+<div class="form-group shiny-input-container">
+<label class="control-label" id="mu0-label" for="mu0">Starting School level mean</label>
+<input class="js-range-slider" id="mu0" data-skin="shiny" data-min="-25" data-max="25" data-from="0" data-step="0.25" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number">
+</div>
+</div>
+<div>
+<div class="form-group shiny-input-container">
+<label class="control-label" id="tau0-label" for="tau0">Starting School-level standard deviation:</label>
+<input class="js-range-slider" id="tau0" data-skin="shiny" data-min="0.02" data-max="100" data-from="90" data-step="0.02" data-grid="true" data-grid-num="9.998" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">renderPlot</span>({</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  par0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">mean=</span>input<span class="sc">$</span>mu0,<span class="at">sd=</span>input<span class="sc">$</span>tau0)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  emout <span class="ot">&lt;-</span> <span class="fu">EM</span>(Schools,par0,Schools.EStep,Schools.MStep)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  NN <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(emout<span class="sc">$</span>param.hist[,<span class="dv">1</span>]))</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  Mmat <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind,<span class="fu">sapply</span>(emout<span class="sc">$</span>lv.hist,<span class="cf">function</span>(x) x<span class="sc">$</span>M))</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  Mmat <span class="ot">&lt;-</span> <span class="fu">rbind</span>(Mmat,<span class="cn">NA</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(Mmat) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(Schools)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">3</span>),<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matplot</span>(Mmat,NN<span class="sc">:</span><span class="dv">1</span>,<span class="at">type=</span><span class="st">"b"</span>,<span class="at">pch=</span><span class="fu">colnames</span>(Mmat),<span class="at">main=</span><span class="st">"School Means"</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">yaxt=</span><span class="st">"n"</span>,<span class="at">xlab=</span><span class="st">"Effect Size"</span>)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(emout<span class="sc">$</span>param.hist[<span class="dv">1</span><span class="sc">:</span>NN,<span class="st">"mean"</span>],NN<span class="sc">:</span><span class="dv">1</span>,<span class="at">main=</span><span class="st">"Grand Mean Effect"</span>,<span class="at">type=</span><span class="st">"b"</span>,</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">yaxt=</span><span class="st">"n"</span>,<span class="at">xlab=</span><span class="st">"Effect Size"</span>)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(emout<span class="sc">$</span>param.hist[<span class="dv">1</span><span class="sc">:</span>NN,<span class="st">"sd"</span>],NN<span class="sc">:</span><span class="dv">1</span>,<span class="at">main=</span><span class="st">"Standard deviation of effect sizes"</span>,<span class="at">type=</span><span class="st">"b"</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">yaxt=</span><span class="st">"n"</span>,<span class="at">xlab=</span><span class="st">"sd(Effect Size)"</span>)</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="shiny-plot-output html-fill-item" id="out4a832361b985a16d" style="width:100%;height:400px;"></div>
+</div>
+</div>
+</section>
+<section id="em-in-practice." class="level2">
+<h2 class="anchored" data-anchor-id="em-in-practice.">EM in practice.</h2>
+<p>In practice, we seldom need to implement the EM algorithm by hand. Many of the easy cases are built into existing R functions, which often use the EM alogirthm to find maximum likelihood estimates under their hood. However, understanding how it works can help diagnose problems with convergence.</p>
+<p>Another place that it is frequently seen is in the Marginal Maximum Likelihood (MML) algorithm used in Psychometrics. Here the person ability latent variable is like the unknown school means. The MML algorithm alternates between finding the parameters of the ability distribution (in some variants, just the mean and variance of the ability) and the values for the item parameters which maximize the likelihood.</p>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+
+
+</section>
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Rubin, D. B. (1981). Estimation in Parallel randomized experiments. <em>Journal of Educational Statistics</em>, <strong>6</strong>, 377-401.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B., Vehtari, A. and Rubin, D. B. (2014). <em>Bayesian Data Analysis: Third Edition</em>. CRC Press. (ISBN: 978-1-4398-4095-5)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Gelman, A. and Hill, J. (2007). <em>Data Analysis Using Regression and Hierarchical/Multilevel Models.</em> Cambridge University Press.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Dempster, A. P. Laird, N. M. and Rubin, D. B. (1977). Maximum likelihood from incomplete data via the EM algorithm (with discussion). <em>Journal of the Royal Statistical Society,</em> <strong>39</strong>, 1–38.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

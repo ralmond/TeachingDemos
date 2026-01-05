@@ -2,12 +2,15 @@
 title: "Correlation Coefficient"
 author: "Russell Almond"
 date: "January 30, 2019"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
 ```
 
 This demonstration will use some random data.  Lets start by generating the random data.  So give a [random seed][seed] and pick a sample size for your sample. 

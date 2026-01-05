@@ -2,7 +2,9 @@
 title: "Normal Normal Bayesian Model"
 author: "Russell Almond"
 date: "September 1, 2020"
-output: html_document
+output: 
+  html:
+    sidebar: id-bayes
 runtime: shiny
 ---
 

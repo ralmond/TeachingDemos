@@ -1,8 +1,10 @@
 ---
-title: "Normal Parameters"
+title: "Log-Normal Parameters"
 author: "Russell Almond"
 date: "January 24, 2019"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 

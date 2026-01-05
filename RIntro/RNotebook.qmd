@@ -1,0 +1,163 @@
+---
+title: "R Notebook"
+output: 
+  html:
+    sidebar: id-r
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When
+you execute code within the notebook, the results appear beneath the
+code.
+
+Try executing this chunk by clicking the *Run* button within the chunk
+or by placing your cursor inside it and pressing *Cmd+Shift+Enter*.
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar
+or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and
+output will be saved alongside it (click the *Preview* button or press
+*Cmd+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the
+editor. Consequently, unlike *Knit*, *Preview* does not run any R code
+chunks. Instead, the output of the chunk when it was last run in the
+editor is displayed.
+
+Loading packages we need today
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(psych)
+#If you don't already have these packages, please install first
+if (FALSE) {
+  install.packages("tidyverse")
+  install.packages("ggplot2")
+  install.packages("psych")
+}
+```
+
+Open dataset
+```{r}
+d<-as.data.frame(state.x77)
+#What does each variable measure?
+?state.x77
+```
+REVIEW for mutate(): Make a new variable by combining two other
+variables, or transforming a single variable.
+
+Population density = Population/Area
+
+
+```{r}
+WithDen<-as.data.frame(d%>% mutate(Density = Population/Area))
+#OR
+d$Density<-d$Population/d$Area
+```
+
+Add Comments
+```{r}
+## Covid Cases by State, 2020-04-03.  CDC website.
+covid.x2020 <- read.csv("../data/covidCases.csv", header=FALSE)
+
+stat.covid <- data.frame(state.x77,Covid=covid.x2020[[2]], region=state.region)
+
+```
+Calculate summary statistics (e.g., Mean, Median, SD, Skewness & Kurtosis statistics) for a variable
+
+```{r}
+mean(d$Income)
+median(d$Income)
+sd(d$Income)
+skew(d$Income)
+kurtosi(d$Income)
+describe(d$Income)
+```
+
+```{r}
+describe(stat.covid$Covid)
+stat.covid %>% mutate(CovidDensity = Covid/Area) -> covid1
+png("covidCases.png")
+hist(covid1$CovidDensity, main="Covid Density by State 2020-04-03",xlab="Covid cases per square mile" )
+dev.off()
+```
+
+
+Calculate summary statistics separately for groups of cases
+```{r}
+Wealthy <- d %>% 
+  filter(Income > 4435.8)
+NotWealthy <- d %>% 
+  filter(Income < 4435.8)
+describe(NotWealthy)
+```
+
+Make a histogram, adjust the number of bins, and add a normal curve
+```{r}
+ggplot(data = d) +
+  geom_histogram(mapping = aes(x = Income), binwidth = 100) 
+
+#OR
+
+hist(d$Income,breaks = 30,main = "Income", freq=FALSE, col="gray", xlab="Income")
+curve(dnorm(x, mean=mean(d$Income), sd=sd(d$Income)), add=TRUE, col="red")
+```
+Note that in the call to `hist` the option `freq = FALSE` was set 
+so that the histogram would be a on the same density scale as the
+normal curve (area under all bars adds to 1, not sample size).
+
+
+Panel histograms by rows according to a grouping variable - Income in geographically bigger vs smaller state
+Creating a group variable based on area
+
+```{r}
+mean(d$Area)
+d$BigOrSmall<-ifelse(d$Area>=70735.08,"Big","Small")
+  #Histogram of population based on geographically big vs small state
+ggplot(data = d, mapping = aes(x = Population)) + 
+  geom_freqpoly(mapping = aes(colour = BigOrSmall), binwidth = 100)
+```
+Make boxplots to compare groups of variables - population in geographically bigger or smaller states
+```{r}
+ggplot(data = d, mapping = aes(x = BigOrSmall, y = Population)) +
+  geom_boxplot()
+```
+
+Remove outliers or groups
+```{r}
+NoOutliers<-d
+NoOutliers$Population[NoOutliers$Population > 10000] <-NA
+```
+Checking the boxplots again
+```{r}
+ggplot(data = NoOutliers, mapping = aes(x = BigOrSmall, y = Population)) +
+  geom_boxplot()
+```
+
+Save your output to a picture file. (jpeg is also possible).
+```{r}
+#png file
+png("boxplot.png", width = 350, height = 350) 
+ggplot(data = NoOutliers, mapping = aes(x = BigOrSmall, y = Population)) +
+  geom_boxplot()
+dev.off()
+```
+#OR if you would like a PDF export
+```{r}
+pdf("boxplot.pdf") 
+ggplot(data = NoOutliers, mapping = aes(x = BigOrSmall, y = Population)) +
+  geom_boxplot()
+dev.off()
+```
+Where did I save this image to?
+
+```{r}
+getwd()
+list.files()
+```
+

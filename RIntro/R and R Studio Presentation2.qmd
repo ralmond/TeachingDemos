@@ -1,13 +1,15 @@
 ---
 title: "R and RStudio"
 output: 
+  html:
+    sidebar: id-r
   ioslides_presentation:
 widescreen: true
 ---
 
 # **What is R?**
 
-## **R is a language and environment for statistical computing and graphics.** {data-background=Rlogo.png data-background-size=250px data-background-position=right}
+**R is a language and environment for statistical computing and graphics.** {data-background=Rlogo.png data-background-size=250px data-background-position=right}
 
 ### It facilitates
 
@@ -25,7 +27,7 @@ widescreen: true
 
 # **What is RStudio?**
 
-## **RStudio is an integrated development environment (IDE) for R.**
+**RStudio is an integrated development environment (IDE) for R.**
 
 ### It includes 
 
@@ -33,7 +35,7 @@ widescreen: true
 * syntax-highlighting editor that supports direct code execution
 * tools for plotting, history, debugging and workspace management.
 
-## **RStudio**{data-background=RStudioCapture.png data-background-size=900px data-background-position=center}
+**RStudio**{data-background=RStudioCapture.png data-background-size=900px data-background-position=center}
 
 ## RStudio Desktop can be downloaded from
 
@@ -44,7 +46,7 @@ widescreen: true
 
 * (https://www.rstudio.com/products/rstudio/features/)
 
-## **RStudio Resources**
+**RStudio Resources**
 
 ### Webinars
 * (https://resources.rstudio.com/webinars)
@@ -52,3 +54,4 @@ widescreen: true
 ### Cheat Sheets
 
 * (https://www.rstudio.com/resources/cheatsheets/#ide)
+

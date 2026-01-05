@@ -2,12 +2,15 @@
 title: "Central Limit Theorem"
 author: "Russell Almond"
 date: "September 8, 2020"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
 ```
 Pick a distribution:
 * Uniform -- platykurtic

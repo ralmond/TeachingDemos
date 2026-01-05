@@ -2,7 +2,9 @@
 title: "Regression Prediction Error"
 author: "Russell Almond"
 date: "9/22/2020"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 

@@ -2,13 +2,15 @@
 title: "Standardized Variables"
 author: "Russell Almond"
 date: "1/29/2019"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
+library(shiny)
 ```
 
 ## Standardizing a raw score.  

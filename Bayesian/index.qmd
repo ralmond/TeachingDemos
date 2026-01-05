@@ -2,7 +2,9 @@
 title: "Index of R Demonstrations for Bayesian Data Analysis"
 author: "Russell Almond"
 date: "September 4, 2020"
-output: html_document
+output: 
+  html:
+    sidebar: id-bayes
 ---
 
 ```{r setup, include=FALSE}

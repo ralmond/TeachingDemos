@@ -2,13 +2,16 @@
 title: "Skewness Boxplot Practice"
 author: "Russell Almond"
 date: "February 23, 2019"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(lattice)
+library(shiny)
 ```
 
 ```{r parameters, echo=FALSE}

@@ -2,12 +2,15 @@
 title: "Law of Large Numbers"
 author: "Russell Almond"
 date: "February 19, 2019"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
 ```
 # Law of Large Numbers
 

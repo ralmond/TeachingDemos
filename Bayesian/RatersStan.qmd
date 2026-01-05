@@ -1,6 +1,8 @@
 ---
 title: "Multiple Raters in Stan"
-output: html_notebook
+output: 
+  html:
+    sidebar: id-bayes
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -20,7 +22,7 @@ J <- 10L  # raters
 W <- 3L   # ratings per applicant
 
 #assignments <- read.csv("assignment.csv")
-ratings <- read.csv("Bayesian/ratings.csv")
+ratings <- read.csv("ratings.csv")
 
 ```
 
@@ -93,6 +95,6 @@ ratings.fit1 <- sampling(
 )
 summary(ratings.fit1)
 ```
-```{r shinystan}
+```{r shinystan, eval=FALSE}
 ratings.fit1s <-launch_shinystan(ratings.fit1)
 ```

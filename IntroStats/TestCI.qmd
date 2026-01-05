@@ -2,12 +2,15 @@
 title: "Confidence Intervals and Tests"
 author: "Russell Almond"
 date: "3/26/2020"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
 ```
 
 # Finding the population mean.

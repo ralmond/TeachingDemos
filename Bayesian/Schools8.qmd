@@ -2,12 +2,15 @@
 title: "8 Schools EM"
 author: "Russell Almond"
 date: "1/31/2019"
-output: html_document
+output: 
+  html:
+    sidebar: id-bayes
 runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
 ```
 # The 8 Schools Problem
 

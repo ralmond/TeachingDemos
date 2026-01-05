@@ -2,7 +2,9 @@
 title: "Index of R Demonstrations for Intro Stat"
 author: "Russell Almond"
 date: "September 4, 2020"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 ---
 ![Florida State University](https://one.fsu.edu/alumni/image/FSU-Seal-full-color-lo-res1.jpg){height=120px}
 

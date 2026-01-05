@@ -1,6 +1,8 @@
 ---
 title: "Scatterplot examples"
-output: html_notebook
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 

@@ -2,7 +2,9 @@
 title: "ConditionalProbability"
 author: "Russell Almond"
 date: "10/4/2021"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 
@@ -10,6 +12,7 @@ runtime: shiny
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(vcd)
+library(shiny)
 ```
 
 ## Some Example Data.

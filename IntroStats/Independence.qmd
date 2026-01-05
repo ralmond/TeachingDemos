@@ -2,7 +2,9 @@
 title: "Independence"
 author: "Russell Almond"
 date: "10/5/2020"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 

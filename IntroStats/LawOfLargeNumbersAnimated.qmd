@@ -2,7 +2,9 @@
 title: "Law of Large Numbers"
 author: "Russell Almond"
 date: "February 19, 2019"
-output: html_document
+output: 
+  html:
+    sidebar: id-intro
 runtime: shiny
 ---
 
@@ -11,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(plotly)
 library(patchwork)
 library(tidyverse)
+library(shiny)
 accumulate_by <- function(dat, var) {
   var <- lazyeval::f_eval(var, dat)
   lvls <- plotly:::getLevels(var)
@@ -24,8 +27,9 @@ accumulate_by <- function(dat, var) {
 
 This is pretty close to the frequency definition of probability.  Suppose the probability of some event is $p$.  Suppose further than we sample $N$ times from the process that generates this event.  Let $p_N$ be the proportion of times the event occurs in $N$ trials.  As $N$ gets bigger and bigger, $p_N$ gets closer and closer to $p$.
 
-![Detour](sign_turn_left.png)_(Skip this unless you are good with calculus.)_  This is one of those epsilon-delta theorems.  So let $\delta$ be a difference from $p$ and let $\epsilon$ be a small probability.  For any $\epsilon$ and $\delta$, there exists an $N$ such that $P(|p_N-p|>\delta) < \epsilon$.
-
+:::{.callout-db}
+(Skip this unless you are good with calculus.)_  This is one of those epsilon-delta theorems.  So let $\delta$ be a difference from $p$ and let $\epsilon$ be a small probability.  For any $\epsilon$ and $\delta$, there exists an $N$ such that $P(|p_N-p|>\delta) < \epsilon$.
+:::
 
 ## A demonstration.
 
@@ -75,12 +79,14 @@ renderPlotly({
 We can use the _Law of Large Numbers_ to prove an important theorem.  As the sample size gets larger and larger, the sample looks more and more like the population it is drawn from.
 
 
+:::{.callout-db}
+Technically, the _Law of Large Numbers_ refers to the result above.  But we can use it so show a very important basis of statistics.  Suppose we have some kind of distribution, $F(x)$, that generates numbers, $X$.  Recall that the definition of $F(x)=\Pr(X \leq x)$.
 
-![Proof](sign_turn_left.png) Technically, the _Law of Large Numbers_ refers to the result above.  But we can use it so show a very important basis of statistics.  Suppose we have some kind of distribution, $F(x)$, that generates numbers, $X$.  Recall that the definition of $F(x)=\Pr(X \leq x)$.
+Draw a sample of size $N$ from this distribution.  Now consider the sampled data points $X_1,\ldots,X_N$, and consider sampling a new value $Y$ from that distribution.  Let $F_N(y) = \Pr(Y \leq y)$.  This is sometimes called the _bootstrap distribution_.  
 
-![Proof](sign_turn_left.png) Draw a sample of size $N$ from this distribution.  Now consider the sampled data points $X_1,\ldots,X_N$, and consider sampling a new value $Y$ from that distribution.  Let $F_N(y) = \Pr(Y \leq y)$.  This is sometimes called the _bootstrap distribution_.  
+By the law of large numbers, for every $y$, as $N$ gets large $F_N(y) \rightarrow F(y)$.  So the sample distribution $F_N()$ converges to the $F()$.
+:::
 
-![Proof](sign_turn_left.png) By the law of large numbers, for every $y$, as $N$ gets large $F_N(y) \rightarrow F(y)$.  So the sample distribution $F_N()$ converges to the $F()$.
 
 ## Demonstration of convergence of distributions.
 
@@ -116,7 +122,7 @@ inputPanel(
 cumdat <- reactive({
   NN <- input$NN
   XX <- do.call(rdist[[input$dist]],list(NN))
-  bind_rows(
+  dplyr::bind_rows(
       lapply(25:NN,function(i)
         data.frame(x=sort(XX[1:i]),Fn=(1:i)/i,f=i)))
 })
@@ -137,5 +143,5 @@ renderPlotly({
 })
 ```
 
-See also the [non-animated version](LawOfLargeNumbers.Rmd).
+See also the [non-animated version](LawOfLargeNumbers.qmd).
 

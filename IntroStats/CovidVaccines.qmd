@@ -2,8 +2,9 @@
 title: "Covid-19 Vaccines"
 author: "Russell Almond"
 date: "11/18/2020"
-output:
-  html_document: default
+output: 
+  html:
+    sidebar: id-intro
   pdf_document: default
 ---
 
@@ -11,6 +12,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(kableExtra)
+library(shiny)
 ```
 
 Good News!  In November, both Pfizer and Moderna announce Phase 3 Vaccine Trials with promising results.

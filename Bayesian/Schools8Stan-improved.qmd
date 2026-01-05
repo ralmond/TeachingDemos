@@ -2,7 +2,9 @@
 title: "8 Schools Stan Improved"
 author: "Russell Almond"
 date: "1/31/2019"
-output: html_notebook
+output: 
+  html:
+    sidebar: id-bayes
 editor_options: 
   chunk_output_type: inline
 ---
@@ -55,7 +57,7 @@ options(mc.cores=5)
 
 First we set up the Stan model, and put it into a variable called `school8` (note the `output.var="school8"` in stan block tag)
 
-```{stan output.var="school8.stan"}
+```{stan output.var="school8"}
 data {
   int<lower=0> J; // number of schools
   real y[J]; // estimated treatement effects
@@ -130,7 +132,7 @@ The mc.cores should work well for Unix (Linux and Mac OS), I'm not so sure about
 ```{r Run Stan-sampling}
 #options(mc.cores = parallel::detectCores()-1)
 school8.fit1 <- sampling(
-  school8.stan,       # The model
+  school8,       # The model
   data = school8.dat, # The data
   chains = 5,
   warmup = 1000,
@@ -143,7 +145,7 @@ Alternate style using external file.
 ```{r Run Stan-stan}
 options(mc.cores = parallel::detectCores()-1)
 school8.fit1 <- stan(
-  file="Bayesian/school8.stan",       # The model
+  file="school8.stan",       # The model
   data = school8.dat, # The data
   chains = 5,
   warmup = 1000,
@@ -181,7 +183,8 @@ Typically variance and scale parameters will be positively skewed, and log-poste
 Pair plot sometimes uncover problems with models.
 
 ```{r stan pairs}
-pairs(school8.fit1,pars=c("mu","eta[1]","tau"))
+## This is not working, and I can't figure out why
+## pairs(school8.fit1,pars=c("mu","eta[1]","tau"))
 
 ```
 
@@ -189,7 +192,7 @@ pairs(school8.fit1,pars=c("mu","eta[1]","tau"))
 
 Shinystan opens a new shiny workspace which allows interactive browsing of the results.
 
-```{r shinystan}
+```{r shinystan, eval=FALSE}
 school8.fit1s <- launch_shinystan(school8.fit1)
 ```
 
