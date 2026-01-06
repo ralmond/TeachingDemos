@@ -15,7 +15,9 @@ The following sets of demos are available.
 
 * [Intro Stats](IntroStats/index.qmd) -- Demos for an introductory statistics class, includes an online normal distribution calculator.
 
+<!--
 * [Bayesian Stats](Bayesian/index.qmd) -- Some Bayesian demonstrations including Beta-Binomial and Normal-Normal shiny apps and some sample stan code.
+-->
 
 * [R Intro](RIntro/index.qmd) -- Some various talks I've given on how to use R (no narration).
 

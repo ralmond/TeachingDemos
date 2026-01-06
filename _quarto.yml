@@ -12,8 +12,8 @@ website:
         href: IntroStats/index.qmd
       - text: "Intro to R"
         href: RIntro/index.qmd
-      - text: "Bayesian"
-        href: Bayesian/index.qmd
+#      - text: "Bayesian"
+#        href: Bayesian/index.qmd
 #      - text: Measurement
 #        href: Measurement/index.qmd
 #      - text: "Music Tutor Demo"
@@ -127,10 +127,10 @@ website:
             - text: "Z-scores"
               href: Z-scores.qmd
         - about.qmd
-    - title: "Bayesian Statistics"
-      id: id-bayes
-      style: "docked"
-      contents: "Bayesian/*.qmd"
+    # - title: "Bayesian Statistics"
+    #   id: id-bayes
+    #   style: "docked"
+    #   contents: "Bayesian/*.qmd"
     # - title: "Measurement"
     #   id: id-measure
     #   style: "docked"

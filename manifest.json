@@ -4889,58 +4889,13 @@
       "checksum": "a28593cf6bc8f27b3a8990842e259169"
     },
     "_quarto.yml": {
-      "checksum": "08a1dee9c4c002122d30ff078cdfe556"
+      "checksum": "a474cda7ec553d2eb05436e82e36b205"
     },
     "_site/about.html": {
-      "checksum": "5f30b704de97a46343374be7c8091525"
-    },
-    "_site/Bayesian/BetaBinomiall.html": {
-      "checksum": "ef733a9a35ef8961728d0e80e506e70e"
-    },
-    "_site/Bayesian/index.html": {
-      "checksum": "2a0b06913875be99106b6786cffb4a8c"
-    },
-    "_site/Bayesian/NormalNormal.html": {
-      "checksum": "679b47208a23d11fb89801711927a4e2"
-    },
-    "_site/Bayesian/RatersStan.html": {
-      "checksum": "06e7fea27f7427ac63061c08e57ef49b"
-    },
-    "_site/Bayesian/Schools8_files/figure-html/data Plot-1.png": {
-      "checksum": "7af6d45298233ade18d86be4bad5dc20"
-    },
-    "_site/Bayesian/Schools8.html": {
-      "checksum": "d037962cff945d1c5d472c1a41d5b6e0"
-    },
-    "_site/Bayesian/Schools8Stan_files/figure-html/data Plot-1.png": {
-      "checksum": "7af6d45298233ade18d86be4bad5dc20"
-    },
-    "_site/Bayesian/Schools8Stan_files/figure-html/stan pairs-1.png": {
-      "checksum": "319049da8a34a6cd04cb3cb576c76735"
-    },
-    "_site/Bayesian/Schools8Stan_files/figure-html/stan plot-1.png": {
-      "checksum": "970bc37e9e0c09304aa9fad001c6f90a"
-    },
-    "_site/Bayesian/Schools8Stan_files/figure-html/stan traceplot-1.png": {
-      "checksum": "83a76c42ec525ae050fd5c93d91968d8"
-    },
-    "_site/Bayesian/Schools8Stan-improved_files/figure-html/data Plot-1.png": {
-      "checksum": "7af6d45298233ade18d86be4bad5dc20"
-    },
-    "_site/Bayesian/Schools8Stan-improved_files/figure-html/stan plot-1.png": {
-      "checksum": "bd143372988e399e06286aef32f3ef36"
-    },
-    "_site/Bayesian/Schools8Stan-improved_files/figure-html/stan traceplot-1.png": {
-      "checksum": "a602231bfe896bc712fe99423e5e5f68"
-    },
-    "_site/Bayesian/Schools8Stan-improved.html": {
-      "checksum": "17391ac2e6820c621559a992427a6836"
-    },
-    "_site/Bayesian/Schools8Stan.html": {
-      "checksum": "bf8c26deb492001476bd0c485f850af0"
+      "checksum": "0d531f079a9579d8f2fff1824dc3abc3"
     },
     "_site/data/index.html": {
-      "checksum": "df6844d00b97c5dc0414ae524e8362c9"
+      "checksum": "b8392faf33ffff52ddeaeceaae211ea1"
     },
     "_site/img/by.png": {
       "checksum": "04d377d968557a6092bccb1617db5a65"
@@ -4955,16 +4910,16 @@
       "checksum": "da07799618adb27470cf1af2b40edc85"
     },
     "_site/index.html": {
-      "checksum": "ea4276cf91daf64b80479b7eb8538bfe"
+      "checksum": "523c32ea995c2be61b0a4060dee1683f"
     },
     "_site/IntroStats/BinomialParms.html": {
-      "checksum": "8844155cdd11e5c69a33921ae094c37c"
+      "checksum": "98af8eb9b92de9eba2758a18ea59ce7d"
     },
     "_site/IntroStats/CentralLimitTheroem.html": {
-      "checksum": "a9a0efb7b37b7526640569b2f8c5848a"
+      "checksum": "3c78009df6781b7ff6846d5dbbccc9be"
     },
     "_site/IntroStats/Chi2calculator.html": {
-      "checksum": "2a594e152ce500790dfedb810e20129a"
+      "checksum": "a3b89323809b2522eb234dc71d70eb90"
     },
     "_site/IntroStats/ConditionalProbability_files/figure-html/structplot drug-1.png": {
       "checksum": "3968729b07ccdffe11629fc14889a99d"
@@ -4979,22 +4934,22 @@
       "checksum": "396ec5772ad2ec61259827c012805a9f"
     },
     "_site/IntroStats/ConditionalProbability.html": {
-      "checksum": "6b9a8ac28fc745d0c9ba2e1210c3cad5"
+      "checksum": "8e62a4cc016d17fdac376c7571d043f7"
     },
     "_site/IntroStats/ConfidenceInterval.html": {
-      "checksum": "5a178ae39c3d3c6055ede3b1cf2a5c61"
+      "checksum": "ef4570abcdfc081fded4003560145772"
     },
     "_site/IntroStats/Correlation.html": {
-      "checksum": "ae381d98485a6d0294a45ebbdfe65d41"
+      "checksum": "a99a0a595d10e8d520e73587d6a1d3b5"
     },
     "_site/IntroStats/CorrelationExamples.html": {
-      "checksum": "a3a1c7fb4bd9ecf5bd2a1100b86d0df3"
+      "checksum": "c9943ca13be4875fa94bce08f161b753"
     },
     "_site/IntroStats/CorrelationExercise.html": {
-      "checksum": "6332d02663477707325c55fa936eda50"
+      "checksum": "1aad613b124dd4e78fb30da7df047a3a"
     },
     "_site/IntroStats/CorrelationOutliers.html": {
-      "checksum": "e422e2f0a0e4e421d908e6f68a9093f0"
+      "checksum": "871d8c178ab9302a32d17ce79c0ba54c"
     },
     "_site/IntroStats/CovidModernaAllChi2.png": {
       "checksum": "fecc741f27cbb272b3bef1181095cde3"
@@ -5033,55 +4988,55 @@
       "checksum": "0444dbfc5b1b1a9604dd9c52c22da4ba"
     },
     "_site/IntroStats/CovidVaccines.html": {
-      "checksum": "00ae4b76039c00cb0678f07100f7dcbb"
+      "checksum": "68a3ed86c6ac9b5b2ed909c9e780fc3e"
     },
     "_site/IntroStats/dangerousBend.png": {
       "checksum": "e9d1a8ab7738d0ef225716af5133bbb1"
     },
     "_site/IntroStats/EffectSize.html": {
-      "checksum": "03e7f65c215a94c20040b23f172738ef"
+      "checksum": "3b63fbd574009ac3e4ab646cad5350e0"
     },
     "_site/IntroStats/GammaParams.html": {
-      "checksum": "ee3aea31da2bdaf5ffe4cb91c490becd"
+      "checksum": "c91027628ceee387335e983a2f940e0b"
     },
     "_site/IntroStats/Geyser.html": {
-      "checksum": "81633fc8683ca4d96f4de8911135ac03"
+      "checksum": "b90aafa5650a7ed83a7136686ed6d510"
     },
     "_site/IntroStats/Independence.html": {
-      "checksum": "5fa21b069867d8d93f315e5ee9a3d7a0"
+      "checksum": "f1fd74e81751228dc5eeac4b9aedbcfd"
     },
     "_site/IntroStats/index.html": {
-      "checksum": "96b1271fc56a431c4120b6d68090feee"
+      "checksum": "1b422a1ddae73dbea9434422fab4afa7"
     },
     "_site/IntroStats/KurtosisBoxplots.html": {
-      "checksum": "a03873b109da58c6dad12d0a6853bfaf"
+      "checksum": "cf0e23bb598ddc7435420fe1a6694033"
     },
     "_site/IntroStats/KurtosisPractice.html": {
-      "checksum": "dbcc8b69974c21866c83535c19abd55b"
+      "checksum": "7b0713a5ec605ff74ba0eb935bbc6f4a"
     },
     "_site/IntroStats/KurtosisQQ.html": {
-      "checksum": "17d60e787192e43089292ac700be9076"
+      "checksum": "5a52be7903d2061f739a650a025cac36"
     },
     "_site/IntroStats/LawOfLargeNumbers.html": {
-      "checksum": "6228fdcabbdd2e0a9b1e276fa7e45d93"
+      "checksum": "371d4461669fbc9f115258fe5c879477"
     },
     "_site/IntroStats/LawOfLargeNumbersAnimated.html": {
-      "checksum": "60c90ebb6349969c8cdb98f2547478a9"
+      "checksum": "19cbaa01f4ef6d06705376008b7d1506"
     },
     "_site/IntroStats/LogNormalParams.html": {
-      "checksum": "34132c35ed0f085e4f1c45a064d6e5f9"
+      "checksum": "b022648749765137432a3bd5f7495db0"
     },
     "_site/IntroStats/NormalCalculator.html": {
-      "checksum": "6cd12f388eba1e8445f4ba5b70735a3b"
+      "checksum": "81f0f2cd7f5c04d94044fd015b2c1b03"
     },
     "_site/IntroStats/NormalParams.html": {
-      "checksum": "888e99e04d78016d043541c431e0d529"
+      "checksum": "4605c68f0ce32d793c292cafe1022b16"
     },
     "_site/IntroStats/PoissonParms.html": {
-      "checksum": "b9a12fc0588d088c98205ff33ef2d7c0"
+      "checksum": "8965ce17826a2b2fd329b856ccd00dc7"
     },
     "_site/IntroStats/RareDisease.html": {
-      "checksum": "08d2b0f6696ca45117eee8108ea0250b"
+      "checksum": "0e93a4f0decb32f65ce5add8c29a9631"
     },
     "_site/IntroStats/RegressionPrediction_files/figure-html/residualPlot-1.png": {
       "checksum": "5f3c3eb0116daefc2853a9f00e7abfd0"
@@ -5090,7 +5045,7 @@
       "checksum": "387e3f1d16f0ae59740a8054574485bb"
     },
     "_site/IntroStats/RegressionPrediction.html": {
-      "checksum": "7a2096add109a279b9362bb73c8a96b8"
+      "checksum": "ae1673a545ba5f21776456132779e628"
     },
     "_site/IntroStats/RegressionPredictionA_files/figure-html/residualPlot-1.png": {
       "checksum": "5f3c3eb0116daefc2853a9f00e7abfd0"
@@ -5114,52 +5069,52 @@
       "checksum": "c3c8bfdb46a2edc4d384cb287af85e5f"
     },
     "_site/IntroStats/RegressionPredictionA.html": {
-      "checksum": "689cc411b3a1dcd9ea3091f9520911bc"
+      "checksum": "4311176b539f6d41e1c1964c99247017"
     },
     "_site/IntroStats/sign_turn_left.png": {
       "checksum": "33d5a22cfea74f670104725acc23be41"
     },
     "_site/IntroStats/SkewnessBoxplot.html": {
-      "checksum": "a226ffe798bb06b4e638a105feaff18a"
+      "checksum": "1e63b1080db8bf30fb915277bb31ada4"
     },
     "_site/IntroStats/SkewnessPractice.html": {
-      "checksum": "558d71b1bb7ed795b46ec0395a4d26ca"
+      "checksum": "58db078078b1b51c2dd7e8a85e762e99"
     },
     "_site/IntroStats/SkewnessQQ.html": {
-      "checksum": "1d0a6c49bd10dcbacbf1c96968a9d5c3"
+      "checksum": "25987d84618cf0db54589a2b4498829a"
     },
     "_site/IntroStats/SlopeStandardErrors_files/figure-html/slope-1.png": {
-      "checksum": "9c3d4840b0226e43329092bedf84c866"
+      "checksum": "f045fa4d057a3ccf4c61183979a71d8f"
     },
     "_site/IntroStats/SlopeStandardErrors_files/figure-html/slope-2.png": {
-      "checksum": "d77a9809aafd148b4f645d08697041cd"
+      "checksum": "ede2c1474598d61da9b861c7a422352e"
     },
     "_site/IntroStats/SlopeStandardErrors.html": {
-      "checksum": "e42592a4e0710590a49dd53cb65e277e"
+      "checksum": "74946515a80709f9ab48bb65e122c1ee"
     },
     "_site/IntroStats/StandardDeviations_files/figure-html/unnamed-chunk-1-1.png": {
-      "checksum": "5061fe27c691d3c042a0d83c98bd084b"
+      "checksum": "37373a98cef43a249b91d93e94427c06"
     },
     "_site/IntroStats/StandardDeviations_files/figure-html/unnamed-chunk-1-2.png": {
-      "checksum": "b0e932a149155392de1d6e2cb5291709"
+      "checksum": "c1e92b60009b1fabb4ad6684ff2b4ea7"
     },
     "_site/IntroStats/StandardDeviations_files/figure-html/unnamed-chunk-2-1.png": {
       "checksum": "14b82d0f5fe5211100d47deb7165f1b3"
     },
     "_site/IntroStats/StandardDeviations.html": {
-      "checksum": "2e180b9c2800a363483e85e7212fab72"
+      "checksum": "07183855a9474185fdc18ef32488e1f4"
     },
     "_site/IntroStats/Studenttcalculator.html": {
-      "checksum": "c2f36f2811b66f1cfe73fb002ec1f669"
+      "checksum": "126c10d430c4d3bfe5547beb009a9b07"
     },
     "_site/IntroStats/TestCI.html": {
-      "checksum": "988af1021d23e0c582bba6471e556924"
+      "checksum": "2390d628d7446d29b5d2624e13477791"
     },
     "_site/IntroStats/VaccineCI.html": {
-      "checksum": "adb757b38003f35970c48ae001500db7"
+      "checksum": "dcc5a35254497eb3162deaf8071ce252"
     },
     "_site/IntroStats/Z-scores.html": {
-      "checksum": "b8c949a647e4bfc893e733763d5c11eb"
+      "checksum": "fd58f3bb3cb3dc3cc2c5ef649a8eba29"
     },
     "_site/RIntro/EDAwithGGPlot_files/figure-html/unnamed-chunk-23-1.png": {
       "checksum": "4b3347c469d014d73dec7ce5eed8b349"
@@ -5201,19 +5156,19 @@
       "checksum": "73432fa98019cbd7a54fe6a7ecb14d6d"
     },
     "_site/RIntro/EDAwithGGPlot.html": {
-      "checksum": "ab0a7c341cdd73b553528dbd4ce10a27"
+      "checksum": "535156294ced6361fb06ad82d6b6c59a"
     },
     "_site/RIntro/ErrorHandling.html": {
-      "checksum": "12ef36102ab894560ad81742ef3d8a9d"
+      "checksum": "1c3fd7c2ab06126bbafbd9a24e8dedda"
     },
     "_site/RIntro/foo.html": {
-      "checksum": "d22aa219195c279bf677f8e5adab6412"
+      "checksum": "075a96b94f2a95a6244aba296b316a40"
     },
     "_site/RIntro/foo.png": {
       "checksum": "df69611e3596ee04987b50f83b592d62"
     },
     "_site/RIntro/index.html": {
-      "checksum": "79779f54eaff21e90289926bad6318de"
+      "checksum": "0c7ed32437916510e097be658ed6a11c"
     },
     "_site/RIntro/InstallingR_files/figure-html/pressure-1.png": {
       "checksum": "fc757bac093eda701f8b75631365b2c8"
@@ -5222,16 +5177,16 @@
       "checksum": "fc757bac093eda701f8b75631365b2c8"
     },
     "_site/RIntro/InstallingR.html": {
-      "checksum": "c9b3f98bd944a650e5b38a231063b033"
+      "checksum": "79232dbc551cc530731d6578239a3848"
     },
     "_site/RIntro/MatrixesAndDataFrames.html": {
-      "checksum": "a5acaf2ba08d6e178b83b5ca6bb14e9d"
+      "checksum": "5fb0aeaade480bca993f5fda05db51b2"
     },
     "_site/RIntro/R and R Studio Presentation2.html": {
-      "checksum": "3bf0ef7e3cb0716e0d2873fb6dfbb147"
+      "checksum": "11bee0cd66437ea4bcfb188f1e711a41"
     },
     "_site/RIntro/RDataStructures.html": {
-      "checksum": "ed3066dcb14631519748f0464e3256ed"
+      "checksum": "e56cc6309cf46a55111ebcd44594e74c"
     },
     "_site/RIntro/RNotebook_files/figure-html/unnamed-chunk-1-1.png": {
       "checksum": "f142c3057f11602745c18d55b32b5743"
@@ -5252,16 +5207,16 @@
       "checksum": "159773bcca0dece1c33dcba3f76932ad"
     },
     "_site/RIntro/RNotebook.html": {
-      "checksum": "468021cd28b3e2e438f84a8191bac766"
+      "checksum": "96a85500f8b9161066bb888649e2db22"
     },
     "_site/RIntro/TidyStrings.html": {
-      "checksum": "206df7425e9fa37c38ac2a7ea5f03a24"
+      "checksum": "91aa833b28a9cc596a0ae37335169f0e"
     },
     "_site/RIntro/WorkingWithRData.html": {
-      "checksum": "a748c8d7898276e780342de8154d7f6a"
+      "checksum": "2443fc1e052898853047b0d38c05922e"
     },
     "_site/search.json": {
-      "checksum": "d49ad87dff4258e1279e370297ae67f0"
+      "checksum": "86d7ed2297730a0e3af3e7db0d2b845f"
     },
     "_site/site_libs/bootstrap/bootstrap-112abf1fb9774a9d9a8d6b432759ed21.min.css": {
       "checksum": "112abf1fb9774a9d9a8d6b432759ed21"
@@ -5413,36 +5368,6 @@
     "about.qmd": {
       "checksum": "9aeec5fe1780669d96bea932eca779c2"
     },
-    "Bayesian/assignment.csv": {
-      "checksum": "44e7cace1d6b22e49e58c42179598eef"
-    },
-    "Bayesian/BetaBinomiall.qmd": {
-      "checksum": "3ab67f15afa29b19509ae60fe5899379"
-    },
-    "Bayesian/index.qmd": {
-      "checksum": "65c9fada0f334c8c37053c695aee292d"
-    },
-    "Bayesian/NormalNormal.qmd": {
-      "checksum": "8489aaaf66bd2fc25b7b506718ca6783"
-    },
-    "Bayesian/RatersStan.qmd": {
-      "checksum": "73a0c11588ee1afcace93289f1450c80"
-    },
-    "Bayesian/ratings.csv": {
-      "checksum": "8d9d49fca0186ca5ed5bfe85a9de38bc"
-    },
-    "Bayesian/school8.stan": {
-      "checksum": "645c029ce720149c0627be5fabd27af9"
-    },
-    "Bayesian/Schools8.qmd": {
-      "checksum": "1efa7c5b3f49d474f98aca8105f19946"
-    },
-    "Bayesian/Schools8Stan-improved.qmd": {
-      "checksum": "7ea8d59f11abfa46960d35d18f336571"
-    },
-    "Bayesian/Schools8Stan.qmd": {
-      "checksum": "df5a35460506d90651348b6f6214b21e"
-    },
     "data/ACED-pre-post.csv": {
       "checksum": "2a1e10112629710baa94416ccbbdb419"
     },
@@ -5504,7 +5429,7 @@
       "checksum": "33d5a22cfea74f670104725acc23be41"
     },
     "index.qmd": {
-      "checksum": "eb64f644733ce584c0f3a3e418396fef"
+      "checksum": "45854d1448e3952379e7c64a05a17070"
     },
     "IntroStats/BinomialParms.qmd": {
       "checksum": "53dae2676406e0f6c88655595f13ce6a"
@@ -5657,7 +5582,7 @@
       "checksum": "4ff2435216588038bdac15f073b8ac30"
     },
     "RIntro/boxplot.pdf": {
-      "checksum": "5e4a171b3ad34e954eed4059f8a6b59b"
+      "checksum": "9839eea6c090a78a28aeb9c463240dd3"
     },
     "RIntro/boxplot.png": {
       "checksum": "6352f89aa13648919b1fab1c0c425f52"
@@ -5672,7 +5597,7 @@
       "checksum": "e114e124f54633fa78bb6b63b10e3589"
     },
     "RIntro/foo.html": {
-      "checksum": "d22aa219195c279bf677f8e5adab6412"
+      "checksum": "075a96b94f2a95a6244aba296b316a40"
     },
     "RIntro/foo.png": {
       "checksum": "df69611e3596ee04987b50f83b592d62"
