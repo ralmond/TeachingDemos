@@ -11,7 +11,7 @@ runtime: shiny
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
-library(rstanarm)
+#library(rstanarm)
 ```
 
 ## The Cars Data Set
@@ -56,10 +56,20 @@ I'll try the regression using a different method (Markov Chain Monte Carlo, or M
 
 The printed summary shows the median of the 4000 samples.  It should be close to, but not exactly the same as, the least squares/maximum likelihood estimate.
 
+:::{.callout-note}
+I can't run stan on the server, so I'll run it first on my local file and save the 
+result.
+```{r}
+library(rstanarm)  
+cars.mcmc <- stan_glm(dist~speed,data=cars,refresh=0)
+saveRDS(cars.mcmc,"cars_mcmc.RDS")
+```
+The next bit of code will read the results from a file instead of running stan.
+:::
+
 
 ```{r}
-#library(rstanarm)  ## Called above
-cars.mcmc <- stan_glm(dist~speed,data=cars,refresh=0)
+cars.mcmc <- readRDS("cars_mcmc.RDS")
 cars.coef <- as.matrix(cars.mcmc$stanfit)
 print(cars.mcmc)
 ```

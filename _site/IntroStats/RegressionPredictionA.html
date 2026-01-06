@@ -306,11 +306,47 @@ Coefficients:
 <h2 class="anchored" data-anchor-id="lots-of-different-regression-lines">Lots of different regression lines</h2>
 <p>I’ll try the regression using a different method (Markov Chain Monte Carlo, or MCMC). In this method we sample 4000 different plausible sets of parameters that could have given rise to the data. (These are sampled with a probability proportional to how likely they are to have generated the observed data).</p>
 <p>The printed summary shows the median of the 4000 samples. It should be close to, but not exactly the same as, the least squares/maximum likelihood estimate.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I can’t run stan on the server, so I’ll run it first on my local file and save the result.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(rstanarm)  ## Called above</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cars.mcmc <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(dist<span class="sc">~</span>speed,<span class="at">data=</span>cars,<span class="at">refresh=</span><span class="dv">0</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>cars.coef <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(cars.mcmc<span class="sc">$</span>stanfit)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cars.mcmc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Rcpp</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is rstanarm version 2.32.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>- See https://mc-stan.org/rstanarm/articles/priors for changes to default priors!</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>- Default priors may change, so it's safest to specify priors, even if equivalent to the defaults.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>- For execution on a local, multicore CPU with excess RAM we recommend calling</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  options(mc.cores = parallel::detectCores())</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cars.mcmc <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(dist<span class="sc">~</span>speed,<span class="at">data=</span>cars,<span class="at">refresh=</span><span class="dv">0</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(cars.mcmc,<span class="st">"cars_mcmc.RDS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The next bit of code will read the results from a file instead of running stan.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cars.mcmc <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"cars_mcmc.RDS"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>cars.coef <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(cars.mcmc<span class="sc">$</span>stanfit)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cars.mcmc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>stan_glm
  family:       gaussian [identity]
@@ -319,12 +355,12 @@ Coefficients:
  predictors:   2
 ------
             Median MAD_SD
-(Intercept) -17.5    6.8 
+(Intercept) -17.6    6.8 
 speed         3.9    0.4 
 
 Auxiliary parameter(s):
       Median MAD_SD
-sigma 15.6    1.7  
+sigma 15.5    1.5  
 
 ------
 * For help interpreting the printed output see ?print.stanreg
@@ -365,7 +401,7 @@ sigma 15.6    1.7
 </div>
 </div>
 <div class="cell-output-display">
-<div class="shiny-plot-output html-fill-item" id="out5ec9334345820d5d" style="width:100%;height:400px;"></div>
+<div class="shiny-plot-output html-fill-item" id="outac9d8738b169d2fb" style="width:100%;height:400px;"></div>
 </div>
 </div>
 <p>Note the dashed curves surrounding the regression line.</p>
@@ -411,7 +447,7 @@ sigma 15.6    1.7
 </div>
 </div>
 <div class="cell-output-display">
-<div class="shiny-plot-output html-fill-item" id="out57b4b772a5ce30cb" style="width:100%;height:400px;"></div>
+<div class="shiny-plot-output html-fill-item" id="out9a05cc028bc4a642" style="width:100%;height:400px;"></div>
 </div>
 </div>
 <p>Look at the area in the graph which is colored cyan.</p>
@@ -448,8 +484,8 @@ sigma 15.6    1.7
 <section id="try-a-transformation" class="level2">
 <h2 class="anchored" data-anchor-id="try-a-transformation">Try a transformation</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cars.sqfit <span class="ot">&lt;-</span> <span class="fu">lm</span> (<span class="fu">sqrt</span>(dist)<span class="sc">~</span>speed,<span class="at">data=</span>cars)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars.sqfit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cars.sqfit <span class="ot">&lt;-</span> <span class="fu">lm</span> (<span class="fu">sqrt</span>(dist)<span class="sc">~</span>speed,<span class="at">data=</span>cars)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars.sqfit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -470,47 +506,47 @@ Residual standard error: 1.102 on 48 degrees of freedom
 Multiple R-squared:  0.7094,    Adjusted R-squared:  0.7034 
 F-statistic: 117.2 on 1 and 48 DF,  p-value: 1.773e-14</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cars.sqfit,<span class="at">ask=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cars.sqfit,<span class="at">ask=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="RegressionPredictionA_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="RegressionPredictionA_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="RegressionPredictionA_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="RegressionPredictionA_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="RegressionPredictionA_files/figure-html/unnamed-chunk-4-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="RegressionPredictionA_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="RegressionPredictionA_files/figure-html/unnamed-chunk-4-4.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="RegressionPredictionA_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cars,<span class="fu">aes</span>(<span class="at">x=</span>speed,<span class="at">y=</span>dist)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>) <span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_sqrt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cars,<span class="fu">aes</span>(<span class="at">x=</span>speed,<span class="at">y=</span>dist)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_sqrt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="RegressionPredictionA_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="RegressionPredictionA_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

@@ -305,11 +305,47 @@ Coefficients:
 <h2 class="anchored" data-anchor-id="lots-of-different-regression-lines">Lots of different regression lines</h2>
 <p>I’ll try the regression using a different method (Markov Chain Monte Carlo, or MCMC). In this method we sample 4000 different plausible sets of parameters that could have given rise to the data. (These are sampled with a probability proportional to how likely they are to have generated the observed data).</p>
 <p>The printed summary shows the median of the 4000 samples. It should be close to, but not exactly the same as, the least squares/maximum likelihood estimate.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I can’t run stan on the server, so I’ll run it first on my local file and save the result.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(rstanarm)  ## Called above</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cars.mcmc <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(dist<span class="sc">~</span>speed,<span class="at">data=</span>cars,<span class="at">refresh=</span><span class="dv">0</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>cars.coef <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(cars.mcmc<span class="sc">$</span>stanfit)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cars.mcmc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Rcpp</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is rstanarm version 2.32.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>- See https://mc-stan.org/rstanarm/articles/priors for changes to default priors!</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>- Default priors may change, so it's safest to specify priors, even if equivalent to the defaults.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>- For execution on a local, multicore CPU with excess RAM we recommend calling</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  options(mc.cores = parallel::detectCores())</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cars.mcmc <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(dist<span class="sc">~</span>speed,<span class="at">data=</span>cars,<span class="at">refresh=</span><span class="dv">0</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(cars.mcmc,<span class="st">"cars_mcmc.RDS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The next bit of code will read the results from a file instead of running stan.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cars.mcmc <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"cars_mcmc.RDS"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>cars.coef <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(cars.mcmc<span class="sc">$</span>stanfit)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cars.mcmc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>stan_glm
  family:       gaussian [identity]
@@ -318,7 +354,7 @@ Coefficients:
  predictors:   2
 ------
             Median MAD_SD
-(Intercept) -17.3    7.2 
+(Intercept) -17.4    6.7 
 speed         3.9    0.4 
 
 Auxiliary parameter(s):
@@ -364,7 +400,7 @@ sigma 15.6    1.6
 </div>
 </div>
 <div class="cell-output-display">
-<div class="shiny-plot-output html-fill-item" id="out11f6e7cb82de8972" style="width:100%;height:400px;"></div>
+<div class="shiny-plot-output html-fill-item" id="outcb60dde3bd10b3c8" style="width:100%;height:400px;"></div>
 </div>
 </div>
 <p>Note the dashed curves surrounding the regression line.</p>
@@ -410,7 +446,7 @@ sigma 15.6    1.6
 </div>
 </div>
 <div class="cell-output-display">
-<div class="shiny-plot-output html-fill-item" id="oute31e6a42e1ba94cf" style="width:100%;height:400px;"></div>
+<div class="shiny-plot-output html-fill-item" id="out7a6087c12ca3fb39" style="width:100%;height:400px;"></div>
 </div>
 </div>
 <p>Look at the area in the graph which is colored cyan.</p>
