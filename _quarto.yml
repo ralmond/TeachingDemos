@@ -22,127 +22,98 @@ website:
 
   sidebar:
     - title: "Teaching Demos"
-      id:  id-default
       contents:
       - text: "Home"
         href: index.qmd
-      - text: "Intro Stats"
+      - section: "Intro Stats"
         href: IntroStats/index.qmd
-      - text: "Intro to R"
-        href: RIntro/index.qmd
-      - text: "Bayesian"
-        href: Bayesian/index.qmd
-      - text: Measurement
-        href: Measurement/index.qmd
-      - text: "Music Tutor Demo"
-        href: MusicTutor/MusicTutorExample.qmd
-      - about.qmd
-    - title: "Intro Stats"
-      id: id-intro
-      style: "docked"
-      search: true
-      contents:
-        - href: index.qmd
-          text: Home
-        - section: Calculators
-          contents:
-            - text: "Chi-squared calculator"
-              href: Chi2calculator.qmd
-            - text: "Effect Size Calculator"
-              href: EffectSize.qmd
-            - text: "Normal calculator"
-              href: NormalCalculator.qmd
-            - text: "Student's t calculator"
-              href: Studenttcalculator.qmd
-        - section: Distributions
-          contents:
-            - text: "Binomial Distribution"
-              href: BinomialParms.qmd
-            - text: "Gamma Distribution"
-              href: GammaParams.qmd
-            - text: "Log-normal Distribution"
-              href: LogNormalParams.qmd
-            - text: "Normal Distribution"
-              href: NormalParams.qmd
-            - text: "Poisson Distribution"
-              href: PoissonParms.qmd
-        - section: "Distributional Shape"
-          contents:
-            - text: "Old Faithful"
-              href: Geyser.qmd
-            - text: "Kurtosis using Boxplots"
-              href: KurtosisBoxplots.qmd
-            - text: "Kurtosis using Histograms"
-              href: KurtosisPractice.qmd
-            - text: "Kurtosis using Q-Q plots"
-              href: KurtosisQQ.qmd
-            - text: "Skewness using Boxplots"
-              href: SkewnessBoxplot.qmd
-            - text: "Skewness using Histograms"
-              href: SkewnessPractice.qmd
-            - text: "Skewness using Q-Q plots"
-              href: SkewnessQQ.qmd
-        - section: "Correlation"
-          contents:
-            - text: "Correlation"
-              href: Correlation.qmd
-            - text: "Correlation Examples"
-              href: CorrelationExamples.qmd
-            - text: "Correlation Practice"
-              href: CorrelationExercise.qmd
-            - text: "Outliers and Correlation"
-              href: CorrelationOutliers.qmd
-            - text: "Regression Prediction Intervals"
-              href: RegressionPrediction.qmd
-            - text: "Standard Errors for Slopes"
-              href: SlopeStandardErrors.qmd
-        - section: "Probability"
-          contents:
-            - text: "Conditional Probabilities"
-              href: ConditionalProbability.qmd
-            - text: Independence
-              href: Independence.qmd
-            - text: "The Rare Disease Problem"
-              href: RareDisease.qmd
-            - text: "Standard Deviations"
-              href: StandardDeviations.qmd
-        - section: "Theorems"
-          contents:
-            - text: "The Central Limit Theorem"
-              href: CentralLimitTheroem.qmd
-            - text: "The Law of Large Numbers"
-              href: LawOfLargeNumbers.qmd
-            - text: "The Law of Large Numbers (Animated)"
-              href: LawOfLargeNumbersAnimated.qmd
-        - section: Inference
-          contents:
-            - text: "Convidence Intervals"
-              href: ConfidenceInterval.qmd
-            - text: "COVID Vaccine Trials (a case study)"
-              href: CovidVaccines.qmd
-            - text: "Confidence Intervals and Tests"
-              href: TestCI.qmd
-            - text: "Vaccine Confidence Intervals"
-              href: VaccineCI.qmd
-            - text: "Z-scores"
-              href: Z-scores.qmd
-        - about.qmd
-    # - title: "Bayesian Statistics"
-    #   id: id-bayes
-    #   style: "docked"
-    #   contents: "Bayesian/*.qmd"
-    # - title: "Measurement"
-    #   id: id-measure
-    #   style: "docked"
-    #  contents: "Measurement/*.qmd"
-    # - title: "Music Tutor"
-    #   id: id-music
-    #   style: "docked"
-    #   contents: "MusicTutor/*.qmd"
-    - title: "RIntro"
-      id: id-r
-      style: "docked"
-      contents: "RIntro/*.qmd"
+        contents:
+          - href: index.qmd
+            text: Home
+          - section: Calculators
+            contents:
+              - text: "Chi-squared calculator"
+                href: IntroStats/Chi2calculator.qmd
+              - text: "Effect Size Calculator"
+                href: IntroStats/EffectSize.qmd
+              - text: "Normal calculator"
+                href: IntroStats/NormalCalculator.qmd
+              - text: "Student's t calculator"
+                href: IntroStats/Studenttcalculator.qmd
+          - section: Distributions
+            contents:
+              - text: "Binomial Distribution"
+                href: IntroStats/BinomialParms.qmd
+              - text: "Gamma Distribution"
+                href: IntroStats/GammaParams.qmd
+              - text: "Log-normal Distribution"
+                href: IntroStats/LogNormalParams.qmd
+              - text: "Normal Distribution"
+                href: IntroStats/NormalParams.qmd
+              - text: "Poisson Distribution"
+                href: IntroStats/PoissonParms.qmd
+          - section: "Distributional Shape"
+            contents:
+              - text: "Old Faithful"
+                href: IntroStats/Geyser.qmd
+              - text: "Kurtosis using Boxplots"
+                href: IntroStats/KurtosisBoxplots.qmd
+              - text: "Kurtosis using Histograms"
+                href: IntroStats/KurtosisPractice.qmd
+              - text: "Kurtosis using Q-Q plots"
+                href: IntroStats/KurtosisQQ.qmd
+              - text: "Skewness using Boxplots"
+                href: IntroStats/SkewnessBoxplot.qmd
+              - text: "Skewness using Histograms"
+                href: IntroStats/SkewnessPractice.qmd
+              - text: "Skewness using Q-Q plots"
+                href: IntroStats/SkewnessQQ.qmd
+          - section: "Correlation"
+            contents:
+              - text: "Correlation"
+                href: IntroStats/Correlation.qmd
+              - text: "Correlation Examples"
+                href: IntroStats/CorrelationExamples.qmd
+              - text: "Correlation Practice"
+                href: IntroStats/CorrelationExercise.qmd
+              - text: "Outliers and Correlation"
+                href: IntroStats/CorrelationOutliers.qmd
+              - text: "Regression Prediction Intervals"
+                href: IntroStats/RegressionPrediction.qmd
+              - text: "Standard Errors for Slopes"
+                href: IntroStats/SlopeStandardErrors.qmd
+          - section: "Probability"
+            contents:
+              - text: "Conditional Probabilities"
+                href: IntroStats/ConditionalProbability.qmd
+              - text: Independence
+                href: IntroStats/Independence.qmd
+              - text: "The Rare Disease Problem"
+                href: IntroStats/RareDisease.qmd
+              - text: "Standard Deviations"
+                href: IntroStats/StandardDeviations.qmd
+          - section: "Theorems"
+            contents:
+              - text: "The Central Limit Theorem"
+                href: IntroStats/CentralLimitTheroem.qmd
+              - text: "The Law of Large Numbers"
+                href: IntroStats/LawOfLargeNumbers.qmd
+              - text: "The Law of Large Numbers (Animated)"
+                href: IntroStats/LawOfLargeNumbersAnimated.qmd
+          - section: Inference
+            contents:
+              - text: "Convidence Intervals"
+                href: IntroStats/ConfidenceInterval.qmd
+              - text: "COVID Vaccine Trials (a case study)"
+                href: IntroStats/CovidVaccines.qmd
+              - text: "Confidence Intervals and Tests"
+                href: IntroStats/TestCI.qmd
+              - text: "Vaccine Confidence Intervals"
+                href: IntroStats/VaccineCI.qmd
+              - text: "Z-scores"
+                href: IntroStats/Z-scores.qmd
+          - section: "Intro to R"
+            contents: "RIntro/*.qmd"
       
 format:
   html:

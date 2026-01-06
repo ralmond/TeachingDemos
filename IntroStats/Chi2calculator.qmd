@@ -5,7 +5,7 @@ date: "2019-11-05"
 output: 
   html:
     sidebar: id-intro
-    runtime: shiny
+runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
