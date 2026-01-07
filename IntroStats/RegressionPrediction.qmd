@@ -58,7 +58,7 @@ The printed summary shows the median of the 4000 samples.  It should be close to
 :::{.callout-note}
 I can't run stan on the server, so I'll run it first on my local file and save the 
 result.
-```{r}
+```r
 library(rstanarm)  
 cars.mcmc <- stan_glm(dist~speed,data=cars,refresh=0)
 saveRDS(cars.mcmc,"cars_mcmc.RDS")
