@@ -1,0 +1,8 @@
+---
+title: "Nominal Response Model"
+output: 
+  html:
+    sidebar: id-measure
+---
+
+Under Construction.

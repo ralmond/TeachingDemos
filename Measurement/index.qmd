@@ -1,0 +1,16 @@
+---
+title: "IRTdemo"
+output: 
+  html:
+    sidebar: id-measure
+---
+
+Item Response Theory posits a latent variable $\theta$ which describes the probability of a person getting an item "correct". The *item response function* is an increasing function of $\theta$.
+
+Dichotomous models have two categories: correct/incorrect or yes/no.
+
+Polytomous models have more than two, usually ordered categories. (E.g., Likert Scale and partial credit).
+
+Test response function is a function of the item response functions.
+
+Local independence assumption. Responses $X_j$ an $X_j'$ are conditionally independent given $\theta$.

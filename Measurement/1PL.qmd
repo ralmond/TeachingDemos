@@ -1,0 +1,162 @@
+---
+title: "One Parameter IRT Models"
+author: "Russell Almond"
+date: "10/5/2021"
+output: 
+  html:
+    sidebar: id-measure
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(CPTtools)
+library(shiny)
+library(arm)
+```
+
+## 1 Parameter Logistic
+
+The simplest of all models, this model posits a latent ability
+variable, $\theta_i$ (where $i$ indexes items) and a difficulty item
+parameter, $\delta_j$ or $b_j$ (where $j$ indexes items).
+
+The difficulty parameter is at the point where the curve crosses 50\%,
+which is the steepest part of the curve.
+
+[Because there is no real distinction between an unknown parameter and
+and unknown variable in Bayesian statistics, I tend to use the term
+_variable_ for quantities that are person specific, and _parameter_
+for things which relate to either the population or specific items
+(i.e., things which are the same across all subjects).  Other authors
+don't make this distinction, so $\theta_i$ is sometimes called a
+_person parameter_.]
+
+### Rasch Models
+
+There are two common ways of parameterizing this model.  The first is
+due to Rasch and the difficulty is typically called $\delta_j$
+(although the `eRm` package calls it $\eta_j$).  Sometimes, however,
+$\beta_j=-\delta_j$ is used, so that the key term in the equation is
+$\theta_i+\beta_j$.  When the constant is added instead of subtracted
+it is called and intercept (`eRm` calls it "easiness"). 
+
+
+$$ p(X|\theta_i,\delta_j) = \text{logit}^{-1} \left ( \theta_i - \delta_j \right ) \qquad \theta_i \sim N(0,\sigma^2) $$
+
+
+### 1PL Models
+
+Lord and Novack (1968) introduced a series of IRT models with one,
+two, three (and more) parameters.  Their 1PL (1 parameter logistic) is
+the one parameter version.  In this model, $b_j$ is the item-specific
+_difficulty_ and $a$ (which does not vary by items) is the common
+_discrimination_.  The factor of $D=1.7$ makes the logistic curve
+pretty close to the normal ogive (see [2NO](2PL.qmd) ).  
+
+Some variations in parameters:  sometimes the common discrimination
+$a$ is taken as one and not estimated.  Sometimes the sign is reversed
+on $b_j$, and an _intercept_ parameter is used instead.  (The `mirt`
+package uses $a$ and $-ab_j$ as its parameters).  
+
+
+$$ p(X|\theta_i,b_j) = \text{logit}^{-1} \left ( 1.7 a(\theta_i - b_j) \right ) \qquad \theta_i \sim N(0,1) $$
+
+
+```{r}
+ui <- fluidPage(
+inputPanel(
+  sliderInput("difficulty1", label = "Difficulty",
+              min=-3.0, max=3.0, value=0, step=.1),
+  sliderInput("master1", label = "Mastery Point",
+              min=-3.0, max=3.0, value=0, step=.1)  
+),
+  mainPanel(plotOutput("ICC"),
+            plotOutput("Info")))
+server <- function (input,output) {
+  output$ICC <- renderPlot({
+    curve(invlogit(1.7*(x)),xlim=c(-3.25,3.25),lty="dotted",
+       ylab="Probability of Success", xlab="Ability",
+       main=paste("IRT Curve; difficulty = ",
+                  input$difficulty1,
+                  ",discrimination =", input$discrimination),
+       ylim=c(0,1))
+    curve(invlogit(1.7*(x-input$difficulty1)),add=TRUE)
+    abline(v=input$master1)
+  })
+  info <- function (p,D=1.7) {D^2*p*(1-p)}
+  output$Info <- renderPlot({
+    curve(info(invlogit(1.7*(x))),xlim=c(-3.25,3.25),
+               lty="dotted",main="Item Information")
+    curve(info(invlogit(1.7*(x-input$difficulty1))),add=TRUE)
+    abline(v=input$master1)
+  })
+}
+shinyApp(ui=ui,server=server)
+```
+
+### Item Information
+
+The item information function is 
+
+$$I(\theta) = D^2 a^2 p(\theta)q(\theta)\ , $$
+
+where $p(\theta)=P(X=1|\theta,b_j)$ and $q(\theta)=1-p(\theta)$ and
+$D$ is 1.7 for the 1PL model and 1 for the Rasch model and $a$ is set
+to the common discrimination (or 1 for the Rasch model).
+
+## Model Identification
+
+The center of this scale is not well identified.  Define $\theta'_i =
+\theta + C$, and $b'_j=b_j+C$, where $C$ is an arbitrary constant.
+Then the likelihood will be unchanged.
+
+There are two ways to identify the scale.  The first, and most common,
+is to define the mean (or sum) of the abilities to be zero, that is
+$\sum_i \theta_i=0$.  This works well if the calibration sample is
+representative of the target population.  The second is to pick a
+reference collection of items, $J$, and fix the mean (or sum) of their
+difficulties at zero, $\sum_{j \in J} b_j=0$.  (Most software takes
+the first approach to normalization; the second approach can be used
+by setting $C=-\sum_{j \in J} b_j$.)
+
+Note that $a$ (common discrimination) and $\sigma$ (the standard
+deviation of the population) are also redundant, and one or the other
+must be fixed.  Here the common slope (1PL) form is sometimes easier
+to fit, especially with Markov chain Monte Carlo methods, as
+estimating the variance of latent variables can lead to high
+autocorrelations. 
+
+## Rasch versus $x$PL
+
+There is a strong research community around the Rasch model, while the
+remaining psychometricians usually use a mixture of [2PL](2PL.qmd) and
+[3PL](3PL.qmd) models.  However, Rasch models have a number of
+properties that make them attractive:
+
+* The item curves don't cross.  As a consequence, $p_j(\theta) >
+  p_{j'}(\theta)$ if and only if $p_j(\theta') >  p_{j'}(\theta')$, so
+  the difficulty ordering remains constant.
+  
+* The number of items that the subject gets right, $X_i$ is a
+  sufficient statistic for $\theta$, and $\hat{\theta_i}(X_i)$ is
+  monotonic.  This is easy to explain to a lay audience.  In contrast,
+  two different subjects with the same number right using 2PL and 3PL
+  score can get different values for $\theta$, this is sometimes
+  called _pattern scoring_.
+  
+* Because item parameters and person abilities are both on the same
+  latent scale (the _logit scale_) it is possible to plot a histogram
+  of person abilities against a histogram of the items.  This is
+  called an _item--person_ map, or a _Wright Map_ (named after Ben
+  Wright, a prominent research in the Rasch school).  
+  
+* The extra parameters of the 2PL and 3PL models enables them to fit
+  more variations in item response functions.  The approach in the
+  Rasch modeling community is instead to flag items that don't fit the
+  Rasch model well.
+  
+  
+Rasch models can be fit in R using the `lme4` package.
+Using data in long format (one row per person/item):
+
+`glmer(Y~(1|person)+(1|item),family=binomial(link="logit"))

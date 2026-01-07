@@ -1,0 +1,82 @@
+---
+title: "IRT Models"
+author: "Russell Almond"
+date: "10/5/2021"
+output: 
+  html:
+    sidebar: id-measure
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(CPTtools)
+library(arm)
+library(shiny)
+```
+
+
+
+## Graded Response Model
+
+```{r}
+ui <- fluidPage(
+inputPanel(
+   selectInput("k",label="Number of Categories",
+               choice=2:5, selected=3),
+   sliderInput("discriminationGR", label = "Discrimination:",
+              min = 0.05, max = 2, value = 1, step = 0.05),
+  sliderInput("difficultyGR1", label = "Difficulty  X \u2264 0",
+              min=-3.0, max=3.0, value=-1, step=.1),
+  sliderInput("difficultyGR2", label = "Difficulty X \u2264 1",
+              min=-3.0, max=3.0, value=0, step=.1),
+  sliderInput("difficultyGR3", label = "Difficulty X \u2264 2",
+              min=-3.0, max=3.0, value=1, step=.1),
+  sliderInput("difficultyGR4", label = "Difficulty X \u2264 3",
+              min=-3.0, max=3.0, value=2, step=.1),
+  sliderInput("master", label = "Mastery Point",
+              min=-3.0, max=3.0, value=0, step=.1)
+),
+   mainPanel(plotOutput("Breaks"),
+            plotOutput("ICC")))
+server <- function (input,output) {
+  output$Breaks <- 
+  renderPlot({
+  k <- as.numeric(input$k)
+  a <- as.numeric(input$discriminationGR)
+  d <- as.numeric(c(input$difficultyGR1,input$difficultyGR2,
+                    input$difficultyGR3,input$difficultyGR4))
+  plot(0,0,type="n",xlim=c(-3.25,3.25),
+       ylab="Probability of Success", xlab="Ability",
+       main="IRT Curves for category thresholds",
+       ylim=c(0,1))
+  for (kk in 1:(k-1)) {
+    curve(invlogit(1.7*a*(x-d[kk])),lty=kk,col=kk,add=TRUE)
+  }
+  legend("topleft",legend=paste("X \u2264",1:(k-1)),lty=1:(k-1),col=1:(k-1))
+  abline(v=input$master)
+})
+  output$ICC <- 
+  renderPlot({
+  k <- as.numeric(input$k)
+  a <- as.numeric(input$discriminationGR)
+  d <- as.numeric(c(input$difficultyGR1,input$difficultyGR2,
+                    input$difficultyGR3,input$difficultyGR4))
+  d[k] <- Inf
+  curve(1-invlogit(1.7*a*(x-d[1])),xlim=c(-3.25,3.25),
+       ylab="Probability of Success", xlab="Ability",
+       main="Item Characteristic Curves for Categories",
+       ylim=c(0,1))
+  for (kk in 2:k) {
+      curve(invlogit(1.7*a*(x-d[kk-1]))-invlogit(1.7*a*(x-d[kk])),
+            lty=kk,col=kk,add=TRUE)
+  }
+  legend("topleft",legend=paste("X =",0:(k-1)),lty=1:k,col=1:k)
+  abline(v=input$master)
+})
+}
+shinyApp(ui, server)
+```
+
+
+

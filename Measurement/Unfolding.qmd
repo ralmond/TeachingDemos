@@ -1,0 +1,23 @@
+---
+title: "IRT Models"
+author: "Russell Almond"
+date: "10/5/2021"
+output: 
+  html:
+    sidebar: id-measure
+CategoricalPopruntime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
+library(shinyjs)
+library(CPTtools)
+library(arm)
+```
+
+
+## Unfolding Model
+
+_Under Construction_
+

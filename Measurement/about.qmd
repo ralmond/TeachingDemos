@@ -1,0 +1,10 @@
+---
+title: "About"
+output: 
+  html:
+    sidebar: id-measure
+---
+
+See [above](../about.qmd).
+
+
