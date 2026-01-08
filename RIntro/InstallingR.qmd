@@ -2,10 +2,9 @@
 title: "Installing R"
 author: "Russell Almond"
 date: "August 29, 2020"
-output: 
+format: 
   html:
     sidebar: id-r
-  pdf_document: default
 ---
 
 ## Objectives

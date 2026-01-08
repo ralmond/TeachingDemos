@@ -2,10 +2,10 @@
 title: "Effect Size Calculator"
 author: "Russell Almond"
 date: "2019-01-26"
-output: 
+format: 
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 ---
 
 ```{r setup, include=FALSE}

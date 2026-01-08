@@ -2,10 +2,10 @@
 title: "Correlation Coefficient"
 author: "Russell Almond"
 date: "January 30, 2019"
-output: 
+format: 
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 ---
 
 ```{r setup, include=FALSE}

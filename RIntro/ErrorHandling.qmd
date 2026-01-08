@@ -1,6 +1,6 @@
 ---
 title: "Error Handling in R"
-output: 
+format: 
   html:
     sidebar: id-r
 ---

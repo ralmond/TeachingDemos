@@ -2,10 +2,10 @@
 title: "Independence"
 author: "Russell Almond"
 date: "10/5/2020"
-output: 
+format: 
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 ---
 
 ```{r setup, include=FALSE}

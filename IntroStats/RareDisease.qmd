@@ -2,10 +2,10 @@
 title: "Rare Disease -- COVID-19"
 author: "Russell Almond"
 date: "March 22, 2020"
-output: 
+format: 
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 ---
 
 ```{r setup, include=FALSE}

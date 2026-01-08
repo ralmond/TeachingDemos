@@ -2,10 +2,10 @@
 title: "Kurtosis Practice"
 author: "Russell Almond"
 date: "February 23, 2019"
-output: 
+format: 
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 ---
 
 ```{r setup, include=FALSE}

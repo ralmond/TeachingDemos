@@ -1,6 +1,6 @@
 ---
 title: "Arrays, Matrixes and Data Frames"
-output: 
+format: 
   html:
     sidebar: id-r
 author:  Russell Almond

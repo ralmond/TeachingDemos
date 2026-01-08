@@ -1,6 +1,6 @@
 ---
 title: "String Hacks"
-output: 
+format: 
   html:
     sidebar: id-r
 ---

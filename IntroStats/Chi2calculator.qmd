@@ -2,10 +2,10 @@
 title: "Chi-squared Calculator"
 author: "Russell Almond"
 date: "2019-11-05"
-output: 
+format:
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 ---
 
 ```{r setup, include=FALSE}

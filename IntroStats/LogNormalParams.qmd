@@ -2,10 +2,10 @@
 title: "Log-Normal Parameters"
 author: "Russell Almond"
 date: "January 24, 2019"
-output: 
+format: 
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 ---
 
 ```{r setup, include=FALSE}

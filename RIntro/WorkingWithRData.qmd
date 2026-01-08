@@ -2,10 +2,9 @@
 title: "Working With R Data"
 author: "Russell Almond"
 date: "9/4/2020"
-output: 
+format: 
   html:
     sidebar: id-r
-  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}

@@ -1,9 +1,8 @@
 ---
 title: 'Confidence Interval:  COVID Vaccine tests'
-output: 
+format: 
   html:
     sidebar: id-intro
-  pdf_document: default
 ---
 
 Data from Moderna Vaccine Study Control Group

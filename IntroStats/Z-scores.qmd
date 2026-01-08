@@ -2,10 +2,10 @@
 title: "Standardized Variables"
 author: "Russell Almond"
 date: "1/29/2019"
-output: 
+format: 
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 ---
 
 ```{r setup, include=FALSE}

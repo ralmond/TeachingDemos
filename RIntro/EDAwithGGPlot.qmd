@@ -2,11 +2,9 @@
 title: "Exploratory Data Analysis with GGplot"
 author: "Russell Almond"
 date: "August 27, 2020"
-output: 
+format: 
   html:
     sidebar: id-r
-  pdf_document: default
-  word_document: default
 ---
 
 ```{r setup, include=FALSE}

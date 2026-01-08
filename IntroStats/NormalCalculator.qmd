@@ -2,10 +2,10 @@
 title: "Normal Calculator"
 author: "Russell Almond"
 date: "9/10/2019"
-output: 
+format: 
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 resource_files:
 - Chi2calculator.qmd
 - Studenttcalculator.qmd

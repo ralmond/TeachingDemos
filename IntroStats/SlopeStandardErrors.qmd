@@ -2,10 +2,10 @@
 title: "Slope Variation"
 author: "Russell Almond"
 date: "September 10, 2020"
-output: 
+format: 
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 ---
 
 ```{r setup, include=FALSE}

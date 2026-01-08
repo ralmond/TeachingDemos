@@ -1,7 +1,7 @@
 ---
 title: "Teaching Demos"
 author:  Russell G. Almond
-output:
+format:
   html:
     sidebar: id-default
 ---
@@ -23,4 +23,4 @@ The following sets of demos are available.
 
 Copyright 2026 Russell G. Almond.
 Permission to reuse and remix granted under the basis of the CC-BY 4.0 license. 
-![https://creativecommons.org/licenses/by/4.0](img/by.png)
+![https://creativecommons.org/licenses/by/4.0](img/by.png){width=141px}

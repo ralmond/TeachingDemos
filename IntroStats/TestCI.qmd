@@ -2,10 +2,10 @@
 title: "Confidence Intervals and Tests"
 author: "Russell Almond"
 date: "3/26/2020"
-output: 
+format: 
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 ---
 
 ```{r setup, include=FALSE}

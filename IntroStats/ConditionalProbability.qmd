@@ -2,10 +2,10 @@
 title: "ConditionalProbability"
 author: "Russell Almond"
 date: "10/4/2021"
-output: 
+format:
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 ---
 
 ```{r setup, include=FALSE}

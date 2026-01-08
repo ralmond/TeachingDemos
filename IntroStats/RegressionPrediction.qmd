@@ -2,10 +2,10 @@
 title: "Regression Prediction Error"
 author: "Russell Almond"
 date: "9/22/2020"
-output: 
+format: 
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 ---
 
 ```{r setup, include=FALSE}
@@ -61,15 +61,15 @@ result.
 ```r
 library(rstanarm)  
 cars.mcmc <- stan_glm(dist~speed,data=cars,refresh=0)
-saveRDS(cars.mcmc,"cars_mcmc.RDS")
+cars.coef <- as.matrix(cars.mcmc$stanfit)
+saveRDS(cars.coef,"cars_coef.RDS")
 ```
 The next bit of code will read the results from a file instead of running stan.
 :::
 
 ```{r}
-cars.mcmc <- readRDS("cars_mcmc.RDS")
-cars.coef <- as.matrix(cars.mcmc$stanfit)
-print(cars.mcmc)
+cars.coef <- readRDS("cars_coef.RDS")
+head(cars.coef)
 ```
 
 ## Mean Confidence Interval

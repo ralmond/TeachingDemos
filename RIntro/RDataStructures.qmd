@@ -1,6 +1,6 @@
 ---
 title: "Basic R Data Structures"
-output: 
+format: 
   html:
     sidebar: id-r
 ---

@@ -1,9 +1,9 @@
 ---
 title: "Scatterplot examples"
-output: 
+format: 
   html:
     sidebar: id-intro
-runtime: shiny
+server: shiny
 ---
 
 ```{r setup, include=FALSE}
