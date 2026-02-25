@@ -8,7 +8,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 ```
@@ -34,9 +36,14 @@ inputPanel(
               min = 0, width=130)
 )
 
-h3(renderText({
+h3(displayText("ef"))
+```
+```{r}
+#| context: server
+
+output$ef <- renderText({
  paste("Effect size = ",round(input$mn/input$sd,2))
-}))
+})
 ```
 
 ## Complex Case -- Two Groups
@@ -63,20 +70,21 @@ inputPanel(
   )
                     
 )
+h3(displayText("ef2"))
 ```
 
 ```{r effectSize2b, echo=FALSE}
-h3(renderText({
+output$ef2 <- renderText({
   mdiff <- input$mn1-input$mn2
   spooled <- sqrt(((input$N1-1)*input$sd1^2+(input$N2-1)*input$sd2^2)/
     (input$N1+input$N2-2))
  paste("Mean difference = ", round(mdiff,2), ", Pooled SD = ", round(spooled,3),
       ", Effect size = ",round(mdiff/spooled,2))
-}))
+})
 ```
 
 If you want to do these calculations away from the internet, you can download this Excel spreadsheet which has the formula baked in:
-https://pluto.coe.fsu.edu/effectSize_d.xls
+<https://myweb.fsu.edu/ralmond/effectSize_d.xls>
 
 ### How big is big?  Cohen's guide to effect sizes.
 

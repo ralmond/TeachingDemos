@@ -8,7 +8,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 ```
@@ -28,7 +30,13 @@ inputPanel(
   numericInput("df", label = "Degrees of Freedom", value =1)
 )
 
-renderPlot({
+displayPlot("plot")
+```
+
+```{r}
+#| context: server
+
+output$plot <- renderPlot({
   q <- input$x2
   df <- input$df
   p <- switch(input$tails,
@@ -68,8 +76,13 @@ inputPanel(
   numericInput("pp", label = "Probability of shaded region:", value=0.05, min=0, max=1),
   numericInput("df1", label = "Degrees of Freedom", value =1)
 )
+displayPlot("plot1")
+```
 
-renderPlot({
+```{r}
+#| context: server
+
+output$plot1 <- renderPlot({
   pp <- as.numeric(input$pp)
   df1 <- as.numeric(input$df1)
   qq <- switch(input$tails1,

@@ -8,7 +8,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 ```
@@ -16,7 +18,9 @@ library(shiny)
 
 This is pretty close to the frequency definition of probability.  Suppose the probability of some event is $p$.  Suppose further than we sample $N$ times from the process that generates this event.  Let $p_N$ be the proportion of times the event occurs in $N$ trials.  As $N$ gets bigger and bigger, $p_N$ gets closer and closer to $p$.
 
-![Detour](sign_turn_left.png)_(Skip this unless you are good with calculus.)_  This is one of those epsilon-delta theorems.  So let $\delta$ be a difference from $p$ and let $\epsilon$ be a small probability.  For any $\epsilon$ and $\delta$, there exists an $N$ such that $P(|p_N-p|>\delta) < \epsilon$.
+:::{.callout-db}
+(Skip this unless you are good with calculus.)_  This is one of those epsilon-delta theorems.  So let $\delta$ be a difference from $p$ and let $\epsilon$ be a small probability.  For any $\epsilon$ and $\delta$, there exists an $N$ such that $P(|p_N-p|>\delta) < \epsilon$.
+:::
 
 
 ## A demonstration.
@@ -37,8 +41,13 @@ inputPanel(
               min = 0, max = .1, value = .05, step = 0.005)
 
 )
+displayPlot("plot")
+```
 
-renderPlot({
+```{r}
+#| context: server
+
+output$plot <- renderPlot({
   x <- runif(input$N) < input$p
   pn <- cumsum(x)/1:input$N
   plot(1:input$N,pn,xlab="Number of Trials",ylab="Proportion Success",
@@ -54,12 +63,18 @@ renderPlot({
 We can use the _Law of Large Numbers_ to prove an important theorem.  As the sample size gets larger and larger, the sample looks more and more like the population it is drawn from.
 
 
+:::{.callout-db}
+Technically, the _Law of Large Numbers_ refers to the result above.  But we can use it so show a very important basis of statistics.  Suppose we have some kind of distribution, $F(x)$, that generates numbers, $X$.  Recall that the definition of $F(x)=\Pr(X \leq x)$.
+:::
 
-![Proof](sign_turn_left.png) Technically, the _Law of Large Numbers_ refers to the result above.  But we can use it so show a very important basis of statistics.  Suppose we have some kind of distribution, $F(x)$, that generates numbers, $X$.  Recall that the definition of $F(x)=\Pr(X \leq x)$.
+:::{.callout-db}
+Draw a sample of size $N$ from this distribution.  Now consider the sampled data points $X_1,\ldots,X_N$, and consider sampling a new value $Y$ from that distribution.  Let $F_N(y) = \Pr(Y \leq y)$.  This is sometimes called the _bootstrap distribution_.  
+:::
 
-![Proof](sign_turn_left.png) Draw a sample of size $N$ from this distribution.  Now consider the sampled data points $X_1,\ldots,X_N$, and consider sampling a new value $Y$ from that distribution.  Let $F_N(y) = \Pr(Y \leq y)$.  This is sometimes called the _bootstrap distribution_.  
+:::{.callout-db}
+By the law of large numbers, for every $y$, as $N$ gets large $F_N(y) \rightarrow F(y)$.  So the sample distribution $F_N()$ converges to the $F()$.
+:::
 
-![Proof](sign_turn_left.png) By the law of large numbers, for every $y$, as $N$ gets large $F_N(y) \rightarrow F(y)$.  So the sample distribution $F_N()$ converges to the $F()$.
 
 ## Demonstration of convergence of distributions.
 
@@ -72,6 +87,7 @@ Pick a distribution:
 Slide the sample size up and down, notice how the empirical distribution function and histogram coverge to the theoretical distribution function and density.
 
 ```{r DistConv, echo=FALSE}
+#| context: setup
 nmax <- 1000
 rdist <- list(Normal=rnorm, Exponential = rexp, 
               Gamma = function(n) rgamma(n,3),
@@ -82,7 +98,9 @@ pdist <- list(Normal=pnorm, Exponential = pexp,
 ddist <- list(Normal=dnorm, Exponential = dexp, 
               Gamma = function(x) dgamma(x,3),
               "T" = function(x) dt(x,3))
+```
 
+```{r}
 inputPanel(
   selectInput("dist",label="Distribution Type",
               choices=c("Normal","Exponential","Gamma","T"),
@@ -91,8 +109,11 @@ inputPanel(
               min = 25, max=nmax, value=100, step=5)
 
 )
+displayPlot("plot1")
+```
 
-renderPlot({
+```{r}
+output$plot1 <- renderPlot({
   XX <- do.call(rdist[[input$dist]],list(nmax))
   Fn <-ecdf(XX[1:input$NN])
   layout(matrix(c(1,2),1,2))
@@ -106,5 +127,5 @@ renderPlot({
   
 })
 ```
-See also the [animated version](LawOfLargeNumbersAnimated.Rmd).
+See also the [animated version](LawOfLargeNumbersAnimated.qmd).
 

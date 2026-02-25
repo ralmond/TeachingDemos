@@ -8,7 +8,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 ```
@@ -25,8 +27,12 @@ inputPanel(
               value = floor(runif(1)*.Machine$integer.max), 
               step = 157)
 )
+displayText("text")
+```
+```{r}
+#| context: server
 
-renderText({
+output$text <- renderText({
   N <<- as.numeric(input$N)
   set.seed(input$seed)
   X <<- rnorm(N)
@@ -51,8 +57,12 @@ inputPanel(
   sliderInput("rho", label = "Correlation Coefficient:",
               min = -1, max = 1, value = 0, step = 0.05)
 )
+displayPlot("plot")
+```
+```{r}
+#| context: server
 
-renderPlot({
+output$plot <- renderPlot({
   rho <<- input$rho
   Y <<-  rho*X + sqrt(1-rho*rho)*Err
   plot(X,Y,main=paste("Correlation =",rho))
@@ -70,7 +80,7 @@ The ideal discount is the correlation coefficient $\rho_{XY}$.  This gives the  
 $$\widehat y = \rho_{XY}\frac{\sigma_Y}{\sigma_X} x + \left ( \mu_Y - \rho_{XY}\frac{\sigma_Y}{\sigma_X} \mu_X\right ) .$$
 Because second term has $\rho_{XY}$ in it as well, this will make the predicted value closer to the mean of $Y$, $\mu_Y$.
 
-![detour](sign_turn_left.png) The notations $\widetilde{y}$ and $\widehat{y}$ indicate predicted values for $y$.  The *y hat* ($\widehat y$) notation is reserved for what is called *maximum likelihood* predictions.  In the case of a regression with normally distributed errors, the maximum likelihood predictor is also the least squares estimator.  Usually, the estimators use the sample values, thus in the regression equation:
+![detour](../img/dangerousBend.png) The notations $\widetilde{y}$ and $\widehat{y}$ indicate predicted values for $y$.  The *y hat* ($\widehat y$) notation is reserved for what is called *maximum likelihood* predictions.  In the case of a regression with normally distributed errors, the maximum likelihood predictor is also the least squares estimator.  Usually, the estimators use the sample values, thus in the regression equation:
 $$ \widehat{b_1} = r_{XY}\frac{s_X}{s_Y}\;;\qquad \widehat{b_0}=\bar Y -r_{XY}\frac{s_X}{s_Y} \bar X\; .$$
 
 ## Lets Try it.
@@ -91,8 +101,12 @@ inputPanel(
   sliderInput("rxy", label = "Correlation between X and Y:",
               min = -1, max = 1, value = 0, step = 0.05)
 )
+displayPlot("plot1")
+```
 
-renderPlot({
+```{r}
+#| context: server
+output$plot1 <- renderPlot({
   rxy <<- input$rxy
   mx <<- input$mx
   my <<- input$my

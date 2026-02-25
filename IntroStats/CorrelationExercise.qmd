@@ -6,7 +6,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 library(tidyverse)
@@ -25,8 +27,13 @@ inputPanel(
               value = floor(runif(1)*.Machine$integer.max), 
               step = 157)
 )
+displayPlot("plot")
+displayTable("tab")
+```
 
-renderPlot({
+```{r}
+#| context: server
+output$plot <- renderPlot({
   N <<- as.numeric(input$N)
   set.seed(input$seed)
   X <- rnorm(N)
@@ -71,6 +78,6 @@ renderPlot({
     facet_wrap(vars(Y_var))
 }, height=800,width=800)
 
-renderTable(cors,rownames=TRUE)
+output$tab <- renderTable(cors,rownames=TRUE)
 ```
 

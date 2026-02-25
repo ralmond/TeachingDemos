@@ -8,7 +8,8 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: server
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 ```
@@ -91,8 +92,13 @@ inputPanel(
   sliderInput("N", label = "Number of plausible values to plot",
               min = 5, max = 50, value = 10, step = 1)
 )
+displayPlot("plot")
+```
 
-renderPlot({
+```{r}
+#| context: server
+
+output$plot <- renderPlot({
   plot(dist~speed,data=cars,type="n",xlab="Speed (mph)",   ylab="Stopping Distance (ft)")
   NN <- as.integer(input$N)
  for (n in 1:NN) {
@@ -141,8 +147,13 @@ SPSS calls this the _individual_ prediction interval.  R calls it the _predictio
 inputPanel(
   selectInput("alpha1", label = "Confidence Level:",
               choices = c(50, 68, 90, 95, 99), selected = 95))
+displayPlot("plot1")
+```
+
+```{r}
+#| context: server
   
-renderPlot({
+output$plot1 <- renderPlot({
   plot(dist~speed,data=cars,type="n",xlab="Speed (mph)",   ylab="Stopping Distance (ft)",ylim=c(-25,150))
  pred1 <- predict(cars.fit,data.frame(speed=1:25),interval="prediction",level=as.numeric(input$alpha1)/100)
  # Color the negative predictions.
@@ -156,9 +167,6 @@ renderPlot({
  lines(1:25,pred1[,"upr"],lty=2)
  lines(1:25,pred1[,"lwr"],lty=2)
 })
-
-
-
 
 ```
 
@@ -180,7 +188,10 @@ Sometimes the curve is easier to see if we take the linear trend out.
 
 We can do this by plotting the residuals versus the fitted values.
 
-![Dangerous Bend](dangerousBend.png)  In a simple regression, this is the same as plotting against $X$, as the fitted values are just a linear transformation of $X$ (and the graph will just be rescaled to fit).  For multiple regression, the fitted values are a mix of all the $X$ values, so this plot is a useful summary.
+:::{.callout-db}
+In a simple regression, this is the same as plotting against $X$, as the fitted values are just a linear transformation of $X$ (and the graph will just be rescaled to fit).  For multiple regression, the fitted values are a mix of all the $X$ values, so this plot is a useful summary.
+:::
+
 
 
 ```{r residualPlot, echo=FALSE}

@@ -95,9 +95,9 @@ ggplot(covidVaccines,aes(x=Treatment,y=p.Pfizer,ymin=p.Pfizer-2*s.Pfizer,ymax=p.
 
 In SPSS this is done by producing a cross-tab.  We don't have the number of negative cases in each arm of the study, but up to rounding error it is just the sample size, so we will use that.
 
-![Pfizer Cross Tab](CovidPfizerCrossTab.png)
+![Pfizer Cross Tab](../img/CovidPfizerCrossTab.png)
 
-![Phizer X2](CovidPfizerChi2.png)
+![Phizer X2](../img/CovidPfizerChi2.png)
 ```{r}
 chisq.test(as.matrix(select(covidVaccines,Pfizer,N)))
 ```
@@ -113,7 +113,7 @@ cat("Z = ",round(z,2), "p = ",round(pz,3),"\n")
 ```
 
 
-![Pfizer Risk Ratio](CovidPfizerRisk.png)
+![Pfizer Risk Ratio](../img/CovidPfizerRisk.png)
 
 ```{r}
 p <- pull(covidVaccines,p.Pfizer)
@@ -148,9 +148,9 @@ ggplot(covidVaccines,aes(x=Treatment,y=p.ModernaAll,ymin=p.ModernaAll-2*s.Modern
 
 In SPSS this is done by producing a cross-tab.  We don't have the number of negative cases in each arm of the study, but up to rounding error it is just the sample size, so we will use that.
 
-![Moderna All Cases Cross Tab](CovidModernaAllCrossTab.png)
+![Moderna All Cases Cross Tab](../img/CovidModernaAllCrossTab.png)
 
-![Moderna All Cases X2](CovidModernaAllChi2.png)
+![Moderna All Cases X2](../img/CovidModernaAllChi2.png)
 ```{r}
 chisq.test(as.matrix(select(covidVaccines,ModernaAll,N)))
 ```
@@ -166,7 +166,7 @@ cat("Z = ",round(z,2), "p = ",round(pz,3),"\n")
 ```
 
 
-![Moderna All Cases Risk Ratio](CovidModernaAllRisk.png)
+![Moderna All Cases Risk Ratio](../img/CovidModernaAllRisk.png)
 
 ```{r}
 p <- pull(covidVaccines,p.ModernaAll)
@@ -198,9 +198,9 @@ ggplot(covidVaccines,aes(x=Treatment,y=p.ModernaSevere,ymin=p.ModernaSevere-2*s.
 
 In SPSS this is done by producing a cross-tab.  We don't have the number of negative cases in each arm of the study, but up to rounding error it is just the sample size, so we will use that.
 
-![Moderna Severe Cases Cross Tab](CovidModernaSevereCrossTab.png)
+![Moderna Severe Cases Cross Tab](../img/CovidModernaSevereCrossTab.png)
 
-![Moderna Severe Cases X2](CovidModernaSevereChi2.png)
+![Moderna Severe Cases X2](../img/CovidModernaSevereChi2.png)
 ```{r}
 chisq.test(as.matrix(select(covidVaccines,ModernaSevere,N)))
 ```

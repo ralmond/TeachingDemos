@@ -11,7 +11,9 @@ resource_files:
 - Studenttcalculator.qmd
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 ```
@@ -31,8 +33,13 @@ inputPanel(
   
   numericInput("z", label = "Normal quantile (z):", value=2)
 )
+displayPlot("plot")
+```
 
-renderPlot({
+```{r}
+#| context: server
+
+output$plot <- renderPlot({
   q <- input$z
   mde <- input$tails
   if (length(mde) != 1L) mde <- "both"
@@ -96,8 +103,13 @@ inputPanel(
   
   numericInput("p", label = "Probability of shaded region:", value=0.05, min=0, max=1)
 )
+displayPlot("plot1")
+```
 
-renderPlot({
+```{r}
+#| context: server
+
+output$plot1 <- renderPlot({
   pp <- input$p
   mde <- input$tails1
   if (length(mde) != 1L) mde <- "both"

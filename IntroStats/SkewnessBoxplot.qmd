@@ -8,13 +8,16 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(lattice)
 library(shiny)
 ```
 
 ```{r parameters, echo=FALSE}
+#| context: setup
 distlist <-list(
 skewNeg = list("beta(8,2)"=function(n) rbeta(n,8,2),
                 "normal with neg outliers"=function (n) {
@@ -58,11 +61,8 @@ In this exercise, the computer will generate 3 datasets:  A, B and C.  These wil
 
 You can redraw from the same distributions by changing the sample size.
 
-```{r shinylive}
-#| standalone: true
+```{r}
 #| viewerHeight: 500
-library(shiny)
-ui <- fluidPage(
 inputPanel(
   selectInput("nn", label = "Sample Size:",
               choices = c(50, 100, 500, 1000), selected = 100)),
@@ -77,9 +77,11 @@ mainPanel(
                            longnames),
                   selected="unknown"))),
   h4("Answers:\n"),
-  tableOutput("answers"))
+  tableOutput("answers")
+```
 
-server <- function (input,output) {
+```{r}
+#| context: server
   output$boxplots <- renderPlot({
     ## Draw random data 
     kdat <- lapply(names(key), function (k) {
@@ -109,8 +111,6 @@ server <- function (input,output) {
   names(answer) <- names(key)
   as.data.frame(answer)
 }, colnames=FALSE,rownames=TRUE)
-}
-shinyApp(ui=ui,server=server)
 ```
 
 To try again with different distributions, reload the page.  If you are having trouble, try increasing the sample size:  sometimes a small sample won't display the characteristics of the distribution strongly.
@@ -128,14 +128,14 @@ All three of these are signs of skewness in that direction (longer box, whisker,
 Here are the other exercises in this series:
 
 * Skewness Practice:
-   + [Histograms](SkewnessPractice.Rmd)
-   + [Boxplots](SkewnessBoxplot.Rmd)
-   + [Q-Q Plots](SkewnessQQ.Rmd)
+   + [Histograms](SkewnessPractice.qmd)
+   + [Boxplots](SkewnessBoxplot.qmd)
+   + [Q-Q Plots](SkewnessQQ.qmd)
 
 * Kurtosis Practice:
-   + [Histograms](KurtosisPractice.Rmd)
-   + [Boxplots](KurtosisBoxplots.Rmd)
-   + [Q-Q Plots](KurtosisQQ.Rmd)
+   + [Histograms](KurtosisPractice.qmd)
+   + [Boxplots](KurtosisBoxplots.qmd)
+   + [Q-Q Plots](KurtosisQQ.qmd)
 
 
 

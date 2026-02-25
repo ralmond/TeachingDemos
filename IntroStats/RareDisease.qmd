@@ -8,7 +8,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 ```
@@ -44,6 +46,11 @@ inputPanel(
  numericInput("sensitivity", label = "Sensitivity (Pr(T=+|D=Y)):", value=.972,width=100),
 numericInput("specificity", label = "Specificity (Pr(T=-|D=N)):", value=.92,width=100)
 )
+displayTable("tab")
+```
+
+```{r}
+#| context: server
 
 tab <- reactive(
   matrix(c(input$baserate*input$sensitivity,
@@ -54,7 +61,7 @@ tab <- reactive(
          dimnames=list(D=c("Y","N"),"T"=c("+","-")))
 )
          
-renderTable(tab(),rownames=TRUE, digits=6)
+output$tab <- renderTable(tab(),rownames=TRUE, digits=6)
 ```
 
 ## Calculating true positive and false positive.
@@ -62,17 +69,29 @@ renderTable(tab(),rownames=TRUE, digits=6)
 One way to calculate this is to use _Bayes' theorem_.  However, from the table above, it is easy to calculate the true positive and false positive rates.  We now just look at the columns of the table. 
 ```{r rates, echo=FALSE}
 p(strong("False Positive Rate"),"Pr(D=N|T=+)",
-  renderText({tab <- tab(); tab[2,1]/sum(tab[,1])}))
+  displayText("rate1"))
 p(strong("False Negative Rate"),"Pr(D=Y|T=-)",
-  renderText({tab <- tab(); tab[1,2]/sum(tab[,2])}))
+  displayText("rate2"))
   
 ```
+```{r}
+#| context: server
+output$rate1 <- renderText({tab <- tab(); tab[2,1]/sum(tab[,1])}))
+output$rate2 <- renderText({tab <- tab(); tab[1,2]/sum(tab[,2])}))
+```
+
+
 What is going on???
 
 That false positive rate seems very high.  What is really going on?  The root cause is that as of this writing (Mar 22, 2020) COVID-19 is still pretty rare.  So although getting a false positive is rare, actually having COVID-19 is much rarer.  The following picture might help:
 
+```{r}
+displayPlot("mplot")
+```
+
 ```{r mosaic,echo=FALSE}
-renderPlot(mosaicplot(tab()),color=TRUE)
+#| context: server
+output$mplot <- renderPlot(mosaicplot(tab()),color=TRUE)
 
 ```
 

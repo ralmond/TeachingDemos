@@ -20,7 +20,7 @@ These are demonstrations which were written for EDF 5400, which is an introducto
 
 ```{r index,echo=FALSE}
 alist <-  function(file) {tags$li(a(basename(file),href=file))}
-tag("ul",lapply(list.files(pattern="*.Rmd$"),alist))
+tag("ul",lapply(list.files(pattern="*.qmd$"),alist))
 ```
 ![CC-BY](../img/by.png){width=141px}
 

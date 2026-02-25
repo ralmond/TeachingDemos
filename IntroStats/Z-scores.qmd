@@ -8,7 +8,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 ```
@@ -28,10 +30,14 @@ inputPanel(
               min = 0, width=130),
   numericInput("X", label = "x:",value=0, width=130)
 )
+h3(displayText("Z"))
+```
 
-h3(renderText({
+```{r}
+#| context: server
+output$Z <- renderText({
  paste("z = ",round((input$X-input$mn)/input$sd,3))
-}))
+})
 ```
 
 Often the next step is to look up the Z score on a 
@@ -50,10 +56,14 @@ inputPanel(
               min = 0, width=130),
   numericInput("ZZ", label = "z:",value=0, width=130)
 )
+h3(displayText("Y"))
+```
 
-h3(renderText({
+```{r}
+#| context: server
+output$Y <- renderText({
  paste("Y = ",round(input$ZZ*input$sdy+input$mny,3))
-}))
+})
 ```
 
 Note that these formulae are well worth memorizing, as they will come up over and over again.

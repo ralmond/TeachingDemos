@@ -8,7 +8,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 ```
@@ -25,8 +27,11 @@ inputPanel(
               value = floor(runif(1)*.Machine$integer.max), 
               step = 157)
 )
-
-renderText({
+displayText("text")
+```
+```{r}
+#| context: server
+output$text <- renderText({
   N <<- as.numeric(input$N)
   set.seed(input$seed)
   X <<- c(0,rnorm(N-1))
@@ -61,8 +66,12 @@ inputPanel(
               min = -5, max = 5, value = 0, step = 0.05)
   
 )
+displayPlot("plot")
+```
 
-renderPlot({
+```{r}
+#| context: server
+output$plot <- renderPlot({
   X[1] <- input$x1
   Y[1] <- input$y1
   plot(X,Y,xlim=c(-5,5),ylim=c(-5,5),pch=pch,col=pcol,

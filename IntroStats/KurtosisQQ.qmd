@@ -8,13 +8,16 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(lattice)
 library(shiny)
 ```
 
 ```{r parameters, echo=FALSE}
+#| context: setup
 distlist <-list(
 platykurtic = list("Uniform"=runif,
   "Mixture of normals (different means)"=
@@ -87,10 +90,13 @@ inputPanel(
 #     sapply(key, function (r)  
 #         sample(names(distlist[[r]]),1L))
 # })
+displayPlot("plot")
+```
 
+```{r}
+#| context: server
 
-
-renderPlot({
+output$plot <- renderPlot({
     ## Draw random data 
     nn <- input$nn
     if (length(nn) != 1L) nn <- 100
@@ -128,7 +134,13 @@ do.call(inputPanel,
                   selected="unknown")))
 
 h4("Answers:\n")
-renderTable({
+displayTable("answer")
+```
+
+```{r}
+#| context: server
+
+output$answer <- renderTable({
   answer <- sapply(names(key),
    function (k) {
       if (length(input[[k]]) != 1L || input[[k]]=="unknown") {
@@ -152,14 +164,14 @@ To try again with different distributions, reload the page.  If you are having t
 Here are the other exercises in this series:
 
 * Skewness Practice:
-   + [Histograms](SkewnessPractice.Rmd)
-   + [Boxplots](SkewnessBoxplot.Rmd)
-   + [Q-Q Plots](SkewnessQQ.Rmd)
+   + [Histograms](SkewnessPractice.qmd)
+   + [Boxplots](SkewnessBoxplot.qmd)
+   + [Q-Q Plots](SkewnessQQ.qmd)
 
 * Kurtosis Practice:
-   + [Histograms](KurtosisPractice.Rmd)
-   + [Boxplots](KurtosisBoxplots.Rmd)
-   + [Q-Q Plots](KurtosisQQ.Rmd)
+   + [Histograms](KurtosisPractice.qmd)
+   + [Boxplots](KurtosisBoxplots.qmd)
+   + [Q-Q Plots](KurtosisQQ.qmd)
 
 
 

@@ -8,13 +8,16 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r} setup, include=FALSE}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(lattice)
 library(shiny)
 ```
 
 ```{r parameters, echo=FALSE}
+#| context: setup
 distlist <-list(
 platykurtic = list("Uniform"=runif,
   "Mixture of normals (different means)"=
@@ -85,10 +88,12 @@ inputPanel(
 #     sapply(key, function (r)  
 #         sample(names(distlist[[r]]),1L))
 # })
+displayPlot("plot")
+```
 
-
-
-renderPlot({
+```{r}
+#| context: server
+output$plot <- renderPlot({
     ## Draw random data 
     nn <- input$nn
     if (length(nn) != 1L) nn <- 100
@@ -109,14 +114,20 @@ Identify the kurtosis of each distribution.
 ```{r questions, echo=FALSE}
 
 do.call(inputPanel,
-         lapply(names(key), function (k)
-                selectInput(k, label=k,
-                  choices=c(Unknown="unknown", 
+        lapply(names(key), function (k)
+               selectInput(k, label=k,
+                 choices=c(Unknown="unknown", 
                            longnames),
-                  selected="unknown")))
+                 selected="unknown")))
 
 h4("Answers:\n")
-renderTable({
+displayTable("answers")
+```
+
+```{r}
+#| context: server
+
+output$answers <- renderTable({
   answer <- sapply(names(key),
    function (k) {
       if (length(input[[k]]) != 1L || input[[k]]=="unknown") {
@@ -132,7 +143,6 @@ renderTable({
   names(answer) <- names(key)
   as.data.frame(answer)
 }, colnames=FALSE,rownames=TRUE)
-
 ```
 
 To try again with different distributions, reload the page.  If you are having trouble, try increasing the sample size:  sometimes a small sample won't display the characteristics of the distribution strongly.
@@ -158,14 +168,14 @@ To try again with different distributions, reload the page.  If you are having t
 Here are the other exercises in this series:
 
 * Skewness Practice:
-   + [Histograms](SkewnessPractice.Rmd)
-   + [Boxplots](SkewnessBoxplot.Rmd)
-   + [Q-Q Plots](SkewnessQQ.Rmd)
+   + [Histograms](SkewnessPractice.qmd)
+   + [Boxplots](SkewnessBoxplot.qmd)
+   + [Q-Q Plots](SkewnessQQ.qmd)
 
 * Kurtosis Practice:
-   + [Histograms](KurtosisPractice.Rmd)
-   + [Boxplots](KurtosisBoxplots.Rmd)
-   + [Q-Q Plots](KurtosisQQ.Rmd)
+   + [Histograms](KurtosisPractice.qmd)
+   + [Boxplots](KurtosisBoxplots.qmd)
+   + [Q-Q Plots](KurtosisQQ.qmd)
 
 
 

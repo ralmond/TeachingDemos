@@ -5,10 +5,11 @@ date: "10/4/2021"
 format:
   html:
     sidebar: id-intro
-server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(vcd)

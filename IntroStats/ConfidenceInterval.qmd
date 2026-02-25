@@ -8,7 +8,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 ```
@@ -40,23 +42,35 @@ You may need to press the regenerate button to get the graph to have the right s
 
 ```{r Controls, echo=FALSE}
 inputPanel(
-    selectInput("M", label = "Number of Repetitions:",
-                choices = c(50, 100, 200), selected = 100),
-    selectInput("N", label = "Sample Size:",
-                choices = c(1,5,10,25,50,100), selected = 1),
-    sliderInput("my", label = "Mean of Y:",
+  selectInput("M", label = "Number of Repetitions:",
+              choices = c(50, 100, 200), selected = 100),
+  selectInput("N", label = "Sample Size:",
+              choices = c(1,5,10,25,50,100), selected = 1),
+  sliderInput("my", label = "Mean of Y:",
               min=0, max=100, value=50, step=1),
-    sliderInput("sy", label = "Standard Deviation of Y:",
-              min = 0.2, max = 25, value = 10, step = 0.1),
-    actionButton("go",label="(Re)Generate"))
+  sliderInput("sy", label = "Standard Deviation of Y:",
+             min = 0.2, max = 25, value = 10, step = 0.1),
+  actionButton("go",label="(Re)Generate"))
 
+displayPlot("plot")
+displayTest("text")
+
+```
+
+```{r}
+#| context: setup
+#| include: false
 Z <- rnorm(100)
 p1 <- floor(abs(Z)) +1
 dataSet <- reactiveValues(Z=Z,sem=10,
                           pch=ifelse(p1 >2, 5, p1), 
                           M=100,
                           my=50,sy=10)
-  
+
+```
+
+```{r}
+#| context: server
 observeEvent(input$go,{
       M <- as.numeric(input$M)
       dataSet$Z <- rnorm(M)
@@ -67,7 +81,7 @@ observeEvent(input$go,{
       my <- as.numeric(input$my)
 })
 
-renderPlot({
+output$plot <- renderPlot({
       sem <- dataSet$sem
       my <- dataSet$my
       sy <- dataSet$sy
@@ -93,7 +107,7 @@ renderPlot({
       text(my + 2 * sem + .25 * sy, 0.0025, "2SE")
       points(X, rep(0, M), pch = dataSet$pch)
     })
-   renderText({
+output$text <- renderText({
      sem <- dataSet$sem
      pch <- dataSet$pch
       paste(
@@ -108,7 +122,6 @@ renderPlot({
         "Estimates more than 2 SE from mean.\n"
       )
    })
-
 
 ```
 
@@ -133,6 +146,10 @@ Actually, the two standard error rule is based on looking up the .975 (1-.05/2) 
 ```{r RandomIntervals, echo=FALSE}
 inputPanel(sliderInput("alpha","Confidence",
                        min=0,max=1,value=.95,step=.01))
+```
+
+```{r}
+#| context: server
 renderPlot({
       sem <- dataSet$sem
       my <- dataSet$my

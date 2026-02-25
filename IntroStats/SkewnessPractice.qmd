@@ -8,13 +8,16 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(lattice)
 library(shiny)
 ```
 
 ```{r parameters, echo=FALSE}
+#| context: setup
 distlist <-list(
 skewNeg = list("beta(8,2)"=function(n) rbeta(n,8,2),
                 "normal with neg outliers"=function (n) {
@@ -79,10 +82,12 @@ inputPanel(
 #     sapply(key, function (r)  
 #         sample(names(distlist[[r]]),1L))
 # })
+displayPlot("hists")
+```
 
-
-
-renderPlot({
+```{r}
+#| context: server
+output$hists<-renderPlot({
     ## Draw random data 
     print(key)
     nn <- input$nn
@@ -120,7 +125,13 @@ do.call(inputPanel,
                   selected="unknown")))
 
 h4("Answers:\n")
-renderTable({
+displayTable("answer")
+```
+
+```{r}
+#| context: server
+
+output$answer<-renderTable({
   answer <- sapply(names(key),
    function (k) {
       if (length(input[[k]]) != 1L || input[[k]]=="unknown") {
@@ -144,14 +155,14 @@ To try again with different distributions, reload the page.  If you are having t
 Here are the other exercises in this series:
 
 * Skewness Practice:
-   + [Histograms](SkewnessPractice.Rmd)
-   + [Boxplots](SkewnessBoxplots.Rmd)
-   + [Q-Q Plots](SkewnessQQ.Rmd)
+   + [Histograms](SkewnessPractice.qmd)
+   + [Boxplots](SkewnessBoxplots.qmd)
+   + [Q-Q Plots](SkewnessQQ.qmd)
 
 * Kurtosis Practice:
-   + [Histograms](KurtosisPractice.Rmd)
-   + [Boxplots](KurtosisBoxplot.Rmd)
-   + [Q-Q Plots](KurtosisQQ.Rmd)
+   + [Histograms](KurtosisPractice.qmd)
+   + [Boxplots](KurtosisBoxplot.qmd)
+   + [Q-Q Plots](KurtosisQQ.qmd)
    
 
 

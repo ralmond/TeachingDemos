@@ -8,7 +8,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r} 
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 library(ggplot2)
@@ -37,8 +39,12 @@ inputPanel(
   sliderInput("t", label = "Time Interval:",
               min = 0, max = 365, value = 1, step = 1)
 )
+displayPlot("plot")
+```
 
-renderPlot({
+```{r}
+#| context: server
+output$plot <- renderPlot({
   mu <- as.numeric(input$mean) * as.numeric(input$t)
   n <- mu + 3* sqrt(mu)
   dat <- data.frame(x=0:n,y=dpois(0:n,mu))

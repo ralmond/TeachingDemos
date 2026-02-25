@@ -6,7 +6,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 ```
@@ -24,8 +26,12 @@ inputPanel(
               value = floor(runif(1)*.Machine$integer.max), 
               step = 157)
 )
+displayText("text")
+```
 
-renderText({
+```{r}
+#| context: server
+output$text <- renderText({
   N <<- as.numeric(input$N)
   set.seed(input$seed)
   X <<- rnorm(N)
@@ -50,8 +56,13 @@ inputPanel(
               min = .75, max = 1, value = .85, step = 0.05),
   checkboxInput("sign","Negative Correlation",FALSE)
 )
+displayPlot("plot")
+```
 
-renderPlot({
+```{r}
+#| context: server
+
+output$plot <- renderPlot({
   rho <<- input$rho*ifelse(input$sign,-1,1)
   Y <<-  rho*X + sqrt(1-rho*rho)*Err
   plot(X,Y,main=paste("Correlation =",rho))
@@ -71,8 +82,12 @@ inputPanel(
               min = .25, max = .75, value = .5, step = 0.05),
   checkboxInput("sign1","Negative Correlation",FALSE)
 )
+displayPlot("plot1")
 
-renderPlot({
+```{r}
+#| context: server
+
+output$plot1 <- renderPlot({
   rho <<- input$rho1*ifelse(input$sign1,-1,1)
   Y <<-  rho*X + sqrt(1-rho*rho)*Err
   plot(X,Y,main=paste("Correlation =",rho))
@@ -91,8 +106,12 @@ inputPanel(
               min = -.25, max = .25, value = .0, step = 0.05),
   checkboxInput("sign0","Negative Correlation",FALSE)
 )
+displayPlot("plot2")
+```
 
-renderPlot({
+```{r}
+#| context: server
+output$plot2 <- renderPlot({
   rho <<- input$rho0*ifelse(input$sign0,-1,1)
   Y <<-  rho*X + sqrt(1-rho*rho)*Err
   plot(X,Y,main=paste("Correlation =",rho))
@@ -127,8 +146,13 @@ inputPanel(
    sliderInput("tau", label = "Error Standard Deviation:",
               min = 0, max = 1, value = .5, step = 0.05)
 )
+displayPlot("plot3")
+```
 
-renderPlot({
+```{r}
+#| context: server
+
+output$plot3 <- renderPlot({
   Y <<-  input$b2*X*X + input$b1*X + input$b0 + input$tau*Err
   rho <<- cor(X,Y)
   plot(X,Y,main=paste("Correlation =",rho))
@@ -163,8 +187,12 @@ inputPanel(
    sliderInput("tau1", label = "Error Standard Deviation:",
               min = 0, max = 1, value = .5, step = 0.05)
 )
+displayPlot("plot4")
+```
+```{r}
+#| context: server
 
-renderPlot({
+output$plot4 <- renderPlot({
   b11 <<- input$b11
   b12 <<- input$b12
   x0 <<- input$x0
@@ -179,4 +207,4 @@ renderPlot({
 
 ```
 
-Check out [this page](https://pluto.coe.fsu.edu/rdemos/CorrelationQuiz) to practice identifying these.
+Check out [this page](CorrelationExercise.qmd) to practice identifying these.

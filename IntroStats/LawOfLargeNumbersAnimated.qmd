@@ -8,7 +8,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(plotly)
 library(patchwork)
@@ -49,8 +51,13 @@ inputPanel(
               min = 0, max = .1, value = .05, step = 0.005)
 
 )
+plotlyOutput("plot")
+```
 
-renderPlotly({
+```{r}
+#| context: server
+
+output$plot <- renderPlotly({
   n <- 1:input$N
   x <- runif(input$N) < input$p
   pn <- cumsum(x)/n
@@ -99,6 +106,7 @@ Pick a distribution:
 Slide the sample size up and down, notice how the empirical distribution function and histogram coverge to the theoretical distribution function and density.
 
 ```{r DistConv, echo=FALSE}
+#| context: setup
 nmax <- 1000
 rdist <- list(Normal=rnorm, Exponential = rexp, 
               Gamma = function(n) rgamma(n,3),
@@ -109,7 +117,9 @@ pdist <- list(Normal=pnorm, Exponential = pexp,
 ddist <- list(Normal=dnorm, Exponential = dexp, 
               Gamma = function(x) dgamma(x,3),
               "T" = function(x) dt(x,3))
+```
 
+```{r}
 inputPanel(
   selectInput("dist",label="Distribution Type",
               choices=c("Normal","Exponential","Gamma","T"),
@@ -117,8 +127,13 @@ inputPanel(
    selectInput("NN", label = "Maximum Sample Size:",
               choices = c(50, 100, 200, 500, 1000), selected = 200),
   
-)
+  )
+plotlyOutput("plot1")
+plotlyOutput("plot2")
+```
 
+```{r}
+#| context: server
 cumdat <- reactive({
   NN <- input$NN
   XX <- do.call(rdist[[input$dist]],list(NN))
@@ -127,14 +142,14 @@ cumdat <- reactive({
         data.frame(x=sort(XX[1:i]),Fn=(1:i)/i,f=i)))
 })
 
-renderPlotly({
+output$plot1 <- renderPlotly({
   erfplot <- ggplot(cumdat(),aes(x,y=Fn,frame=f)) + geom_point()+stat_function(fun=pdist[[input$dist]],geom = "line",col="red") +  labs(title="Actual vs Empirical Distribution Function")
   
  
  ggplotly(erfplot) %>% animation_opts(frame=100) 
 })
 
-renderPlotly({
+output$plot2 <- renderPlotly({
  histplot <- ggplot(cumdat(),aes(x,frame=f)) + geom_histogram(aes(y=..density..),binwidth=.25, position="identity") +
  stat_function(fun=ddist[[input$dist]],geom="line",col="red") + labs(
        title="Actual vs Empirical Density Function")

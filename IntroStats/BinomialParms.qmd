@@ -8,7 +8,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 library(ggplot2)
@@ -36,7 +38,12 @@ inputPanel(
               min = 0, max = 1, value = .6, step = 0.01)
 )
 
-renderPlot({
+plotOutput('plot')
+```
+
+```{r}
+#| context: server
+output$plot <- renderPlot({
   n <- as.numeric(input$n)
   p <- as.numeric(input$p)
   dat <- data.frame(x=0:n,y=dbinom(0:n,n,p))

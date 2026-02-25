@@ -8,7 +8,9 @@ format:
 server: shiny
 ---
 
-```{r setup, include=FALSE}
+```{r}
+#| context: setup
+#| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
 ```
@@ -40,14 +42,19 @@ Dividing any of those numbers by $N_{xx}$ produces a corresponding proportion $P
 Suppose group membership and the answer to the question are statistically indepedent.  In the diagram below, adjust $P_{A+}$ and $P_{+y}$ to make a two-by-two table:
 
 ```{r independent, echo=FALSE}
-N <- 100
 inputPanel(
   sliderInput("pa", label = "P(Member of Group A)",
               min = 0, max = 1, value = .5, step = 0.05),
   sliderInput("py", label = "P(Answered `yes`)",
               min = 0, max = 1, value = .5, step = 0.05)
 )
+displayTable("tab")
+displayPlot("plot")
+```
 
+```{r}
+#| context: server
+N <- 100
 tabi <- reactive(
   matrix(N*c(input$pa*input$py,
            input$pa*(1-input$py),
@@ -56,8 +63,9 @@ tabi <- reactive(
          byrow=TRUE,
          dimnames=list(Group=c("A","B"),Answer=c("y","n")))
 )
-renderTable(tabi(),rownames=TRUE, digits=1)
-renderPlot(mosaicplot(tabi()),color=TRUE,main="Independent data")
+output$tab <- renderTable(tabi(),rownames=TRUE, digits=1)
+output$plot <- renderPlot(mosaicplot(tabi()),color=TRUE,
+                          main="Independent data")
 ```
 
 
@@ -86,7 +94,6 @@ If Group $A$ is more likely to answer `yes`, then the ratio should be bigger tha
 If Group $B$ is more likely to answer `yes`, then the ratio should be less than one.
 
 ```{r dependent, echo=FALSE}
-N <- 100
 inputPanel(
   sliderInput("pad", label = "P(Member of Group A)",
               min = 0, max = 1, value = .5, step = 0.05),
@@ -95,7 +102,14 @@ inputPanel(
   selectInput("OR",label="Odds Ratio",
               choices=c("1/4","1/3","1/2","2/3","1","3/2","2","3","4"), selected ="1")
 )
+displayTable("tabdd")
+displayPlot("plotd")
 
+```
+
+```{r}
+#| context: server
+N <- 100
 tabd <- reactive({
   pa <-input$pad
   py <-input$pyd
@@ -113,7 +127,8 @@ tabd <- reactive({
         2,2, byrow=TRUE,
         dimnames=list(Group=c("A","B"),Answer=c("y","n")))
 })
-renderTable(tabd(),rownames=TRUE, digits=1)
-renderPlot(mosaicplot(tabd()),color=TRUE,main="Dependent data")
+output$tabdd <- renderTable(tabd(),rownames=TRUE, digits=1)
+output$plotd <- renderPlot(mosaicplot(tabd()),color=TRUE,
+                           main="Dependent data")
 ```
 
