@@ -5,55 +5,8 @@ date: "February 23, 2019"
 format: 
   html:
     sidebar: id-intro
-server: shiny
 ---
 
-```{r}
-#| context: setup
-#| include: false
-knitr::opts_chunk$set(echo = TRUE)
-library(lattice)
-library(shiny)
-```
-
-```{r parameters, echo=FALSE}
-#| context: setup
-distlist <-list(
-skewNeg = list("beta(8,2)"=function(n) rbeta(n,8,2),
-                "normal with neg outliers"=function (n) {
-                  ifelse(runif(n)<.05,rnorm(n,-3),rnorm(n))
-                },
-                "hypergeometric(975,25,100)" = 
-                  function (n) rhyper(n,975,25,100)),
-skewPos = list("gamma(3)"=function(n) rgamma(n,3),
-                "normal with positive outliers"=function(n) {
-                  ifelse(runif(n)<.05,rnorm(n,3),rnorm(n))
-                },
-                "lognormal"=function (n) rlnorm(n,0,.3)),
-sym = list("normal"=rnorm, "uniform"=runif,
-            "t(5 d.f.)"=function (n) rt(n,5)))
-longnames <- c("Negatively Skewed"="skewNeg",
-               "Positively Skewed"="skewPos",
-               "Symmetric"="sym")
-## Initial draw, so that we have some starting values.
-key <- 
-{
-  ## Randomly permute the types.  
-  key <- sample(names(distlist),length(distlist))
-  ## Label from A -- C (or whatever)  
-  names(key) <- sapply(1L:length(key),
-       function (i)
-         intToUtf8(utf8ToInt("A")-1L+i))
-  key
-}
-kdist <- 
-{
-    # draw random distribution for each plot
-    sapply(key, function (r)  
-        sample(names(distlist[[r]]),1L))
-}
-
-```
 
 ## Skewness Determination Exercise.
 
@@ -61,59 +14,13 @@ In this exercise, the computer will generate 3 datasets:  A, B and C.  These wil
 
 You can redraw from the same distributions by changing the sample size.
 
-```{r}
-#| viewerHeight: 500
-inputPanel(
-  selectInput("nn", label = "Sample Size:",
-              choices = c(50, 100, 500, 1000), selected = 100)),
-mainPanel(
-  plotOutput("boxplots")),
-  h4("Which is which?"),
-  p("Identify the skewness of each distribution."),
-  do.call(inputPanel,
-         lapply(names(key), function (k)
-                selectInput(k, label=k,
-                  choices=c(Unknown="unknown", 
-                           longnames),
-                  selected="unknown"))),
-  h4("Answers:\n"),
-  tableOutput("answers")
+```{=html}
+<iframe width="100%" height="500" src="../apps/SkewnessBoxplot.R"></iframe>
 ```
 
-```{r}
-#| context: server
-  output$boxplots <- renderPlot({
-    ## Draw random data 
-    kdat <- lapply(names(key), function (k) {
-    x <-do.call(distlist[[key[k]]][[kdist[k]]],
-                list(input$nn))
-      scale(x,(min(x)+max(x))/2,(max(x)-min(x)))*100+50
-  })
-  names(kdat) <- names(key)
-  kdat <- as.data.frame(kdat)
-  
-  boxplot(kdat,xlab="X")
-
-})
-  output$answers <- renderTable({
-  answer <- sapply(names(key),
-   function (k) {
-      if (input[[k]]=="unknown") {
-        "Make your selection.\n"
-      } else {
-        paste(ifelse(input[[k]]==key[k],
-                     "Correct:", "Incorrect:"),
-              "Distribution was",kdist[k],
-               "(",
-        names(longnames)[grep(key[k],longnames)],
-               ")\n")
-    }})
-  names(answer) <- names(key)
-  as.data.frame(answer)
-}, colnames=FALSE,rownames=TRUE)
-```
-
-To try again with different distributions, reload the page.  If you are having trouble, try increasing the sample size:  sometimes a small sample won't display the characteristics of the distribution strongly.
+To try again with different distributions, reload the page.  If you
+are having trouble, try increasing the sample size: sometimes a small
+sample won't display the characteristics of the distribution strongly.
 
 ## What to look for:
 
@@ -121,7 +28,8 @@ To try again with different distributions, reload the page.  If you are having t
 * Is the whisker longer on one side than the other?
 * Are there outliers on one side and not the other?
 
-All three of these are signs of skewness in that direction (longer box, whisker, or outliers).
+All three of these are signs of skewness in that direction (longer
+box, whisker, or outliers).
 
 ## Related Pages
 

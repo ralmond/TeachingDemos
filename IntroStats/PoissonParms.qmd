@@ -5,16 +5,8 @@ date: "September 1, 2020"
 format: 
   html:
     sidebar: id-intro
-server: shiny
 ---
 
-```{r} 
-#| context: setup
-#| include: false
-knitr::opts_chunk$set(echo = TRUE)
-library(shiny)
-library(ggplot2)
-```
 
 The Poisson distribution is a distribution for counts of events.  
 
@@ -24,35 +16,22 @@ Assume the following things:
 
 * Count the number of events in a time interval of $T$ units.
 
-* Assume that the events happen at a uniform rate throughout the interval (e.g., we don't get more customers in the morning than the afternoon).
+* Assume that the events happen at a uniform rate throughout the
+  interval (e.g., we don't get more customers in the morning than the
+  afternoon).
 
 The the number of events, $X$, follows a _Poisson distribution_.
 
 $$P(X=x) = \frac{(\lambda T)^x}{x!}e^{-\lambda T}$$
 The distribution looks like:
 
-```{r density, echo=FALSE}
-inputPanel(
-  sliderInput("mean", label = "Expected number of events per unit time",
-              min=0, max=100, value=3.5, step=1),
-  
-  sliderInput("t", label = "Time Interval:",
-              min = 0, max = 365, value = 1, step = 1)
-)
-displayPlot("plot")
+```{=html}
+<iframe width="100%" height="500" src="../apps/PoissonParams.R"></iframe>
 ```
 
-```{r}
-#| context: server
-output$plot <- renderPlot({
-  mu <- as.numeric(input$mean) * as.numeric(input$t)
-  n <- mu + 3* sqrt(mu)
-  dat <- data.frame(x=0:n,y=dpois(0:n,mu))
-  ggplot(dat,aes(x,y)) +geom_col()  
+The mean and variance of the Poisson distribution are $\lambda T$ and
+$\lambda T$.
 
-})
-```
-
-The mean and variance of the Poisson distribution are $\lambda T$ and $\lambda T$.  
-
-As the variance grows pretty quickly, statisticians will often take the square root of count data (especially if there is heteroscedasticity) to stabilize the variance.
+As the variance grows pretty quickly, statisticians will often take
+the square root of count data (especially if there is
+heteroscedasticity) to stabilize the variance.

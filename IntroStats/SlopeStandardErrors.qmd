@@ -12,7 +12,6 @@ format:
 #| include: false
 knitr::opts_chunk$set(echo = TRUE)
 library(arm)
-library(shiny)
 ```
 
 ```{r slope}

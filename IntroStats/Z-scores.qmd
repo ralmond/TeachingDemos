@@ -5,65 +5,41 @@ date: "1/29/2019"
 format: 
   html:
     sidebar: id-intro
-server: shiny
 ---
-
-```{r}
-#| context: setup
-#| include: false
-knitr::opts_chunk$set(echo = TRUE)
-library(shiny)
-```
 
 ## Standardizing a raw score.  
 
-A (interval or ratio) variable on a raw score can be standardized to have mean 0 and standard deviation 1 by simply subtracting the mean and dividing by the standard deviation.  This formula come in two flavors:  one using the population mean and standard deviation (mu and sigma) and one using the sample statistics (x-bar and s).  The subscripts are to remind you what variable you are using, as there is often both an X and Y wandering around.
-
+A (interval or ratio) variable on a raw score can be standardized to
+have mean 0 and standard deviation 1 by simply subtracting the mean
+and dividing by the standard deviation.  This formula come in two
+flavors: one using the population mean and standard deviation (mu and
+sigma) and one using the sample statistics (x-bar and s).  The
+subscripts are to remind you what variable you are using, as there is
+often both an X and Y wandering around.
 
 $$ z = \frac{x-\mu_X}{\sigma_X}; \qquad Z = \frac{X-\bar X}{s_X} $$
 
-```{r standardize, echo=FALSE}
-inputPanel(
-  numericInput("mn", label = "Mean of X:",value=0,width=130),
-  
-  numericInput("sd", label = "Standard Deviation of X:",value=1,
-              min = 0, width=130),
-  numericInput("X", label = "x:",value=0, width=130)
-)
-h3(displayText("Z"))
+```{=html}
+<iframe width="100%" height="500" src="../apps/Z-scores1.R"></iframe>
 ```
 
-```{r}
-#| context: server
-output$Z <- renderText({
- paste("z = ",round((input$X-input$mn)/input$sd,3))
-})
-```
 
 Often the next step is to look up the Z score on a 
 [normal calculator](NormalCalculator.Rmd).
 
 ## Going from a standard (z) score to a raw score.
 
-Solving the above equations for X allows the z-score to be translated back into a raw score.  Often, a new variable is needed, so lets change the variables from X to Y.  Once again, there are two variants based on whether sample or population means and standard deviations are used:
+Solving the above equations for X allows the z-score to be translated
+back into a raw score.  Often, a new variable is needed, so lets
+change the variables from X to Y.  Once again, there are two variants
+based on whether sample or population means and standard deviations
+are used:
 
 $$ y = \sigma_Y z + \mu_Y\, ; \qquad Y = s_Y Z + \bar{Y}\ .$$
-```{r raw scale, echo=FALSE}
-inputPanel(
-  numericInput("mny", label = "Mean of Y:",value=0,width=130),
-  
-  numericInput("sdy", label = "Standard Deviation of Y:",value=1,
-              min = 0, width=130),
-  numericInput("ZZ", label = "z:",value=0, width=130)
-)
-h3(displayText("Y"))
+
+```{=html}
+<iframe width="100%" height="500" src="../apps/Z-scores1.R"></iframe>
 ```
 
-```{r}
-#| context: server
-output$Y <- renderText({
- paste("Y = ",round(input$ZZ*input$sdy+input$mny,3))
-})
-```
-
-Note that these formulae are well worth memorizing, as they will come up over and over again.
+Note that these formulae are well worth memorizing, as they will come
+up over and over again.

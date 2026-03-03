@@ -120,7 +120,7 @@ format:
     theme:
       - cosmo
       - brand
-    css: styles.css
+    css: img/FSU.scss
     toc: true
 
 
@@ -134,4 +134,7 @@ filters:
   - custom-callout
 #  - diagram
 #  - nutshell
+
+margin-header: |
+  ![FSU-EPLS](/img/SM-White.svg)
 

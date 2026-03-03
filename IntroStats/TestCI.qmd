@@ -5,14 +5,12 @@ date: "3/26/2020"
 format: 
   html:
     sidebar: id-intro
-server: shiny
 ---
 
 ```{r}
 #| context: setup
 #| include: false
 knitr::opts_chunk$set(echo = TRUE)
-library(shiny)
 ```
 
 # Finding the population mean.
