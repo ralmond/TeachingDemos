@@ -9,7 +9,7 @@ ui1 <- fluidPage(
                 selected = "both"),
 
   numericInput("p", label = "Probability of shaded region:", 
-               value=0.05, min=0, max=1), 
+               value=0.05, min=0, max=1,step=.01), 
 numericInput("df1", label = "Degrees of Freedom (n-1 or n1 + n2 -2)", 
              value =30) ),
 mainPanel(

@@ -1,18 +1,4 @@
----
-title: "Binomial Parameters"
-author: "Russell Almond"
-date: "September 1, 2020"
-output: html_document
----
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
-
-The [binomial distribution](https://en.wikipedia.org/wiki/Binomial_distribution) can be thought of as a number of draws, $n$, from an urn with a proportion $p$, of black balls.
-
-#| standalone: true
-#| viewerHeight: 600
 library(shiny)
 library(ggplot2)
 ui <- fluidPage(

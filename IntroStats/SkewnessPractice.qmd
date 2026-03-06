@@ -31,12 +31,12 @@ Here are the other exercises in this series:
 
 * Skewness Practice:
    + [Histograms](SkewnessPractice.qmd)
-   + [Boxplots](SkewnessBoxplots.qmd)
+   + [Boxplots](SkewnessBoxplot.qmd)
    + [Q-Q Plots](SkewnessQQ.qmd)
 
 * Kurtosis Practice:
    + [Histograms](KurtosisPractice.qmd)
-   + [Boxplots](KurtosisBoxplot.qmd)
+   + [Boxplots](KurtosisBoxplots.qmd)
    + [Q-Q Plots](KurtosisQQ.qmd)
    
 

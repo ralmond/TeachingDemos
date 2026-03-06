@@ -22,6 +22,6 @@ tabi <- reactive(
          dimnames=list(Group=c("A","B"),Answer=c("y","n")))
 )
 output$table <- renderTable(tabi(),rownames=TRUE, digits=1)
-output$mosaic <- renderPlot(mosaicplot(tabi()),color=TRUE,main="Independent data")
+output$mosaic <- renderPlot(mosaicplot(tabi(),color=TRUE,main="Independent data"))
 }
 shinyApp(ui=ui,server=server)

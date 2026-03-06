@@ -8,7 +8,7 @@ ui1 <- fluidPage(
                            "Middle: Pr(-z < Z < z)"="middle"),
                selected = "both"),
    
-   numericInput("p", label = "Probability of shaded region:", value=0.05, min=0, max=1)
+   numericInput("p", label = "Probability of shaded region:", value=0.05, min=0, max=1,step=.01)
  ),
  mainPanel(plotOutput("normcurve1")))
  

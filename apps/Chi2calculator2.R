@@ -5,7 +5,7 @@ inputPanel(
               choices = c("Upper tail: Pr(x^2 < X^2)"="upper",
                           "Lower tail: Pr(X^2 < x^2)"="lower"),
               selected = "upper"),
-  numericInput("pp", label = "Probability of shaded region:", value=0.05, min=0, max=1),
+  numericInput("pp", label = "Probability of shaded region:", value=0.05, min=0, max=1, step=.01),
   numericInput("df1", label = "Degrees of Freedom", value =1)
 ),
 mainPanel(

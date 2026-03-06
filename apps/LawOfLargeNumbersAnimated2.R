@@ -27,7 +27,7 @@ inputPanel(
               choices=c("Normal","Exponential","Gamma","T"),
               selected="Normal"),
    selectInput("NN", label = "Maximum Sample Size:",
-              choices = c(50, 100, 200, 500, 1000), selected = 200),
+              choices = c(50, 100, 200, 500, 1000), selected = 500),
 ),
 mainPanel(
   plotlyOutput("erf"),

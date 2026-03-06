@@ -20,7 +20,7 @@ Sometimes we write this in terms of the proportion of black balls in
 the sample.  That is $p$, with a standard deviation of $\sqrt{p(1-p)/n}$.
 
 ```{=html}
-<iframe width="100%" height="500" src="../apps/BinomialParams.R"></iframe>
+<iframe width="100%" height="500" src="../apps/BinomialParms.R"></iframe>
 ```
 
 Note that this distribution is positively skewed if $p < 0.5$ and

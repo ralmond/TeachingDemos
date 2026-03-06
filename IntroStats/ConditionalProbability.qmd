@@ -13,7 +13,6 @@ format:
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(vcd)
-library(shiny)
 ```
 
 ## Some Example Data.

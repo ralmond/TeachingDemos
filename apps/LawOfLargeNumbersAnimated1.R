@@ -13,7 +13,7 @@ accumulate_by <- function(dat, var) {
 ui <- fluidPage(
 inputPanel(
   selectInput("N", label = "Maximum Sample Size:",
-              choices = c(50, 100, 200, 500, 1000), selected = 200),
+              choices = c(50, 100, 200, 500, 1000), selected = 500),
   
   sliderInput("p", label = "Probability of event (p)",
               min = 0, max = 1, value = .5, step = 0.01),

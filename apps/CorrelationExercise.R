@@ -34,7 +34,7 @@ server <- function (input,output) {
     for (j in curves) {
     
       if (runif(1) < .5) {
-        ## Quadradic
+        ## Quadratic
         rho2 <- ifelse(runif(1)<.5,-1,1)*runif(1,.5,.85)
         sigma <- sqrt(1-rho[j]*rho[j])
         Y[,j] <- rho[j]*X+rho2*X*X+sigma*Err

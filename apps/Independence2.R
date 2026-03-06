@@ -33,7 +33,7 @@ tabd <- reactive({
         dimnames=list(Group=c("A","B"),Answer=c("y","n")))
 })
 output$table1 <- renderTable(tabd(),rownames=TRUE, digits=1)
-output$mosaic1 <- renderPlot(mosaicplot(tabd()),color=TRUE,main="Dependent data")
+output$mosaic1 <- renderPlot(mosaicplot(tabd(),color=TRUE,main="Dependent data"))
 }
 shinyApp(ui=ui1,server=server1)
 
